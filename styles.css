@@ -1,0 +1,36 @@
+#register_form label{
+    display: flex;
+    align-items: center;
+}
+
+fieldset{
+    display: inline-block;
+}
+
+.form_label{
+    width: 150px;
+}
+
+.form_control{
+    width: 200px;
+    margin: 1px 1px;
+}
+
+.center_button{
+    text-align: center;
+    margin-top: 5px;
+}
+
+h1{
+    text-align: center;
+}
+
+#center{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+#center button{
+    margin-left: 5px;
+}
