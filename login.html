@@ -7,9 +7,9 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <form id="register_form" action="action.php" method="post">
-        <fieldset>
-            <h1>Login</h1>
+    <fieldset>
+        <form id="register_form" action="action.php" method="post">
+            <h1>Log-in</h1>
             <div id="form_container">
                 <label>
                     <span class="form_label">Username:</span>
@@ -21,17 +21,19 @@
                 </label>
                 <div class="center_button">
                     <input type="button" name="cancel" value="CANCEL">
-                    <input type="button" name="login" value="LOGIN">
+                    <input type="submit" name="login" value="LOG-IN">
                 </div>
-                <hr>
             </div>
-            <div id="center">
-                <label>
-                    <div>Daftar akun baru</div>
+        </form>
+        <hr>
+        <div id="regist">
+            <label>
+                Daftar akun baru
+                <a href="register.html">
                     <button>REGISTER</button>
-                </label>
-            </div>
-        </fieldset>
-    </form>
+                </a>
+            </label>
+        </div>
+    </fieldset>
 </body>
 </html>
