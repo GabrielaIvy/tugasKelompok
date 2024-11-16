@@ -1,10 +1,12 @@
 #register_form label{
     display: flex;
     align-items: center;
+    text-align: left;
 }
 
 fieldset{
     display: inline-block;
+    text-align: center;
 }
 
 .form_label{
@@ -33,4 +35,12 @@ h1{
 
 #center button{
     margin-left: 5px;
+}
+
+body {
+    display: flex;
+    margin: 10px;
+    padding: 5px;
+    justify-content: center;
+    align-self: center;
 }
