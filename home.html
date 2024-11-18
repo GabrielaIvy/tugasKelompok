@@ -2,26 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Furnitur</title>
     <style>
-        img{
-            width: 100vw;
-            height: 80vh;
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
 
+        /* Header Styles */
         .header {
             background-color: #000;
             color: white;
             padding: 10px 20px;
-            display: flex; 
+            display: flex;
             align-items: center;
-            justify-content: space-between; 
-            position: relative;
+            justify-content: space-between;
         }
 
         .header button {
             background-color: white;
-            color: #000000; 
+            color: #000; 
             border: none;
             border-radius: 15px;
             padding: 10px 20px;
@@ -30,11 +32,11 @@
         }
 
         .header ul {
-            list-style-type: none;
+            list-style: none;
             margin: 0;
             padding: 0;
             display: flex;
-            gap: 20px; 
+            gap: 20px;
         }
 
         .header ul li {
@@ -51,32 +53,50 @@
             text-decoration: underline;
         }
 
-        .overlay { 
-            position: absolute;
-            top: 7vh;
-            left: 0;
+        .header button a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        /* Background Image with Text Overlay */
+        .image-container {
             width: 100vw;
-            height: 76vh;
-            background-color: rgba(51, 51, 51, 0.7); 
-            color: white;
+            height: 80vh;
+            background-image: url('gray-living-room-01.webp');
+            background-size: cover;
+            background-position: center;
+            filter: grayscale(100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            flex-direction: column;
-            padding: 20px;
+            position: relative;
         }
 
-        .overlay h1 { 
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(51, 51, 51, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+        }
+
+        .overlay h1 {
             font-size: 3em;
             margin: 0;
         }
 
-        .overlay p { 
+        .overlay p {
             font-size: 1.5em;
+            margin: 10px 0 0;
         }
     </style>
-    
 </head>
 <body>
     <div class="header">
@@ -85,15 +105,13 @@
             <li><a href="#komponen">Komponen</a></li>
             <li><a href="#kontak">Kontak</a></li>
         </ul>
-        <button>Log In</button>
+        <button><a href="login.html">Log In</a></button>
     </div>
 
-    <!-- Gambar dengan overlay dan teks -->
-    <div class="image-container"> 
-        <img src="gray-living-room-01.webp"> 
-        <div class="overlay"> 
-            <h1>WELCOME</h1> 
-            <p>Temukan koleksi furnitur yang menarik disini</p> <!-- silahkan diganti kalimatnya sama yang lebih cocok -->
+    <div class="image-container">
+        <div class="overlay">
+            <h1>WELCOME</h1>
+            <p>Jelajahi koleksi furnitur eksklusif kami</p>
         </div>
     </div>
 </body>
