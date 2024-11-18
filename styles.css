@@ -34,3 +34,7 @@ h1{
 #center button{
     margin-left: 5px;
 }
+
+a{
+    text-decoration: none;
+}
