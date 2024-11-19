@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Laporan Penjualan
+        </title>
+        <style>
+            table{
+                text-align: left;
+                text-wrap: wrap;
+                padding: 10px;
+                color: black;
+            }
+            #tableHeader{
+                color: white;
+                background-color: black;
+            }
+            .content{
+                background-color: white;
+            }
+            #total{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                color: black;
+            }
+            #total h2{
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            th{
+                padding:5px;
+            }
+            td{
+                padding:5px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="stylesHome.css">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <ul>
+                    <li><a href="homePemilik.html">Home</a></li>
+                    <li><a href="dataFurnitur.html">Data Furnitur</a></li>
+                    <li><a href="dataKomponen.html">Data Komponen</a></li>
+                    <li><a href="laporanPenjualan.html">Laporan Penjualan</a></li>
+                </ul>
+                <button><a href="home.html">Log Out</a></button>
+            </div>
+        </header>
+        <div class="image-container">
+            <div class="overlay">
+                <h1>Laporan Penjualan</h1>
+                <div class="content">
+                <table border="1">
+                    <tr id="tableHeader">
+                        <th>Nomor<br>Order</th>
+                        <th>Tanggal<br>pemesanan</th>
+                        <th>Pemesan</th>
+                        <th>Status<br>Pesanan</th>
+                        <th>Detail<br>Pemesanan</th>
+                        <th>Total<br>Pembayaran</th>
+                    </tr>
+                    <tr>
+                        <td>#50</td>
+                        <td>17 Nov 2024</td>
+                        <td><strong>[wom_kapi]</strong><br>Wombat Kapidodo</td>
+                        <td>Diproses</td>
+                        <td>Sofa Minimalis Pendek</td>
+                        <td>Rp 750.000,00-</td>
+                    </tr>
+                    <tr>
+                        <td>#49</td>
+                        <td>15 Nov 2024</td>
+                        <td><strong>[dokapi]</strong><br>Dodo K.</td>
+                        <td>Dalam Pengiriman</td>
+                        <td>Sofa Minimalis Pendek</td>
+                        <td>Rp 1.000.000,00-</td>
+                    </tr>
+                    <tr>
+                        <td>#48</td>
+                        <td>13 Nov 2024</td>
+                        <td><strong>[kap_dodo]</strong><br>K. Dodo</td>
+                        <td>Sudah Diterima</td>
+                        <td>Sofa Minimalis Tinggi</td>
+                        <td>Rp 1.250.000,00-</td>
+                    </tr>
+                    <tr>
+                        <td>#47</td>
+                        <td>13 Nov 2024</td>
+                        <td><strong>[wom_kapi]</strong><br>Wombat Kapidodo</td>
+                        <td>Sudah Diterima</td>
+                        <td>Sofa Minimalis Tinggi</td>
+                        <td>Rp 1.250.000,00-</td>
+                    </tr>
+                </table>
+
+                <div id="total">
+                    <h2>Total Pendapatan:</h2>
+                    <h2>Rp 10.000.000,00-</h2>
+                </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
