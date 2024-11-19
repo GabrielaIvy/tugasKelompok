@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Order History
+        </title>
+        <style>
+            table{
+                text-align: left;
+                text-wrap: wrap;
+                padding: 10px;
+                background-color: white;
+                color: black;
+            }
+            #tableHeader{
+                color: white;
+                background-color: black;
+            }
+            .header{
+                width: 100%;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="stylesHome.css">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <ul>
+                    <li><a href="#furnitur">Furnitur</a></li>
+                    <li><a href="#komponen">Komponen</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="historyPesanan.html">History Pesanan</a></li>
+                </ul>
+                <div class="action-buttons">
+                    <button><a href="profile.html">Profile</a></button>
+                    <button><a href="home.html">Log Out</a></button>
+                </div>
+            </div>
+        </header>
+        <div class="image-container">
+            <div class="overlay">
+                <h1>History Pemesanan</h1>
+                <table border="1">
+                    <tr id="tableHeader">
+                        <th>Nomor Order</th>
+                        <th>Tanggal pemesanan</th>
+                        <th>Status Pesanan</th>
+                        <th>Detail Pemesanan</th>
+                        <th>Total Pembayaran</th>
+                    </tr>
+                    <tr>
+                        <td>#50</td>
+                        <td>17 Nov 2024</td>
+                        <td>Diproses</td>
+                        <td>Sofa Minimalis Pendek</td>
+                        <td>Rp 750.000,00-</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <section id="kontak" style="padding: 40px; background-color: #f9f9f9;">
+            <h2 style="text-align: center; font-size: 2em; margin-bottom: 20px;">Kontak Kami</h2>
+            <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+                <!-- Alamat -->
+                <div style="width: 300px; text-align: center;">
+                    <h3>Alamat</h3>
+                    <p>Jalan Furnitur No. 123, Kota Bandung, Jawa Barat, Indonesia</p>
+                </div>
+        
+                <!-- Telepon -->
+                <div style="width: 300px; text-align: center;">
+                    <h3>Telepon</h3>
+                    <p>+62 812-3456-7890</p>
+                </div>
+        
+                <!-- Email -->
+                <div style="width: 300px; text-align: center;">
+                    <h3>Email</h3>
+                    <p>info@homefurnitur.com</p>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>

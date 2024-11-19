@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Engsel</title>
+    <link rel="stylesheet" type="text/css" href="styleKomponenDetail.css">
+    <script src="scriptKomponen.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Detail Engsel</h1>
+
+         <!-- Gambar Engsel -->
+         <div class="image-container">
+            <img src="assets/engsel.jpg" alt="Engsel">
+        </div>
+
+        <!-- Pilihan Ukuran -->
+        <div class="form-group">
+            <label for="size">Pilih Ukuran:</label>
+            <select id="size" name="size">
+                <option value="Small">Small (10 cm)</option>
+                <option value="Medium">Medium (15 cm)</option>
+                <option value="Large">Large (20 cm)</option>
+            </select>
+        </div>
+
+        <!-- Komponen Engsel -->
+        <div class="components">
+            <h2>Komponen Engsel:</h2>
+            <label for="hinge-material">Pilih Bahan:</label>
+            <select id="hinge-material" name="hinge-material">
+                <option value="Logam">Logam</option>
+                <option value="Stainless">Stainless</option>
+            </select>
+
+            <label for="hinge-color">Pilih Warna:</label>
+            <select id="hinge-color" name="hinge-color">
+                <option value="Perak">Perak</option>
+                <option value="Emas">Emas</option>
+            </select>
+        </div>
+
+        <!-- Tombol Kembali dan Beli -->
+        <div class="buttons">
+            <button class="back-button" onclick="goBack()">Kembali</button>
+            <button class="buy-button" onclick="showModal('hinge')">Beli</button>
+        </div>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Rincian Pesanan</h2>
+            <p id="order-details"></p>
+            <button onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+</body>
+</html>

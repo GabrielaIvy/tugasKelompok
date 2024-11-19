@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Sofa</title>
+    <link rel="stylesheet" type="text/css" href="styleDetail.css">
+    <script src="scriptBuy.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Detail Sofa</h1>
+
+        <!-- Gambar Sofa -->
+        <div class="image-container">
+            <img src="assets/sofa.jpg" alt="Sofa Minimalis">
+        </div>
+
+        <!-- Pilihan Ukuran -->
+        <div class="form-group">
+            <label for="size">Pilih Ukuran:</label>
+            <select id="size" name="size">
+                <option value="Small">Small (120 cm x 80 cm)</option>
+                <option value="Medium">Medium (150 cm x 90 cm)</option>
+                <option value="Large">Large (180 cm x 100 cm)</option>
+            </select>
+        </div>
+
+        <!-- Komponen Sofa -->
+        <div class="components">
+            <h2>Komponen Sofa:</h2>
+
+            <!-- Komponen 1: Kerangka -->
+            <div class="component-item">
+                <h3>Kerangka</h3>
+                <label for="frame-material">Pilih Bahan:</label>
+                <select id="frame-material" name="frame-material">
+                    <option value="Kayu">Kayu</option>
+                    <option value="Logam">Logam</option>
+                </select>
+
+                <label for="frame-color">Pilih Warna:</label>
+                <select id="frame-color" name="frame-color">
+                    <option value="Coklat">Coklat</option>
+                    <option value="Hitam">Hitam</option>
+                </select>
+            </div>
+
+            <!-- Komponen 2: Kain Pelapis -->
+            <div class="component-item">
+                <h3>Kain Pelapis</h3>
+                <label for="fabric-material">Pilih Bahan:</label>
+                <select id="fabric-material" name="fabric-material">
+                    <option value="Kapas">Kapas</option>
+                    <option value="Kulit">Kulit</option>
+                </select>
+
+                <label for="fabric-color">Pilih Warna:</label>
+                <select id="fabric-color" name="fabric-color">
+                    <option value="Abu-abu">Abu-abu</option>
+                    <option value="Biru">Biru</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tombol Kembali dan Beli -->
+        <div class="buttons">
+            <button class="back-button" onclick="goBack()">Kembali</button>
+            <button class="buy-button" onclick="showModal()">Beli</button>
+        </div>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Rincian Pesanan</h2>
+            <p id="order-details"></p>
+            <button onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+</body>
+</html>

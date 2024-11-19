@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Furnitur</title>
+    <title>Home Pembeli</title>
     <link rel="stylesheet" type="text/css" href="stylesHome.css">
 </head>
 <body>
@@ -13,8 +13,12 @@
                 <li><a href="#furnitur">Furnitur</a></li>
                 <li><a href="#komponen">Komponen</a></li>
                 <li><a href="#kontak">Kontak</a></li>
+                <li><a href="historyPesanan.html">History Pesanan</a></li>
             </ul>
-            <button><a href="login.html">Log In</a></button>
+            <div class="action-buttons">
+                <button><a href="profile.html">Profile</a></button>
+                <button><a href="home.html">Log Out</a></button>
+            </div>
         </div>
     </header>
 
@@ -25,21 +29,28 @@
         </div>
     </div>
 
+    
     <!-- Furnitur Section -->
     <section id="furnitur" style="padding: 40px; background-color: #f9f9f9;">
         <h2 style="text-align: center; font-size: 2em; margin-bottom: 20px;">Daftar Furnitur</h2>
         <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
             <div style="width: 250px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; text-align: center;">
-                <img src="assets/sofa.jpg" alt="Sofa" style="width: 100%; height: 150px; object-fit: cover;">
-                <p style="padding: 10px; font-size: 1.2em;">Sofa</p>
+                <a href="sofa.html">
+                    <img src="assets/sofa.jpg" alt="Sofa" style="width: 100%; height: 150px; object-fit: cover;">
+                    <p style="padding: 10px; font-size: 1.2em;">Sofa Minimalis</p>
+                </a>
             </div>
             <div style="width: 250px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; text-align: center;">
-                <img src="assets/meja makan.webp" alt="Meja Makan" style="width: 100%; height: 150px; object-fit: cover;">
-                <p style="padding: 10px; font-size: 1.2em;">Meja Makan</p>
+                <a href="mejaMakan.html">
+                    <img src="assets/meja makan.webp" alt="Meja Makan" style="width: 100%; height: 150px; object-fit: cover;">
+                    <p style="padding: 10px; font-size: 1.2em;">Meja Makan</p>
+                </a>
             </div>
             <div style="width: 250px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; text-align: center;">
-                <img src="assets/kursi.jpg" alt="Kursi" style="width: 100%; height: 150px; object-fit: cover;">
-                <p style="padding: 10px; font-size: 1.2em;">Kursi</p>
+                <a href="kursi.html">
+                    <img src="assets/kursi.jpg" alt="Kursi" style="width: 100%; height: 150px; object-fit: cover;">
+                    <p style="padding: 10px; font-size: 1.2em;">Kursi</p>
+                </a>
             </div>
         </div>
     </section>
@@ -49,16 +60,22 @@
         <h2 style="text-align: center; font-size: 2em; margin-bottom: 20px;">Daftar Komponen</h2>
         <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
             <div style="width: 250px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; text-align: center;">
-                <img src="assets/handle pintu.webp" alt="Handle Pintu" style="width: 100%; height: 150px; object-fit: cover;">
-                <p style="padding: 10px; font-size: 1.2em;">Handle Pintu</p>
+                <a href="handlePintu.html">
+                    <img src="assets/handle pintu.webp" alt="Handle Pintu" style="width: 100%; height: 150px; object-fit: cover;">
+                    <p style="padding: 10px; font-size: 1.2em;">Handle Pintu</p>
+                </a>
             </div>
             <div style="width: 250px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; text-align: center;">
-                <img src="assets/kaki meja.jpg" alt="Kaki Meja" style="width: 100%; height: 150px; object-fit: cover;">
-                <p style="padding: 10px; font-size: 1.2em;">Kaki Meja</p>
+                <a href="kakiMeja.html">
+                    <img src="assets/kaki meja.jpg" alt="Kaki Meja" style="width: 100%; height: 150px; object-fit: cover;">
+                    <p style="padding: 10px; font-size: 1.2em;">Kaki Meja</p>
+                </a>
             </div>
             <div style="width: 250px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; text-align: center;">
-                <img src="assets/engsel.jpg" alt="Engsel" style="width: 100%; height: 150px; object-fit: cover;">
-                <p style="padding: 10px; font-size: 1.2em;">Engsel</p>
+                <a href="engsel.html">
+                    <img src="assets/engsel.jpg" alt="Engsel" style="width: 100%; height: 150px; object-fit: cover;">
+                    <p style="padding: 10px; font-size: 1.2em;">Engsel</p>
+                </a>
             </div>
         </div>
     </section>
@@ -85,6 +102,7 @@
             </div>
         </div>
     </section>
+
 
 </body>
 </html>
