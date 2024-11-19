@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Kursi</title>
+    <link rel="stylesheet" type="text/css" href="styleDetail.css">
+    <script src="scriptBuy.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Detail Kursi</h1>
+
+        <!-- Gambar Kursi -->
+        <div class="image-container">
+            <img src="assets/kursi.jpg" alt="Kursi Modern">
+        </div>
+
+        <!-- Pilihan Ukuran -->
+        <div class="form-group">
+            <label for="size">Pilih Ukuran:</label>
+            <select id="size" name="size">
+                <option value="Small">Small (50 cm x 60 cm)</option>
+                <option value="Medium">Medium (60 cm x 70 cm)</option>
+                <option value="Large">Large (70 cm x 80 cm)</option>
+            </select>
+        </div>
+
+        <!-- Komponen Kursi -->
+        <div class="components">
+            <h2>Komponen Kursi:</h2>
+
+            <!-- Komponen 1: Kaki Kursi -->
+            <div class="component-item">
+                <h3>Kaki Kursi</h3>
+                <label for="leg-material">Pilih Bahan:</label>
+                <select id="leg-material" name="leg-material">
+                    <option value="Kayu">Kayu</option>
+                    <option value="Logam">Logam</option>
+                </select>
+
+                <label for="leg-color">Pilih Warna:</label>
+                <select id="leg-color" name="leg-color">
+                    <option value="Coklat">Coklat</option>
+                    <option value="Hitam">Hitam</option>
+                </select>
+            </div>
+
+            <!-- Komponen 2: Sandaran Kursi -->
+            <div class="component-item">
+                <h3>Sandaran Kursi</h3>
+                <label for="backrest-material">Pilih Bahan:</label>
+                <select id="backrest-material" name="backrest-material">
+                    <option value="Kayu">Kayu</option>
+                    <option value="Rotan">Rotan</option>
+                </select>
+
+                <label for="backrest-color">Pilih Warna:</label>
+                <select id="backrest-color" name="backrest-color">
+                    <option value="Coklat">Coklat</option>
+                    <option value="Putih">Putih</option>
+                </select>
+            </div>
+
+            <!-- Komponen 3: Kain Pelapis -->
+            <div class="component-item">
+                <h3>Kain Pelapis</h3>
+                <label for="fabric-material">Pilih Bahan:</label>
+                <select id="fabric-material" name="fabric-material">
+                    <option value="Kapas">Kapas</option>
+                    <option value="Kulit">Kulit</option>
+                </select>
+
+                <label for="fabric-color">Pilih Warna:</label>
+                <select id="fabric-color" name="fabric-color">
+                    <option value="Abu-abu">Abu-abu</option>
+                    <option value="Biru">Biru</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tombol Kembali dan Beli -->
+        <div class="buttons">
+            <button class="back-button" onclick="goBack()">Kembali</button>
+            <button class="buy-button" onclick="showModal()">Beli</button>
+        </div>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Rincian Pesanan</h2>
+            <p id="order-details"></p>
+            <button onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+</body>
+</html>
