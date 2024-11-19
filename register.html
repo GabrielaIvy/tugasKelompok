@@ -7,8 +7,8 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <form id="register_form" action="action.php" method="post">
-        <fieldset>
+    <fieldset>
+        <form id="register_form" action="action.php" method="post">
             <h1>Register</h1>
             <div id="form_container">
                 <label>
@@ -33,18 +33,18 @@
                 </label>
                 <label>
                     <span class="form_label">Password:</span>
-                    <input class="form_control" type="password" name="password1" required>
+                    <input class="form_control" type="password" name="password1" minlength="8" required>
                 </label>
                 <label>
                     <span class="form_label">Confirm Password:</span>
                     <input class="form_control" type="password" name="password2" required>
                 </label>
                 <div class="center_button">
-                    <button><a href="login.html">CANCEL</a></button>
-                    <button><a href="homePembeli.html">REGISTER</a></button>
+                    <a href="login.html"><button>CANCEL</button></a>
+                    <input type="submit" name="register" value="REGISTER">
                 </div>
             </div>
-        </fieldset>
-    </form>
+        </form>
+    </fieldset>
 </body>
 </html>

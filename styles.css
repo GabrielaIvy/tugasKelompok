@@ -1,10 +1,13 @@
 #register_form label{
     display: flex;
     align-items: center;
+    text-align: left;
 }
 
 fieldset{
     display: inline-block;
+    text-align: center;
+    background-color: white;
 }
 
 .form_label{
@@ -35,6 +38,13 @@ h1{
     margin-left: 5px;
 }
 
-a{
-    text-decoration: none;
+body {
+    
+    font-family: Arial, sans-serif;
+    display: flex;
+    margin: 10px;
+    padding: 5px;
+    justify-content: center;
+    align-self: center;
+    background-color: grey;
 }
