@@ -73,7 +73,7 @@ CREATE TABLE Komponen (
     nama VARCHAR(50),
     ukuran VARCHAR(20),
     stok INT,
-    harga double,
+    harga MONEY,
 	gambar VARCHAR(100)
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE Furnitur (
     nama VARCHAR(30),
     ukuran VARCHAR(50),
 	stok INT,
-    harga double,
+    harga MONEY,
 	gambar VARCHAR(100)
 );
 
