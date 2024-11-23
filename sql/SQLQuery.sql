@@ -1,3 +1,6 @@
+DROP VIEW IF EXISTS LaporanPenjualanFurnitur;
+DROP VIEW IF EXISTS LaporanPenjualanKomponen;
+DROP VIEW IF EXISTS KecamatanKelurahan;
 DROP TABLE IF EXISTS KomponenMaterialWarna;
 DROP TABLE IF EXISTS KomponenFurnitur;
 DROP TABLE IF EXISTS PesanFurnitur;
@@ -73,43 +76,43 @@ CREATE TABLE Komponen (
     nama VARCHAR(50),
     ukuran VARCHAR(20),
     stok INT,
-    harga MONEY,
+    harga DOUBLE PRECISION,
 	gambar VARCHAR(100)
 );
 
-INSERT INTO Komponen (nama, ukuran, stok, harga) VALUES
-	('handle pintu', 'Small (10 cm)', 5, 20000),
-	('handle pintu', 'Medium (15 cm)', 7, 25000),
-	('handle pintu', 'Large (20 cm)', 3, 30000),
-	('engsel', 'Small (10 cm)', 8, 15000),
-	('engsel', 'Medium (15 cm)', 8, 25000),
-	('engsel', 'Large (20 cm)', 8, 35000),
-	('kaki kursi', 'Small (60 cm)', 2, 40000),
-	('kaki kursi', 'Medium (70 cm)', 3, 60000),
-	('kaki kursi', 'Larga (80 cm)', 2, 80000),
-	('sandaran kursi', 'Small (50 cm)', 2, 30000),
-	('sandaran kursi', 'Medium (60 cm)', 2, 40000),
-	('sandaran kursi', 'Large (70 cm)', 2, 50000),
-	('kain pelapis', 'Small (50 cm)', 2, 20000),
-	('kain pelapis', 'Medium (60 cm)', 2, 30000),
-	('kain pelapis', 'Large (70 cm)', 2, 40000);
+INSERT INTO Komponen (nama, ukuran, stok, harga, gambar) VALUES
+	('handle pintu', 'Small (10 cm)', 5, 20000, 'handle pintu.webp'),
+	('handle pintu', 'Medium (15 cm)', 7, 25000, 'handle pintu.webp'),
+	('handle pintu', 'Large (20 cm)', 3, 30000, 'handle pintu.webp'),
+	('engsel', 'Small (10 cm)', 8, 15000, 'engsel.jpg'),
+	('engsel', 'Medium (15 cm)', 8, 25000, 'engsel.jpg'),
+	('engsel', 'Large (20 cm)', 8, 35000, 'engsel.jpg'),
+	('kaki kursi', 'Small (60 cm)', 2, 40000, ''),
+	('kaki kursi', 'Medium (70 cm)', 3, 60000, ''),
+	('kaki kursi', 'Larga (80 cm)', 2, 80000, ''),
+	('sandaran kursi', 'Small (50 cm)', 2, 30000, ''),
+	('sandaran kursi', 'Medium (60 cm)', 2, 40000, ''),
+	('sandaran kursi', 'Large (70 cm)', 2, 50000, ''),
+	('kain pelapis', 'Small (50 cm)', 2, 20000, ''),
+	('kain pelapis', 'Medium (60 cm)', 2, 30000, ''),
+	('kain pelapis', 'Large (70 cm)', 2, 40000, '');
 	
 CREATE TABLE Furnitur (
     id SERIAL PRIMARY KEY,
     nama VARCHAR(30),
     ukuran VARCHAR(50),
 	stok INT,
-    harga MONEY,
+    harga DOUBLE PRECISION,
 	gambar VARCHAR(100)
 );
 
-INSERT INTO Furnitur (nama, ukuran, stok, harga) VALUES
-	('kursi', 'Small (50cm x 60cm)', 4, 100000),
-	('kursi', 'Medium (60cm x 70cm)', 2, 150000),
-	('kursi', 'Large (70cm x 80cm)', 3, 180000),
-	('meja makan', 'Small (120cm x 80cm)', 6, 700000),
-	('meja makan', 'Medium (150cm x 90cm)', 2, 90000),
-	('meja makan', 'Large (180cm x 100cm)', 9, 120000);
+INSERT INTO Furnitur (nama, ukuran, stok, harga, gambar) VALUES
+	('kursi', 'Small (50cm x 60cm)', 4, 100000, 'kursi.jpg'),
+	('kursi', 'Medium (60cm x 70cm)', 2, 150000, 'kursi.jpg'),
+	('kursi', 'Large (70cm x 80cm)', 3, 180000, 'kursi.jpg'),
+	('meja makan', 'Small (120cm x 80cm)', 6, 700000, 'meja makan.webp'),
+	('meja makan', 'Medium (150cm x 90cm)', 2, 90000, 'meja makan.webp'),
+	('meja makan', 'Large (180cm x 100cm)', 9, 120000, 'meja makan.webp');
 
 CREATE TABLE Pesanan (
     idPesanan SERIAL PRIMARY KEY,
@@ -219,10 +222,11 @@ LEFT JOIN
 
 CREATE VIEW KecamatanKelurahan AS
 SELECT 
-    k.nama AS namaKecamatan,
-    l.nama AS namaKelurahan
+    l.id,
+    l.nama AS nama,
+	l.idKecamatan AS idKecamatan
+	
 FROM 
     Kecamatan k
 JOIN 
     Kelurahan l ON k.id = l.idKecamatan;
-

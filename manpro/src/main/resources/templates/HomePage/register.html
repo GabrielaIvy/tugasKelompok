@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesLoginRegister.css">
+    <script src="/js/script.js" defer></script> 
+</head>
+<body>
+    <fieldset>
+        <form id="register_form" action="/home/register" th:object="${user}" method="POST">
+            <h1>Register</h1>
+            <div id="form_container">
+                <label>
+                    <span class="form_label">Nama:</span>
+                    <input class="form_control" type="text" name="nama" required>
+                </label>
+                <label>
+                    <span class="form_label">Kecamatan:</span>
+                    <select class="form_control" name="kecamatan" id="kecamatan">
+                        <option value="" disabled selected>Pilih kecamatan</option>
+                        <th:block th:each="kec : ${kecamatan}">
+                            <option th:value="${kec.id}" th:text="${kec.nama}"></option>
+                        </th:block>
+                    </select>
+                </label>
+                <label>
+                    <span class="form_label">Kelurahan:</span>
+                    <select class="form_control" name="kelurahan" id="kelurahan">
+                        <option value="" disabled selected>Pilih kelurahan</option>
+                        <th:block th:each="kel : ${kelurahan}">
+                            <option th:value="${kel.id}" th:text="${kel.nama}"></option>
+                        </th:block>
+                    </select>
+                </label>
+                <label>
+                    <span class="form_label">Alamat:</span>
+                    <input class="form_control" type="text" name="alamat" required>
+                </label>
+                <label>
+                    <span class="form_label">Username:</span>
+                    <input class="form_control" type="text" name="username" required>
+                </label>
+                <label>
+                    <span class="form_label">Password:</span>
+                    <input class="form_control" type="password" name="password1" minlength="8" required>
+                </label>
+                <label>
+                    <span class="form_label">Confirm Password:</span>
+                    <input class="form_control" type="password" name="password2" required>
+                </label>
+                <div class="center_button">
+                    <button type="button" onclick="window.location.href='/home/login'">CANCEL</button>
+                    <button type="submit">REGISTER</button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</body>
+</html>
