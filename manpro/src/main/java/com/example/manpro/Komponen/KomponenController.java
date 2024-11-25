@@ -18,10 +18,18 @@ public class KomponenController {
     private KomponenRepository repo;
 
     @GetMapping()
-    public String dataFurnitur(Model model){
-        List<Komponen> komponen = this.repo.findAll();
+    public String dataFurnitur(Model model, @RequestParam(value = "filter", required = false) String filter){
+        List<Komponen> komponen;
 
+        if (filter != null && !filter.isEmpty()) {
+            komponen = repo.findByName(filter);
+        } else {
+            komponen = repo.findAll();
+        }
+
+        model.addAttribute("filter", filter);
         model.addAttribute("komponen", komponen);
         return "PemilikPage/dataKomponen";
     }
+
 }

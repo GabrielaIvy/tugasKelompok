@@ -22,8 +22,10 @@
 
     <h1>Data Komponen</h1>
     <div id="search-bar">
-        <input type="text" placeholder="Cari komponen...">
-        <button id="search">Search</button>
+        <form method="GET" th:action="@{/dataKomponen}">
+            <input type="text" placeholder="Cari komponen..." name="filter" th:value="${filter}">
+            <input type="submit" value="SEARCH">
+        </form>
     </div>
     <div id="item-list">
         <div class="item" th:each="k : ${komponen}">
