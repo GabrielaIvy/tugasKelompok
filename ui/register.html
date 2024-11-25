@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <fieldset>
+        <form id="register_form" action="action.php" method="post">
+            <h1>Register</h1>
+            <div id="form_container">
+                <label>
+                    <span class="form_label">Nama:</span>
+                    <input class="form_control" type="text" name="nama" required>
+                </label>
+                <label>
+                    <span class="form_label">Kecamatan:</span>
+                    <select class="form_control" name="kecamatan"></select>
+                </label>
+                <label>
+                    <span class="form_label">Kelurahan:</span>
+                    <select class="form_control" name="kelurahan"></select>
+                </label>
+                <label>
+                    <span class="form_label">Alamat:</span>
+                    <input class="form_control" type="text" name="alamat" required>
+                </label>
+                <label>
+                    <span class="form_label">Username:</span>
+                    <input class="form_control" type="text" name="username" required>
+                </label>
+                <label>
+                    <span class="form_label">Password:</span>
+                    <input class="form_control" type="password" name="password1" minlength="8" required>
+                </label>
+                <label>
+                    <span class="form_label">Confirm Password:</span>
+                    <input class="form_control" type="password" name="password2" required>
+                </label>
+                <div class="center_button">
+                    <button><a href="login.html">CANCEL</a></button>
+                    <button><a href="homePembeli.html">REGISTER</a></button>
+                </div>
+            </div>
+        </form>
+    </fieldset>
+</body>
+</html>

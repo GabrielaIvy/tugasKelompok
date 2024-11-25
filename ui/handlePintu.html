@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Handle Pintu</title>
+    <link rel="stylesheet" type="text/css" href="styleKomponenDetail.css">
+    <script src="scriptKomponen.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Detail Handle Pintu</h1>
+
+        <!-- Gambar Handle Pintu -->
+        <div class="image-container">
+            <img src="assets/handle pintu.webp" alt="Kaki Meja">
+        </div>
+
+        <!-- Pilihan Ukuran -->
+        <div class="form-group">
+            <label for="size">Pilih Ukuran:</label>
+            <select id="size" name="size">
+                <option value="Small">Small (10 cm)</option>
+                <option value="Medium">Medium (15 cm)</option>
+                <option value="Large">Large (20 cm)</option>
+            </select>
+        </div>
+
+        <!-- Komponen Handle Pintu -->
+        <div class="components">
+            <h2>Komponen Handle Pintu:</h2>
+            <label for="handle-material">Pilih Bahan:</label>
+            <select id="handle-material" name="handle-material">
+                <option value="Logam">Logam</option>
+                <option value="Kayu">Kayu</option>
+            </select>
+
+            <label for="handle-color">Pilih Warna:</label>
+            <select id="handle-color" name="handle-color">
+                <option value="Perak">Perak</option>
+                <option value="Coklat">Coklat</option>
+            </select>
+        </div>
+
+        <!-- Tombol Kembali dan Beli -->
+        <div class="buttons">
+            <button class="back-button" onclick="goBack()">Kembali</button>
+            <button class="buy-button" onclick="showModal('handle')">Beli</button>
+        </div>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Rincian Pesanan</h2>
+            <p id="order-details"></p>
+            <button onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+</body>
+</html>

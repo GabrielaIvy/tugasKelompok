@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            Laporan Penjualan
+        </title>
+        <style>
+            table{
+                text-align: left;
+                text-wrap: wrap;
+                padding: 10px;
+                color: black;
+                width: 100%;
+                table-layout:fixed;
+            }
+            #tableHeader{
+                color: white;
+                background-color: black;
+            }
+            .content{
+                color: black;
+                background-color: white;
+                text-align: left;
+                padding: 10px;
+                width: 75%;
+            }
+            #total{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                color: black;
+                justify-content: space-between;
+            }
+            #total h2{
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            th{
+                padding:5px;
+            }
+            td{
+                padding:5px;
+            }
+            h3 {
+                padding-left: 10px;
+            }
+            .filter {
+                text-align: right;
+                padding-right: 15px;
+            }
+            .order{
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="stylesHome.css">
+    </head>
+
+    <body>
+        <header>
+            <div class="header">
+                <ul>
+                    <li><a href="homePemilik.html">Home</a></li>
+                    <li><a href="dataFurnitur.html">Data Furnitur</a></li>
+                    <li><a href="dataKomponen.html">Data Komponen</a></li>
+                    <li><a href="laporanPenjualan.html">Laporan Penjualan</a></li>
+                </ul>
+                <button><a href="home.html">Log Out</a></button>
+            </div>
+        </header>
+
+        <div class="image-container">
+            <div class="overlay">
+                <h1 style="padding-bottom: 5px;">
+                    Laporan Penjualan
+                </h1>
+                <div class="content">
+                    <div class="filter"> <!--filter tanggal-->
+                        <span>from</span>
+                        <input type="date" id="from" name="from">
+                        <span>to</span>
+                        <input type="date" id="to" name="to">
+                    </div>
+
+                    <!--idenya setiap order ada id="order[number]",,-->
+                    <div class="order" id="order1">
+                        <fieldset>
+                            <h3>Pesanan #1</h3>
+                            <table>
+                                <tr id="tableHeader">
+                                    <th>Tanggal<br>pemesanan</th>
+                                    <th>Pemesan</th>
+                                    <th>Detail<br>Pemesanan</th>
+                                    <th>Total<br>Pembayaran</th>
+                                </tr>
+                                <tr>
+                                    <td>17 Nov 2024</td>
+                                    <td><strong>[wom_kapi]</strong><br>Wombat Kapidodo</td>
+                                    <td>Sofa Minimalis Pendek</td>
+                                    <td>Rp 750.000</td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+                    
+                    
+                    <div class="order" id="order2">
+                        <fieldset>
+                            <h3>Pesanan #2</h3>
+                            <table>
+                                <tr id="tableHeader">
+                                    <th>Tanggal<br>pemesanan</th>
+                                    <th>Pemesan</th>
+                                    <th>Detail<br>Pemesanan</th>
+                                    <th>Total<br>Pembayaran</th>
+                                </tr>
+                                <tr>
+                                    <td>15 Nov 2024</td>
+                                    <td><strong>[dokapi]</strong><br>Dodo K.</td>
+                                    <td>Sofa Minimalis Pendek</td>
+                                    <td>Rp 1.000.000</td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </div>
+                    
+                    <hr>
+                    <div id="total">
+                        <h2>Total Pendapatan:</h2>
+                        <h2 id="sum">Rp 1.750.000</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
