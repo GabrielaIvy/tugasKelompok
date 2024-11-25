@@ -18,9 +18,16 @@ public class FurniturController {
     private FurniturRepository repo;
 
     @GetMapping()
-    public String dataFurnitur(Model model){
-        List<Furnitur> furnitur = this.repo.findAll();
+    public String dataFurnitur(Model model, @RequestParam(value = "keyword", required = false) String filter){
+        List<Furnitur> furnitur;
 
+        if (filter != null && !filter.isEmpty()) {
+            furnitur = repo.findByName(filter);
+        } else {
+            furnitur = repo.findAll();
+        }
+
+        model.addAttribute("filter", filter);
         model.addAttribute("furnitur", furnitur);
         return "PemilikPage/dataFurnitur";
     }

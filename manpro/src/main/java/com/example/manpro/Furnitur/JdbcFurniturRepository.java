@@ -30,4 +30,9 @@ public class JdbcFurniturRepository implements FurniturRepository{
             resultSet.getString("gambar")
         );
     }
+
+    public List<Furnitur> findByName(String keyword) {
+        String sql = "SELECT * FROM furnitur WHERE nama ILIKE ?";
+        return jdbcTemplate.query(sql, this::mapRowToUser, "%" + keyword + "%");
+    }
 }

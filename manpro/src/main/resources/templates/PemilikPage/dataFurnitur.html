@@ -22,8 +22,12 @@
 
     <h1>Data Furnitur</h1>
     <div id="search-bar">
-        <input type="text" placeholder="Cari furnitur...">
-        <button id="search">Search</button>
+        <form th:action="@{/dataFurnitur}" method="GET">
+            <fieldset>
+                <input type="text" name="keyword" placeholder="Cari furnitur..." th:value="${filter}">
+                <input type="submit" value="SEARCH">
+            </fieldset>
+        </form>
     </div>
     <div id="item-list">
         <div class="item" th:each="f : ${furnitur}">
