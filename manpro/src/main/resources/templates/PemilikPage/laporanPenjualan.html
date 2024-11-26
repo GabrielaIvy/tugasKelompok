@@ -20,11 +20,12 @@
                 background-color: black;
             }
             .content{
-                color: black;
                 background-color: white;
                 text-align: left;
                 padding: 10px;
-                width: 75%;
+                width: 95%;
+                padding-top: 10px;
+                padding-bottom: 10px;
             }
             #total{
                 display: flex;
@@ -48,16 +49,12 @@
             tr:nth-child(even){
                 background-color: #eaeaea;
             }
-            h3 {
-                padding-left: 10px;
+            h1 {
+                text-align: center;
             }
             .filter {
                 text-align: right;
                 padding-right: 15px;
-            }
-            .order{
-                padding-top: 10px;
-                padding-bottom: 10px;
             }
         </style>
         <link rel="stylesheet" type="text/css" href="/css/stylesHome.css">
@@ -75,82 +72,83 @@
                 <button type="button" onclick="window.location.href='/home'">Log Out</button>
             </div>
         </header>
-            <div class="content">
-                <div class="filter"> <!--filter tanggal-->
-                    <span>from</span>
-                    <input type="date" id="from" name="from">
-                    <span>to</span>
-                    <input type="date" id="to" name="to">
-                </div>
+        
+        <h1>Laporan Penjualan</h1>
 
-                <!--idenya setiap order ada id="order[number]",,-->
-                <div class="order" id="order1">
-                    <fieldset>
-                        <h3>Laporan Penjualan</h3>
-                        <table>
-                            <tr id="tableHeader">
-                                <th>Id Pesanan</th>
-                                <th>Tanggal Pesanan</th>
-                                <th>Nama Furnitur</th>
-                                <th>Nama Komponen</th>
-                                <th>Detail</th>
-                                <th>Ukuran</th>
-                                <th>Jumlah</th>
-                                <th>Total Pembayaran</th>
-                            </tr>
-                            <tr th:each="pesanan : ${laporanPenjualan}">
-                                <td th:text="${pesanan.idPesanan}"></td>
-                                <td th:text="${pesanan.tglPesanan}"></td>
-                                <td>
-                                    <ul>
-                                        <li th:each="furnitur : ${pesanan.listFurnitur}" th:text="${furnitur.namaFurnitur}"></li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul th:each="furnitur : ${pesanan.listFurnitur}">
-                                        <li th:each="komponen : ${furnitur.detailKomponen}"
-                                            th:text="${komponen.namaKomponen}">
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul th:each="furnitur : ${pesanan.listFurnitur}">
-                                        <li th:each="komponen : ${furnitur.detailKomponen}" 
-                                            th:text="${komponen.warna + ' - ' + komponen.material}">
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <li th:each="furnitur : ${pesanan.listFurnitur}" 
-                                            th:text="${furnitur.ukuran}">
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <li th:each="furnitur : ${pesanan.listFurnitur}" 
-                                            th:text="${furnitur.jumlah}">
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <li th:each="furnitur : ${pesanan.listFurnitur}" 
-                                            th:text="'Rp ' + ${furnitur.harga}">
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                </div>
-                
-                <hr>
-                <div id="total">
-                    <h2>Total Pendapatan:</h2>
-                    <h2 id="sum">Rp 1.750.000</h2>
-                </div>
-            </div>
+        <div class="filter"> <!--filter tanggal-->
+            <span>from</span>
+            <input type="date" id="from" name="from">
+            <span>to</span>
+            <input type="date" id="to" name="to">
+            <button id="filterTgl">Filter</button>
+        </div>
+
+        <div class="content">
+            <table>
+                <tr id="tableHeader">
+                    <th>Id Pesanan</th>
+                    <th>Tanggal Pesanan</th>
+                    <th>Nama Furnitur</th>
+                    <th>Nama Komponen</th>
+                    <th>Detail</th>
+                    <th>Ukuran</th>
+                    <th>Jumlah</th>
+                    <th>Harga</th>
+                    <th>Total</th>
+                </tr>
+                <tr th:each="pesanan : ${laporanPenjualan}">
+                    <td th:text="${pesanan.idPesanan}"></td>
+                    <td th:text="${pesanan.tglPesanan}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="furnitur : ${pesanan.listFurnitur}" th:text="${furnitur.namaFurnitur}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul th:each="furnitur : ${pesanan.listFurnitur}">
+                            <li th:each="komponen : ${furnitur.detailKomponen}"
+                                th:text="${komponen.namaKomponen}">
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul th:each="furnitur : ${pesanan.listFurnitur}">
+                            <li th:each="komponen : ${furnitur.detailKomponen}" 
+                                th:text="${komponen.warna + ' - ' + komponen.material}">
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li th:each="furnitur : ${pesanan.listFurnitur}" 
+                                th:text="${furnitur.ukuran}">
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li th:each="furnitur : ${pesanan.listFurnitur}" 
+                                th:text="${furnitur.jumlah}">
+                            </li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li th:each="furnitur : ${pesanan.listFurnitur}" 
+                                th:text="'Rp ' + ${furnitur.harga}">
+                            </li>
+                        </ul>
+                    </td>
+                    <td th:text="'Rp ' + ${pesanan.totalHarga}">
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <hr>
+        <div class="content" id="total">
+            <h2>Total Penjualan:</h2>
+            <h2 id="sum" th:text="'Rp' + ${pendapatan}"></h2>
+        </div>
     </body>
 </html>

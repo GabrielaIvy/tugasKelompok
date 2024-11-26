@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface LaporanPenjualanRepository {
     List<LaporanPenjualan> findAll();
+    double totalPendapatan();
 }

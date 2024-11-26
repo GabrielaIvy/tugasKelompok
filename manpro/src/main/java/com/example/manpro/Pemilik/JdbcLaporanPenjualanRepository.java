@@ -20,7 +20,7 @@ public class JdbcLaporanPenjualanRepository implements LaporanPenjualanRepositor
 
     @Override
     public List<LaporanPenjualan> findAll(){
-        String sql = "SELECT * FROM LaporanPenjualan";
+        String sql = "SELECT * FROM LaporanPenjualanFinal";
         Map<Integer, LaporanPenjualan> laporanMap = new HashMap<>(); //key = idPesanan, value = pesanan
 
         jdbcTemplate.query(sql, (resultSet) -> {
@@ -31,7 +31,8 @@ public class JdbcLaporanPenjualanRepository implements LaporanPenjualanRepositor
             laporanMap.putIfAbsent(idPesanan, new LaporanPenjualan(
                 idPesanan,
                 resultSet.getString("tglPesanan"),
-                new ArrayList<PenjualanFurnitur>() //list furnitur
+                new ArrayList<PenjualanFurnitur>(), //list furnitur
+                resultSet.getDouble("totalHarga")
             ));
 
             LaporanPenjualan laporan = laporanMap.get(idPesanan);
@@ -64,5 +65,11 @@ public class JdbcLaporanPenjualanRepository implements LaporanPenjualanRepositor
         });
 
         return new ArrayList<>(laporanMap.values());
+    }
+
+    @Override
+    public double totalPendapatan(){
+        String sql = "SELECT * FROM TotalPendapatan";
+        return jdbcTemplate.queryForObject(sql, Double.class);
     }
 }

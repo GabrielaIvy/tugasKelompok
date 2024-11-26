@@ -8,4 +8,5 @@ public class LaporanPenjualan {
     private final Integer idPesanan;
     private final String tglPesanan;
     private final List<PenjualanFurnitur> listFurnitur;
+    private final double totalHarga;
 }

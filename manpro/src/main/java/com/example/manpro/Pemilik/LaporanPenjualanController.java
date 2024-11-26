@@ -20,8 +20,10 @@ public class LaporanPenjualanController {
     @GetMapping()
     public String dataFurnitur(Model model){
         List<LaporanPenjualan> laporanPenjualan = this.laporanRepo.findAll();
+        double pendapatan = this.laporanRepo.totalPendapatan();
 
         model.addAttribute("laporanPenjualan", laporanPenjualan);
+        model.addAttribute("pendapatan", pendapatan);
         return "PemilikPage/laporanPenjualan";
     }
 }
