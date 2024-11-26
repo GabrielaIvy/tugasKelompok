@@ -17,10 +17,10 @@ public class JdbcFurniturRepository implements FurniturRepository{
     @Override
     public List<Furnitur> findAll(){
         String sql = "SELECT * FROM Furnitur";
-        return jdbcTemplate.query(sql, this::mapRowToUser);
+        return jdbcTemplate.query(sql, this::mapRowToFurnitur);
     }
 
-    private Furnitur mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException{
+    private Furnitur mapRowToFurnitur(ResultSet resultSet, int rowNum) throws SQLException{
         return new Furnitur(
             resultSet.getInt("id"),
             resultSet.getString("nama"),

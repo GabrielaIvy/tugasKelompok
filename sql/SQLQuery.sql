@@ -171,6 +171,7 @@ INSERT INTO KomponenMaterialWarna VALUES
 
 CREATE VIEW LaporanPenjualanFurnitur AS
 SELECT 
+    p.idPesanan,
     p.tglPesanan,
     f.nama AS namaFurnitur,
     c.nama AS namaKomponen,
@@ -199,6 +200,7 @@ LEFT JOIN
 
 CREATE VIEW LaporanPenjualanKomponen AS
 SELECT 
+    p.idPesanan,
     p.tglPesanan,
 	k.nama AS namaKomponen,
     w.nama AS warna,

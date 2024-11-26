@@ -1,4 +1,4 @@
-package com.example.manpro.Furnitur;
+package com.example.manpro.Pemilik;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/dataFurnitur")
-public class FurniturController {
+@RequestMapping("/laporanPenjualan")
+public class LaporanPenjualanController {
     
     @Autowired
-    private FurniturRepository repo;
+    private LaporanPenjualanRepository laporanRepo;
 
     @GetMapping()
     public String dataFurnitur(Model model){
-        List<Furnitur> furnitur = this.repo.findAll();
-        
-        model.addAttribute("furnitur", furnitur);
-        return "PemilikPage/dataFurnitur";
+        List<LaporanPenjualan> laporanPenjualan = this.laporanRepo.findAll();
+
+        model.addAttribute("laporanPenjualan", laporanPenjualan);
+        return "PemilikPage/laporanPenjualan";
     }
 }
