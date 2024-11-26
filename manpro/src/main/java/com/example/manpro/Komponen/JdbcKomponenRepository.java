@@ -30,4 +30,9 @@ public class JdbcKomponenRepository implements KomponenRepository{
             resultSet.getString("gambar")
         );
     }
+
+    public List<Komponen> findByName(String keyword){
+        String sql = "SELECT * FROM komponen WHERE nama ILIKE ?";
+        return jdbcTemplate.query(sql, this::mapRowToUser, "%" + keyword + "%");
+    }
 }
