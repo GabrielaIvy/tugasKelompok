@@ -1,0 +1,13 @@
+<div th:fragment="addFurnitur">
+    <form method="POST" th:action="@{/dataFurnitur/addFurnitur}">
+        <fieldset>
+            <legend>Add New Furnitur</legend>
+            <input type="text" name="nama" required placeholder="Nama Furnitur">
+            <input type="text" name="ukuran" required placeholder="Ukuran">
+            <input type="number" name="harga" required placeholder="Harga">
+            <input type="text" name="gambar" required placeholder="Gambar">
+
+            <input type="submit" value="ADD" name="addFurnitur">
+        </fieldset>
+    </form>
+</div>

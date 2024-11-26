@@ -35,4 +35,9 @@ public class JdbcFurniturRepository implements FurniturRepository{
         String sql = "SELECT * FROM furnitur WHERE nama ILIKE ?";
         return jdbcTemplate.query(sql, this::mapRowToUser, "%" + keyword + "%");
     }
+
+    public void addFurnitur (String nama, String ukuran, double harga, String gambar){
+        String sql = "INSERT INTO furnitur (nama, ukuran, harga, gambar) VALUES (?,?,?,?,?)";
+        jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
+    }
 }
