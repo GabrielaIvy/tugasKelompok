@@ -31,4 +31,24 @@ public class FurniturController {
         model.addAttribute("furnitur", furnitur);
         return "PemilikPage/dataFurnitur";
     }
+
+    @PostMapping("/addFurnitur")
+    public String addFurnitur(
+        @RequestParam("nama") String nama,
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("harga") double harga, 
+        @RequestParam("gambar") String gambar
+    ){
+        if (nama.isEmpty() || ukuran.isEmpty()|| harga < 0) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+
+        repo.addFurnitur(nama, ukuran, harga, gambar);
+        return "redirect:/dataFurnitur";
+    }
+
+    @GetMapping("/addFurnitur")
+    public String addFurniturForm() {
+        return "PemilikPage/addFurnitur"; // Pastikan ini sesuai dengan lokasi file template HTML
+    }
 }

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi</title>
+    <style>
+        .header {
+            background-color: #000;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header button {
+            background-color: white;
+            color: #000; 
+            border: none;
+            border-radius: 15px;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .header ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        .header ul li {
+            display: inline;
+        }
+
+        .header ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .header button a {
+            text-decoration: none;
+            color: #000;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .item-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .item {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .item .info {
+            margin-top: 10px;
+        }
+
+        .item h3 {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .item p {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .btn-add {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-add:hover {
+            background-color: rgb(43, 43, 43);
+            transform: scale(1.1);
+        }
+
+        .btn-add:active {
+            background-color: rgb(80, 79, 79);
+            transform: scale(0.95);
+        }
+
+        .add-stock-form {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .add-stock-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .add-stock-form input {
+            width: calc(100% - 10px);
+            padding: 5px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .add-stock-form button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .add-stock-form button:hover {
+            background-color: rgb(38, 37, 37);
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header">
+            <ul>
+                <li><a th:href="@{/dashboardPemilik}">Home</a></li>
+                <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                <li><a th:href="@{/laporanPenjualan}">Laporan Penjualan</a></li>
+                <li><a th:href="@{/transaksi}">Transaksi</a></li>
+            </ul>
+            <button type="button" onclick="window.location.href='/home'">Log Out</button>
+        </div>
+    </header>
+
+    <h1>Daftar Furnitur dan Komponen</h1>
+        <div class="item-list">
+            <div class="item">
+                <img src="/images/kursi.jpg" alt="Kursi">
+                <div class="info">
+                    <h3>Kursi</h3>
+                    <p>Stok: 20</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm(this)">+</button>
+                <form class="add-stock-form" action="/addStock" method="POST" style="display: none;">
+                    <label>
+                        Tanggal:
+                        <input type="date" name="tanggal" required>
+                    </label>
+                    <label>
+                        Jumlah:
+                        <input type="number" name="jumlah" min="1" required>
+                    </label>
+                    <input type="hidden" name="namaBarang" value="Kursi">
+                    <button type="submit">Tambah Stok</button>
+                </form>
+            </div>
+
+            <div class="item">
+                <img src="/images/meja.jpg" alt="Meja">
+                <div class="info">
+                    <h3>Meja</h3>
+                    <p>Stok: 10</p>
+                </div>
+                <button class="btn-add" onclick="toggleForm(this)">+</button>
+                <form class="add-stock-form" action="/addStock" method="POST" style="display: none;">
+                    <label>
+                        Tanggal:
+                        <input type="date" name="tanggal" required>
+                    </label>
+                    <label>
+                        Jumlah:
+                        <input type="number" name="jumlah" min="1" required>
+                    </label>
+                    <input type="hidden" name="namaBarang" value="Meja">
+                    <button type="submit">Tambah Stok</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script>
+        function toggleForm(button) {
+            const form = button.nextElementSibling;
+            if (form.style.display === "none" || form.style.display === "") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+    </script>
+</body>

@@ -35,4 +35,9 @@ public class JdbcKomponenRepository implements KomponenRepository{
         String sql = "SELECT * FROM komponen WHERE nama ILIKE ?";
         return jdbcTemplate.query(sql, this::mapRowToUser, "%" + keyword + "%");
     }
+
+    public void addKomponen (String nama, String ukuran, double harga, String gambar){
+        String sql = "INSERT INTO komponen (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
+        jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
+    }
 }

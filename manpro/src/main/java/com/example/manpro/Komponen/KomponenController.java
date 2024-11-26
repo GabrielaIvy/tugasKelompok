@@ -32,4 +32,24 @@ public class KomponenController {
         return "PemilikPage/dataKomponen";
     }
 
+    @PostMapping("/addKomponen")
+    public String addKomponen(
+        @RequestParam("nama") String nama,
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("harga") double harga, 
+        @RequestParam("gambar") String gambar
+    ){
+        if (nama.isEmpty() || ukuran.isEmpty()|| harga < 0) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+
+        repo.addKomponen(nama, ukuran, harga, gambar);
+        return "redirect:/dataKomponen";
+    }
+
+    @GetMapping("/addKomponen")
+    public String addKomponenForm() {
+        return "PemilikPage/addKomponen"; // Pastikan ini sesuai dengan lokasi file template HTML
+    }
+
 }
