@@ -4,9 +4,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>
-            Order History
+            Transaksi
         </title>
         <style>
+            #cart-btn{
+                width: 50px;
+                height: 50px;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background-color: white;
+                border-radius: 30px;
+                padding: 15px 15px;
+                box-shadow: 3px 5px 3px rgba(0, 0, 0, 0.2);
+            }
             table{
                 text-align: left;
                 text-wrap: wrap;
@@ -37,6 +48,7 @@
             }
             h3 {
                 padding-left: 10px;
+                margin-bottom: 0px;
             }
             .filter {
                 text-align: right;
@@ -58,6 +70,7 @@
                     <li><a href="homePembeli.html#kontak">Kontak</a></li>
                     <li><a href="historyPesanan.html">History Pesanan</a></li>
                 </ul>
+                <p>welcome, wom_kapi</p>
                 <div class="action-buttons">
                     <button><a href="profile.html">Profile</a></button>
                     <button><a href="home.html">Log Out</a></button>
@@ -66,54 +79,68 @@
         </header>
         <div class="image-container">
             <div class="overlay">
-                <h1>History Pemesanan</h1>
+                <h1>Transaksi</h1>
                 <div class="content">
                     <div class="filter"> <!--filter tanggal-->
+                        <div class="item-finder">
+                            <span>Search by name:</span>
+                            <input type="text" name="search" id="search">
+                            <button>SEARCH</button>
+                        </div>
+                        <div class="date-filter">
                         <span>from</span>
                         <input type="date" id="from" name="from">
                         <span>to</span>
                         <input type="date" id="to" name="to">
+                        </div>
                     </div>
 
-                    <!--idenya setiap order ada id="order[number]",,-->
-                    <div class="order" id="order1">
+                    <div class="order">
                         <fieldset>
-                            <h3>Pesanan #1</h3>
+                            <h3>Sofa Minimalis Pendek</h3>
                             <table>
                                 <tr id="tableHeader">
-                                    <th>Tanggal<br>pemesanan</th>
-                                    <th>Detail<br>Pemesanan</th>
+                                    <th>Kuantitas</th>
+                                    <th>Bahan</th>
+                                    <th>Warna</th>
                                     <th>Total<br>Pembayaran</th>
                                 </tr>
                                 <tr>
-                                    <td>17 Nov 2024</td>
-                                    <td>Sofa Minimalis Pendek</td>
+                                    <td>1</td>
+                                    <td><strong>Kerangka:</strong> Kayu<br>
+                                        <strong>Pelapis:</strong> Kapas</td>
+                                    <td><strong>Kerangka:</strong> Coklat<br>
+                                        <strong>Pelapis:</strong> Abu-abu</td>
                                     <td>Rp 750.000</td>
                                 </tr>
                             </table>
                         </fieldset>
                     </div>
                     
-                    <!--
-                    <div class="order" id="order2">
+                    <div class="order">
                         <fieldset>
-                            <h3>Pesanan #2</h3>
+                            <h3>Kaki Meja</h3>
                             <table>
                                 <tr id="tableHeader">
-                                    <th>Tanggal<br>pemesanan</th>
-                                    <th>Detail<br>Pemesanan</th>
+                                    <th>Kuantitas</th>
+                                    <th>Bahan</th>
+                                    <th>Warna</th>
                                     <th>Total<br>Pembayaran</th>
                                 </tr>
                                 <tr>
-                                    <td>15 Nov 2024</td>
-                                    <td>Sofa Minimalis Pendek</td>
-                                    <td>Rp 1.000.000</td>
+                                    <td>1</td>
+                                    <td><strong>Kerangka:</strong> Kayu<br>
+                                        <strong>Kain:</strong> Kapas</td>
+                                    <td><strong>Kerangka:</strong> Coklat<br>
+                                        <strong>Kain:</strong> Abu-Abu</td>
+                                    <td>Rp 750.000</td>
                                 </tr>
                             </table>
                         </fieldset>
-                    </div>-->
+                    </div>
                 </div>
             </div>
         </div>
+        <img src="../assets/cart.png" id="cart-btn">
     </body>
 </html>
