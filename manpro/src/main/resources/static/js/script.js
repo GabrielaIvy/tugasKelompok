@@ -19,4 +19,3 @@ kecamatan.addEventListener('change', function(){
             });
         });
 });
-
