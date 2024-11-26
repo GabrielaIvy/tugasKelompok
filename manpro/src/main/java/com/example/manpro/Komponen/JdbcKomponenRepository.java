@@ -17,10 +17,10 @@ public class JdbcKomponenRepository implements KomponenRepository{
     @Override
     public List<Komponen> findAll(){
         String sql = "SELECT * FROM Komponen";
-        return jdbcTemplate.query(sql, this::mapRowToUser);
+        return jdbcTemplate.query(sql, this::mapRowToKomponen);
     }
 
-    private Komponen mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException{
+    private Komponen mapRowToKomponen(ResultSet resultSet, int rowNum) throws SQLException{
         return new Komponen(
             resultSet.getInt("id"),
             resultSet.getString("nama"),

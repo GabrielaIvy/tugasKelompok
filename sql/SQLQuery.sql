@@ -1,5 +1,7 @@
-DROP VIEW IF EXISTS LaporanPenjualanFurnitur;
-DROP VIEW IF EXISTS LaporanPenjualanKomponen;
+DROP VIEW IF EXISTS LaporanPenjualanFinal;
+DROP VIEW IF EXISTS TotalPendapatan;
+DROP VIEW IF EXISTS HitungTotalHarga;
+DROP VIEW IF EXISTS LaporanPenjualan;
 DROP VIEW IF EXISTS KecamatanKelurahan;
 DROP TABLE IF EXISTS KomponenMaterialWarna;
 DROP TABLE IF EXISTS KomponenFurnitur;
@@ -136,7 +138,7 @@ CREATE TABLE PesanKomponen (
 );
 
 INSERT INTO PesanKomponen (idPesanan, idKomponen, jumlah) VALUES
-	(1, 1, 2), (3, 3, 1), (4, 6, 2);
+	(1, 1, 2), (3, 3, 1), (4, 6, 2), (2, 2, 2);
 
 CREATE TABLE PesanFurnitur (
     idPesanan INT NOT NULL,
@@ -146,7 +148,7 @@ CREATE TABLE PesanFurnitur (
 );
 
 INSERT INTO PesanFurnitur (idPesanan, idFurnitur, jumlah) VALUES
-	(2, 1, 2), (5, 3, 1), (6, 6, 2);
+	(2, 1, 2), (5, 3, 1), (3, 3, 2);
 
 CREATE TABLE KomponenFurnitur (
     idFurnitur INT NOT NULL,
@@ -167,18 +169,20 @@ CREATE TABLE KomponenMaterialWarna (
 );
 
 INSERT INTO KomponenMaterialWarna VALUES
-	(1, 1, 3), (2, 6, 4), (3, 7, 5);
+	(1, 1, 3), (2, 6, 4), (3, 7, 5), (7, 2, 2), (10, 5, 5);
 
-CREATE VIEW LaporanPenjualanFurnitur AS
+CREATE VIEW LaporanPenjualan AS
 SELECT 
+	p.idPesanan,
     p.tglPesanan,
+	f.id AS idFurnitur,
     f.nama AS namaFurnitur,
     c.nama AS namaKomponen,
     w.nama AS warna,
     m.nama AS material,
-    f.ukuran AS ukuranFurnitur,
-	pf.jumlah AS jumlahFurnitur,
-    f.harga AS hargaFurnitur
+    f.ukuran AS ukuran,
+	pf.jumlah AS jumlah,
+    f.harga AS harga
 FROM 
     Pesanan p
 JOIN 
@@ -194,18 +198,21 @@ LEFT JOIN
 LEFT JOIN 
     Warna w ON cmw.idWarna = w.id
 LEFT JOIN 
-    Material m ON cmw.idMaterial = m.id;
+    Material m ON cmw.idMaterial = m.id
 
+UNION ALL
 
-CREATE VIEW LaporanPenjualanKomponen AS
 SELECT 
+    p.idPesanan,
     p.tglPesanan,
+	-1 AS idFurnitur,
+	'-' AS namaFurnitur,
 	k.nama AS namaKomponen,
     w.nama AS warna,
     m.nama AS material,
-    k.ukuran AS ukuranKomponen,
-    pk.jumlah AS jumlahKomponen,
-    k.harga AS hargaKomponen
+    k.ukuran AS ukuran,
+    pk.jumlah AS jumlah,
+    k.harga AS harga
 FROM 
     Pesanan p
 JOIN 
@@ -219,7 +226,6 @@ LEFT JOIN
 LEFT JOIN 
     Material m ON cmw.idMaterial = m.id;
 
-
 CREATE VIEW KecamatanKelurahan AS
 SELECT 
     l.id,
@@ -230,3 +236,58 @@ FROM
     Kecamatan k
 JOIN 
     Kelurahan l ON k.id = l.idKecamatan;
+
+CREATE VIEW HitungTotalHarga AS
+SELECT 
+	idPesanan,
+	SUM(jumlah*harga) AS totalHarga
+FROM (
+	SELECT 
+	p.idPesanan,
+	pf.jumlah AS jumlah,
+    f.harga AS harga
+	FROM 
+	    Pesanan p
+	JOIN 
+	    PesanFurnitur pf ON p.idPesanan = pf.idPesanan
+	JOIN 
+	    Furnitur f ON pf.idFurnitur = f.id
+		
+	UNION ALL
+	
+	SELECT
+		p.idPesanan,
+	    pk.jumlah AS jumlah,
+	    k.harga AS harga
+	FROM 
+	    Pesanan p
+	JOIN 
+	    PesanKomponen pk ON p.idPesanan = pk.idPesanan
+	JOIN 
+	    Komponen k ON pk.idKomponen = k.id
+) AS Pesanan
+GROUP BY idPesanan;
+
+CREATE VIEW LaporanPenjualanFinal AS
+SELECT
+	lp.idPesanan,
+    lp.tglPesanan,
+	lp.idFurnitur,
+	lp.namaFurnitur,
+	lp.namaKomponen,
+    lp.warna,
+    lp.material,
+    lp.ukuran,
+    lp.jumlah,
+    lp.harga,
+	ht.totalHarga
+FROM
+	LaporanPenjualan lp
+LEFT JOIN
+	HitungTotalHarga ht ON lp.idPesanan = ht.idPesanan;
+
+CREATE VIEW TotalPendapatan AS
+SELECT
+	SUM(totalHarga)
+FROM HitungTotalHarga;
+
