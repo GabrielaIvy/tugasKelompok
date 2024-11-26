@@ -33,11 +33,11 @@ public class JdbcFurniturRepository implements FurniturRepository{
 
     public List<Furnitur> findByName(String keyword){
         String sql = "SELECT * FROM furnitur WHERE nama ILIKE ?";
-        return jdbcTemplate.query(sql, this::mapRowToUser, "%" + keyword + "%");
+        return jdbcTemplate.query(sql, this::mapRowToFurnitur, "%" + keyword + "%");
     }
 
     public void addFurnitur (String nama, String ukuran, double harga, String gambar){
-        String sql = "INSERT INTO furnitur (nama, ukuran, harga, gambar) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO furnitur (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
     }
 }

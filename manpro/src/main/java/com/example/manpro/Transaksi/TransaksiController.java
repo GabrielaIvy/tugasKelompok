@@ -19,5 +19,8 @@ public class TransaksiController {
     @Autowired
     private FurniturRepository repo;
 
-    
+    @GetMapping()
+    public String index() {
+        return "PemilikPage/transaksi";
+    }
 }
