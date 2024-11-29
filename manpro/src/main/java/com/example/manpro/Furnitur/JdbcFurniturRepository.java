@@ -33,6 +33,11 @@ public class JdbcFurniturRepository implements FurniturRepository{
         );
     }
 
+    public List<Furnitur> findByName(String keyword){
+        String sql = "SELECT * FROM furnitur WHERE nama ILIKE ?";
+        return jdbcTemplate.query(sql, this::mapRowToFurnitur, "%" + keyword + "%");
+    }
+
     @Override
     public String findTerlaris(){
         String sql = "SELECT * FROM FurniturTerlaris";

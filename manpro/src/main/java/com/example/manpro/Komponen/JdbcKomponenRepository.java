@@ -31,6 +31,11 @@ public class JdbcKomponenRepository implements KomponenRepository{
         );
     }
 
+    public List<Komponen> findByName(String keyword){
+        String sql = "SELECT * FROM komponen WHERE nama ILIKE ?";
+        return jdbcTemplate.query(sql, this::mapRowToKomponen, "%" + keyword + "%");
+    }
+
     @Override
     public String findTerlaris(){
         String sql = "SELECT * FROM KomponenTerlaris";
