@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/furniturKustom")
 public class HomeController {
     
     @Autowired

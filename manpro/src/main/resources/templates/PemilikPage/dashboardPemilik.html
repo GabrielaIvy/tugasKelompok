@@ -26,10 +26,10 @@
     <main>
         <h2>Ringkasan Dashboard</h2>
         <div>
-            <li>Total Penjualan: Rp10,000,000</li>
-            <li>Total Pesanan: 50</li>
-            <li>Furnitur Terlaris: Sofa</li>
-            <li>Komponen Terlaris: Handle Pintu</li>
+            <li th:text="'Total Penjualan: Rp' + ${penjualan}">Total Penjualan</li>
+            <li th:text="'Total Pesanan: ' + ${totalPesanan}">Total Pesanan</li>
+            <li th:text="'Furnitur Terlaris: ' + ${furniturTerlaris}">Furnitur Terlaris</li>
+            <li th:text="'Komponen Terlaris: ' + ${komponenTerlaris}">Komponen Terlaris</li>
         </div>
         <br>
         <h2>Aktivitas Terkini</h2>

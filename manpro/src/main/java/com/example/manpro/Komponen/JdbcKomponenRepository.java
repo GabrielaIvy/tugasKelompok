@@ -30,4 +30,16 @@ public class JdbcKomponenRepository implements KomponenRepository{
             resultSet.getString("gambar")
         );
     }
+
+    @Override
+    public String findTerlaris(){
+        String sql = "SELECT * FROM KomponenTerlaris";
+        return jdbcTemplate.queryForObject(sql, this::mapRow);
+    }
+
+    private String mapRow(ResultSet resultSet, int rowNum) throws SQLException{
+        String nama = resultSet.getString("nama");
+        Integer jumlah = resultSet.getInt("totalPesanan");
+        return nama + " --- " + jumlah + " pesanan";
+    }
 }

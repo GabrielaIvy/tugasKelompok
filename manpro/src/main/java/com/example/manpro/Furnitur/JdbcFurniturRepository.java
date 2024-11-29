@@ -3,6 +3,8 @@ package com.example.manpro.Furnitur;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,5 +31,17 @@ public class JdbcFurniturRepository implements FurniturRepository{
             resultSet.getDouble("harga"),
             resultSet.getString("gambar")
         );
+    }
+
+    @Override
+    public String findTerlaris(){
+        String sql = "SELECT * FROM FurniturTerlaris";
+        return jdbcTemplate.queryForObject(sql, this::mapRow);
+    }
+
+    private String mapRow(ResultSet resultSet, int rowNum) throws SQLException{
+        String nama = resultSet.getString("nama");
+        Integer jumlah = resultSet.getInt("totalPesanan");
+        return nama + " --- " + jumlah + " pesanan";
     }
 }

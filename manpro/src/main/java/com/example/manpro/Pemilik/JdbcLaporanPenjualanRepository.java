@@ -68,8 +68,14 @@ public class JdbcLaporanPenjualanRepository implements LaporanPenjualanRepositor
     }
 
     @Override
-    public double totalPendapatan(){
-        String sql = "SELECT * FROM TotalPendapatan";
+    public double totalPenjualan(){
+        String sql = "SELECT * FROM totalPenjualan";
         return jdbcTemplate.queryForObject(sql, Double.class);
+    }
+
+    @Override
+    public int totalPesanan(){
+        String sql = "SELECT * FROM totalPesanan";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 }

@@ -1,5 +1,8 @@
+DROP VIEW IF EXISTS TotalPesanan;
+DROP VIEW IF EXISTS KomponenTerlaris;
+DROP VIEW IF EXISTS FurniturTerlaris;
 DROP VIEW IF EXISTS LaporanPenjualanFinal;
-DROP VIEW IF EXISTS TotalPendapatan;
+DROP VIEW IF EXISTS TotalPenjualan;
 DROP VIEW IF EXISTS HitungTotalHarga;
 DROP VIEW IF EXISTS LaporanPenjualan;
 DROP VIEW IF EXISTS KecamatanKelurahan;
@@ -243,9 +246,9 @@ SELECT
 	SUM(jumlah*harga) AS totalHarga
 FROM (
 	SELECT 
-	p.idPesanan,
-	pf.jumlah AS jumlah,
-    f.harga AS harga
+		p.idPesanan,
+		pf.jumlah AS jumlah,
+	    f.harga AS harga
 	FROM 
 	    Pesanan p
 	JOIN 
@@ -286,8 +289,49 @@ FROM
 LEFT JOIN
 	HitungTotalHarga ht ON lp.idPesanan = ht.idPesanan;
 
-CREATE VIEW TotalPendapatan AS
+CREATE VIEW TotalPenjualan AS
 SELECT
 	SUM(totalHarga)
 FROM HitungTotalHarga;
 
+CREATE VIEW FurniturTerlaris AS
+SELECT 
+	f.nama, 
+	furniturTerlaris.totalPesanan
+FROM
+	Furnitur f
+JOIN(
+	SELECT 
+		idFurnitur, 
+		SUM(jumlah) as totalPesanan
+	FROM 
+		pesanFurnitur
+	GROUP BY idFurnitur
+	ORDER BY totalPesanan DESC
+	LIMIT 1
+) AS furniturTerlaris
+ON f.id = furniturTerlaris.idFurnitur;
+
+CREATE VIEW KomponenTerlaris AS
+SELECT 
+	k.nama, 
+	komponenTerlaris.totalPesanan
+FROM
+	Komponen k
+JOIN(
+	SELECT 
+		idKomponen, 
+		SUM(jumlah) as totalPesanan
+	FROM 
+		pesanKomponen
+	GROUP BY idKomponen
+	ORDER BY totalPesanan DESC
+	LIMIT 1
+) AS komponenTerlaris
+ON k.id = komponenTerlaris.idKomponen;
+
+CREATE VIEW TotalPesanan AS
+SELECT 
+	COUNT(idPesanan) AS totalPesanan
+FROM 
+	pesanan;
