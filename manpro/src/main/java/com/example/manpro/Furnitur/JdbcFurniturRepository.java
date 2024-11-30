@@ -40,4 +40,16 @@ public class JdbcFurniturRepository implements FurniturRepository{
         String sql = "INSERT INTO furnitur (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
     }
+
+    public Furnitur findByNameAndSize(String nama, String ukuran) {
+        String sql = "SELECT * FROM furnitur WHERE nama ILIKE ? AND ukuran ILIKE ?";
+        return jdbcTemplate.queryForObject(sql, this::mapRowToFurnitur, "%" + nama + "%", "%" + ukuran + "%");
+    }
+    
+
+    public void updateStock(String name, String size, int newStock) {
+        String sql = "UPDATE furnitur SET stok = ? WHERE nama = ? AND ukuran = ?";
+        jdbcTemplate.update(sql, newStock, name, size);
+    }
+    
 }
