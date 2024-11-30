@@ -45,7 +45,6 @@ public class JdbcFurniturRepository implements FurniturRepository{
         return jdbcTemplate.queryForObject(sql, this::mapRow);
     }
 
-    @Override
     private String mapRow(ResultSet resultSet, int rowNum) throws SQLException{
         String nama = resultSet.getString("nama");
         Integer jumlah = resultSet.getInt("totalPesanan");

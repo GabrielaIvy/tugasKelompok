@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cart</title>
+        <style>
+            .content{
+                display: flex;
+                align-items: center;
+                align-content: center;
+                flex-direction: column;
+            }
+            .pesanan {
+                display: flex;
+                flex-direction: row;
+            }
+            .info-pesanan {
+                margin: 10px;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border: 2px solid black;
+                width: 75%;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                margin: 10px;
+            }
+            .harga{
+                padding-left: 10px;
+                padding-right: 50px;
+            }
+            img {
+                padding-right: 10px;
+                height: 20%;
+                width: 20%;
+            }
+            .detail {
+                text-align: left;
+                width: 450px;
+            }
+            input[type="checkbox"] {
+                transform: scale(1.5);
+                align-self: center;
+                margin-left: 50px;
+                margin-right: 50px;
+            }
+            .buttons{
+                background-color: white;
+                color: #000; 
+                border: none;
+                border-radius: 15px;
+                padding: 10px 20px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            a{
+                text-decoration: none;
+            }
+            #total{
+                border-top: 2px solid black;
+                width: 75%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                color: black;
+                justify-content: space-between;
+            }
+            #total h2{
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+        </style>
+        <link rel="stylesheet" type="text/css" href="stylesHome.css">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <ul>
+                    <li><a href="#furnitur">Furnitur</a></li>
+                    <li><a href="#komponen">Komponen</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                    <li>History pesanan</li>
+                </ul>
+                <div class="action-buttons" th:if="${loggedIn}">
+                    <button><a>Profile</a></button>
+                    <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <h1>Shopping Cart</h1>
+            <div class="info-pesanan">
+                <input type="checkbox">
+                <img src="../assets/sofa.jpg">
+                <div class="detail">
+                    <!--nama barang-->
+                    <h2><strong>Sofa</strong></h2>
+                    <!--detail barang-->
+                    <span>
+                        Kerangka:<br>
+                        Bahan Kayu / Warna Coklat<br>
+                        Kain Pelapis:<br>
+                        Bahan Kapas / Warna Abu-abu<br>
+                        Qty: 1
+                    </span>
+                </div>
+                <!--harga Barang-->
+                <div class="harga">
+                    <h2>Rp 750.000</h2>
+                </div>
+            </div>
+
+            <div class="info-pesanan">
+                <input type="checkbox">
+                <img src="../assets/kaki meja.jpg">
+                <div class="detail">
+                    <!--nama barang-->
+                    <h2><strong>Kaki Meja</strong></h2>
+                    <!--detail barang-->
+                    <span>
+                        Tipe: Komponen<br>
+                        Bahan: Kayu<br>
+                        Warna: Coklat<br>
+                        Qty: 2
+                    </span>
+                </div>
+                <!--harga Barang-->
+                <div class="harga">
+                    <h2>Rp 600.000</h2>
+                </div>
+            </div>
+            <div id="total">
+                <h2>Total Pemesanan:</h2>
+                <h2 id="sum">Rp 1.750.000</h2>
+            </div>
+            <div class="buttons">
+                <button><a href="homePembeli.html">Cancel</a></button>
+                <button><a href="homePembeli.html">Confirm</a></button>
+            </div>
+        </div>  
+    </body>
+</html>
