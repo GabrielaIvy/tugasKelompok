@@ -49,6 +49,6 @@ public class FurniturController {
 
     @GetMapping("/addFurnitur")
     public String addFurniturForm() {
-        return "PemilikPage/addFurnitur"; // Pastikan ini sesuai dengan lokasi file template HTML
+        return "PemilikPage/addFurnitur";
     }
 }

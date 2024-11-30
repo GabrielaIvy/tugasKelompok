@@ -31,6 +31,7 @@ public class JdbcKomponenRepository implements KomponenRepository{
         );
     }
 
+    @Override
     public List<Komponen> findByName(String keyword){
         String sql = "SELECT * FROM komponen WHERE nama ILIKE ?";
         return jdbcTemplate.query(sql, this::mapRowToKomponen, "%" + keyword + "%");
@@ -48,17 +49,19 @@ public class JdbcKomponenRepository implements KomponenRepository{
         return nama + " --- " + jumlah + " pesanan";
     }
 
+    @Override
     public void addKomponen (String nama, String ukuran, double harga, String gambar){
         String sql = "INSERT INTO komponen (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
     }
 
+    @Override
     public Komponen findByNameAndSize(String nama, String ukuran) {
         String sql = "SELECT * FROM komponen WHERE nama ILIKE ? AND ukuran ILIKE ?";
         return jdbcTemplate.queryForObject(sql, this::mapRowToKomponen, "%" + nama + "%", "%" + ukuran + "%");
     }
-    
 
+    @Override
     public void updateStock(String name, String size, int newStock) {
         String sql = "UPDATE komponen SET stok = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, newStock, name, size);
