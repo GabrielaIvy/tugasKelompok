@@ -44,3 +44,33 @@ h1{
     bottom: 10px;
     right: 10px;
 }
+
+#add-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: black; 
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+#add-icon:hover {
+    background-color: rgb(49, 49, 49); 
+    transform: scale(1.1);
+}
+
+#add-icon:active {
+    background-color: #2e2e2e; 
+    transform: scale(0.95); 
+}
+
