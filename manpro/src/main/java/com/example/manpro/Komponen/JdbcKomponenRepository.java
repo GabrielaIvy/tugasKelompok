@@ -46,6 +46,7 @@ public class JdbcKomponenRepository implements KomponenRepository{
         String nama = resultSet.getString("nama");
         Integer jumlah = resultSet.getInt("totalPesanan");
         return nama + " --- " + jumlah + " pesanan";
+    }
 
     public void addKomponen (String nama, String ukuran, double harga, String gambar){
         String sql = "INSERT INTO komponen (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
