@@ -31,7 +31,7 @@ public class UserController {
             if(role.equals("PemilikToko")){
                 return "redirect:/dashboardPemilik";
             }else{
-                return "redirect:/dashboardPengguna";
+                return "redirect:/dashboardPelanggan";
             }
         }else{
             model.addAttribute("error", "Invalid username or password");
