@@ -19,32 +19,31 @@
             <button type="button" onclick="window.location.href='/home'">Log Out</button>
         </div>
     </header>
-
+    
     <div class="button-group">
         <form action="/transaksi" method="get">
-            <button>Furnitur</button>
-            <a th:href="@{/transaksiKomponen}"><button type="button">Komponen</button></a>
+            <a th:href="@{/transaksi}"><button type="button">Furnitur</button></a>
+            <button>Komponen</button>
         </form>
     </div>
-
-    <h1>List Furnitur</h1>
+    
+    <h1>List Komponen</h1>
     <div id="search-bar">
-        <form method="GET" th:action="@{/transaksi}">
+        <form method="GET" th:action="@{/transaksiKomponen}">
             <input type="text" placeholder="Cari komponen..." name="filter" th:value="${filter}">
             <input type="submit" value="SEARCH">
         </form>
     </div>
     <div class="item-list">
-        <!-- Example of dynamic list rendering with Thymeleaf -->
-        <div class="item" th:each="furnitur : ${furniturList}">
-            <img th:src="@{/images/{gambar}(gambar=${furnitur.gambar})}" alt="Furnitur">
+        <div class="item" th:each="komponen : ${komponenList}">
+            <img th:src="@{/images/{gambar}(gambar=${komponen.gambar})}" alt="Komponen">
             <div class="info">
-                <h3 th:text="${furnitur.nama}">Nama Furnitur</h3>
-                <p th:text="'Ukuran: ' + ${furnitur.ukuran}">Ukuran</p> 
-                <p th:text="'Stok: ' + ${furnitur.stok}">Stok</p>
+                <h3 th:text="${komponen.nama}">Nama Komponen</h3>
+                <p th:text="'Ukuran: ' + ${komponen.ukuran}">Ukuran</p> 
+                <p th:text="'Stok: ' + ${komponen.stok}">Stok</p>
             </div>
             <button class="btn-add" onclick="toggleForm(this)">+</button>
-            <form class="add-stock-form" action="/transaksi/addStockFurnitur" method="POST" style="display: none;">
+            <form class="add-stock-form" action="/transaksiKomponen/addStockKomponen" method="POST" style="display: none;">
                 <label>
                     Tanggal:
                     <input type="date" name="tanggal" required>
@@ -53,8 +52,8 @@
                     Jumlah:
                     <input type="number" name="jumlah" min="1" required>
                 </label>
-                <input type="hidden" name="ukuran" th:value="${furnitur.ukuran}">
-                <input type="hidden" name="namaBarang" th:value="${furnitur.nama}">
+                <input type="hidden" name="ukuran" th:value="${komponen.ukuran}">
+                <input type="hidden" name="namaBarang" th:value="${komponen.nama}">
                 <button type="submit">Tambah Stok</button>
             </form>
         </div>
@@ -66,15 +65,5 @@
             form.style.display = form.style.display === "none" ? "block" : "none";
         }
     </script>
-
-    <script>
-        function toggleForm(button) {
-            const form = button.nextElementSibling;
-            if (form.style.display === "none" || form.style.display === "") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
-        }
-    </script>
 </body>
+

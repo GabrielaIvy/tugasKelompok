@@ -4,6 +4,7 @@ DROP VIEW IF EXISTS HitungTotalHarga CASCADE;
 DROP VIEW IF EXISTS LaporanPenjualan CASCADE;
 DROP VIEW IF EXISTS KecamatanKelurahan CASCADE;
 
+DROP TABLE IF EXISTS Transaksi CASCADE;
 DROP TABLE IF EXISTS KomponenMaterialWarna CASCADE;
 DROP TABLE IF EXISTS KomponenFurnitur CASCADE;
 DROP TABLE IF EXISTS PesanFurnitur CASCADE;
@@ -179,7 +180,7 @@ CREATE TABLE Transaksi(
 	idKomponen int,
 	stok int,
 	tanggal date
-)
+);
 
 CREATE VIEW LaporanPenjualan AS
 SELECT 
@@ -300,4 +301,3 @@ CREATE VIEW TotalPendapatan AS
 SELECT
 	SUM(totalHarga)
 FROM HitungTotalHarga;
-
