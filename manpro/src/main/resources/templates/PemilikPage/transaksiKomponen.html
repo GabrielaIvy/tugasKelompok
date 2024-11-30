@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesTransaksi.css">
+
+<body>
+    <header>
+        <div class="header">
+            <ul>
+                <li><a th:href="@{/dashboardPemilik}">Home</a></li>
+                <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                <li><a th:href="@{/laporanPenjualan}">Laporan Penjualan</a></li>
+                <li><a th:href="@{/transaksi}">Transaksi</a></li>
+            </ul>
+            <button type="button" onclick="window.location.href='/furniturKustom'">Log Out</button>
+        </div>
+    </header>
+    
+    <div class="button-group">
+        <form action="/transaksi" method="get">
+            <a th:href="@{/transaksi}"><button type="button">Furnitur</button></a>
+            <button>Komponen</button>
+        </form>
+    </div>
+    
+    <h1>List Komponen</h1>
+    <div id="search-bar">
+        <form method="GET" th:action="@{/transaksiKomponen}">
+            <input type="text" placeholder="Cari komponen..." name="filter" th:value="${filter}">
+            <input type="submit" value="SEARCH">
+        </form>
+    </div>
+    <div class="item-list">
+        <div class="item" th:each="komponen : ${komponenList}">
+            <img th:src="@{/images/{gambar}(gambar=${komponen.gambar})}" alt="Komponen">
+            <div class="info">
+                <h3 th:text="${komponen.nama}">Nama Komponen</h3>
+                <p th:text="'Ukuran: ' + ${komponen.ukuran}">Ukuran</p> 
+                <p th:text="'Stok: ' + ${komponen.stok}">Stok</p>
+            </div>
+            <button class="btn-add" onclick="toggleForm(this)">+</button>
+            <form class="add-stock-form" action="/transaksiKomponen/addStockKomponen" method="POST" style="display: none;">
+                <label>
+                    Tanggal:
+                    <input type="date" name="tanggal" required>
+                </label>
+                <label>
+                    Jumlah:
+                    <input type="number" name="jumlah" min="1" required>
+                </label>
+                <input type="hidden" name="ukuran" th:value="${komponen.ukuran}">
+                <input type="hidden" name="namaBarang" th:value="${komponen.nama}">
+                <button type="submit">Tambah Stok</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleForm(button) {
+            const form = button.nextElementSibling;
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</body>
+

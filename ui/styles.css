@@ -1,13 +1,22 @@
+body, html {
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
 #register_form label{
+    padding-left: 10px;
+    padding-right: 10px;
     display: flex;
     align-items: center;
     text-align: left;
 }
 
 fieldset{
+    position: fixed;
     display: inline-block;
     text-align: center;
     background-color: white;
+    align-content: center;
 }
 
 .form_label{
@@ -39,16 +48,23 @@ h1{
 }
 
 body {
-    
-    font-family: Arial, sans-serif;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/Furnitur-Minimalis.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
-    margin: 10px;
-    padding: 5px;
+    align-items: center;
     justify-content: center;
-    align-self: center;
-    background-color: grey;
+    position: relative;
 }
 
 a{
     text-decoration: none;
+}
+
+.center_button{
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

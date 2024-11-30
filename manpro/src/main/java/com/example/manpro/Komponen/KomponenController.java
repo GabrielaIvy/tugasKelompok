@@ -18,7 +18,7 @@ public class KomponenController {
     private KomponenRepository repo;
 
     @GetMapping()
-    public String dataFurnitur(Model model, @RequestParam(value = "keyword", required = false) String filter){
+    public String dataFurnitur(Model model, @RequestParam(value = "filter", required = false) String filter){
         List<Komponen> komponen;
 
         if (filter != null && !filter.isEmpty()) {
@@ -32,4 +32,23 @@ public class KomponenController {
         return "PemilikPage/dataKomponen";
     }
 
+    @PostMapping("/addKomponen")
+    public String addKomponen(
+        @RequestParam("nama") String nama,
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("harga") double harga, 
+        @RequestParam("gambar") String gambar
+    ){
+        if (nama.isEmpty() || ukuran.isEmpty()|| harga < 0) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+
+        repo.addKomponen(nama, ukuran, harga, gambar);
+        return "redirect:/dataKomponen";
+    }
+
+    @GetMapping("/addKomponen")
+    public String addKomponenForm() {
+        return "PemilikPage/addKomponen";
+    }
 }

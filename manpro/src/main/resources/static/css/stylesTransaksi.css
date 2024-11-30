@@ -1,0 +1,214 @@
+.header {
+    background-color: #000;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header button {
+    background-color: white;
+    color: #000; 
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.header ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.header ul li {
+    display: inline;
+}
+
+.header ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.header ul li a:hover {
+    text-decoration: underline;
+}
+
+.header button a {
+    text-decoration: none;
+    color: #000;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #333;
+}
+
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.item {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.item .info {
+    margin-top: 10px;
+}
+
+.item h3 {
+    margin: 10px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.item p {
+    color: #555;
+    font-size: 14px;
+}
+
+.btn-add {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: rgb(43, 43, 43);
+    transform: scale(1.1);
+}
+
+.btn-add:active {
+    background-color: rgb(80, 79, 79);
+    transform: scale(0.95);
+}
+
+.add-stock-form {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.add-stock-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.add-stock-form input {
+    width: calc(100% - 10px);
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.add-stock-form button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.add-stock-form button:hover {
+    background-color: rgb(38, 37, 37);
+}
+
+.button-group {
+    text-align: left;
+    margin: 20px;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease;
+}
+
+.button-group button:hover {
+    background-color: rgb(43, 43, 43);
+}
+
+#search-bar {
+    display: flex;
+    gap: 10px; /* Jarak antara input dan tombol */
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0; /* Tambahkan padding kecil atas-bawah jika perlu */
+}
+
+#search-bar input[type="text"] {
+    width: 400px; /* Lebar input yang lebih besar */
+    height: 45px; /* Tinggi input */
+    padding: 10px; /* Jarak dalam */
+    font-size: 16px; /* Ukuran teks */
+    border: 1px solid #ddd; /* Border */
+    border-radius: 5px; /* Radius border */
+}
+
+#search-bar input[type="submit"] {
+    height: 45px; /* Tinggi tombol */
+    padding: 0 20px; /* Jarak dalam kiri-kanan */
+    font-size: 16px; /* Ukuran teks */
+    background-color: black; /* Warna background */
+    color: white; /* Warna teks */
+    border: none; /* Hilangkan border */
+    border-radius: 5px; /* Radius border */
+    cursor: pointer; /* Pointer pada hover */
+    transition: background-color 0.3s ease; /* Efek transisi */
+}
+
+#search-bar input[type="submit"]:hover {
+    background-color: rgb(43, 43, 43); /* Warna saat hover */
+}

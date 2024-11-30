@@ -14,19 +14,18 @@
                 <li><a th:href="@{/dashboardPemilik}">Home</a></li>
                 <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
                 <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
-                <li><a href="laporanPenjualan.html">Laporan Penjualan</a></li>
+                <li><a th:href="@{/laporanPenjualan}">Laporan Penjualan</a></li>
+                <li><a th:href="@{/transaksi}">Transaksi</a></li>
             </ul>
-            <button type="button" onclick="window.location.href='/home'">Log Out</button>
+            <button type="button" onclick="window.location.href='/furniturKustom'">Log Out</button>
         </div>
     </header>
 
     <h1>Data Furnitur</h1>
     <div id="search-bar">
-        <form th:action="@{/dataFurnitur}" method="GET">
-            <fieldset>
-                <input type="text" name="keyword" placeholder="Cari furnitur..." th:value="${filter}">
-                <input type="submit" value="SEARCH">
-            </fieldset>
+        <form method="GET" th:action="@{/dataFurnitur}">
+            <input type="text" placeholder="Cari furnitur..." name="filter" th:value="${filter}">
+            <input type="submit" value="SEARCH">
         </form>
     </div>
     <div id="item-list">
@@ -40,5 +39,8 @@
             <button class="btn-edit">Edit</button>
         </div>
     </div>
+    <form action="/dataFurnitur/addFurnitur" method="GET">
+        <a id="add-icon" href="/dataFurnitur/addFurnitur">+</a>
+    </form>
 </body>
 </html>

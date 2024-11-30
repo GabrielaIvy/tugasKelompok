@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/furniturKustom")
 public class UserController {
     
     @Autowired
@@ -31,7 +31,7 @@ public class UserController {
             if(role.equals("PemilikToko")){
                 return "redirect:/dashboardPemilik";
             }else{
-                return "redirect:/dashboardPengguna";
+                return "redirect:/dashboardPelanggan";
             }
         }else{
             model.addAttribute("error", "Invalid username or password");
@@ -52,7 +52,7 @@ public class UserController {
 
     @PostMapping("/register")
     public String handleRegister(){
-        return "redirect:/home";
+        return "redirect:/furniturKustom";
     }
 
     @GetMapping("/getKelurahanByKecamatan")

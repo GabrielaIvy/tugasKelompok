@@ -1,14 +1,14 @@
 const dataFurnitur = [
-    {id: 1, nama: "Sofa", harga: "xxx", stok: "x", image: "assets/sofa.jpg"},
-    {id: 2, nama: "Meja", harga: "xxx", stok: "x", image: "assets/meja makan.webp"},
-    {id: 3, nama: "Kursi", harga: "xxx", stok: "x", image: "assets/kursi.jpg"},
-    {id: 4, nama: "Furnitur", harga: "xxx", stok: "x", image: "assets/"},
-    {id: 5, nama: "Furnitur", harga: "xxx", stok: "x", image: "assets/"},
-    {id: 6, nama: "Furnitur", harga: "xxx", stok: "x", image: "assets/"},
-    {id: 7, nama: "Furnitur", harga: "xxx", stok: "x", image: "assets/"},
-    {id: 8, nama: "Furnitur", harga: "xxx", stok: "x", image: "assets/"},
-    {id: 9, nama: "Furnitur", harga: "xxx", stok: "x", image: "assets/"},
-    {id: 10, nama: "Furnitur", harga: "xxx", stok: "x", image: "assets/"}
+    {id: 1, nama: "Sofa", harga: 300000, stok: 12, image: "../assets/sofa.jpg"},
+    {id: 2, nama: "Meja", harga: 200000, stok: 14, image: "../assets/meja makan.webp"},
+    {id: 3, nama: "Kursi", harga: 150000, stok: 23, image: "../assets/kursi.jpg"},
+    {id: 4, nama: "Furnitur", harga: 0, stok: 0, image: "../assets/"},
+    {id: 5, nama: "Furnitur", harga: 0, stok: 0, image: "../assets/"},
+    {id: 6, nama: "Furnitur", harga: 0, stok: 0, image: "../assets/"},
+    {id: 7, nama: "Furnitur", harga: 0, stok: 0, image: "../assets/"},
+    {id: 8, nama: "Furnitur", harga: 0, stok: 0, image: "../assets/"},
+    {id: 9, nama: "Furnitur", harga: 0, stok: 0, image: "../assets/"},
+    {id: 10, nama: "Furnitur", harga: 0, stok: 0, image: "../assets/"}
 ];
 
 const listFurnitur = document.getElementById("item-list");
@@ -33,11 +33,11 @@ function editFurnitur(id){
     const furnitur = dataFurnitur.find(p => p.id === id); //cari produk
     if (furnitur) { //produk ditemukan
         //input stok, harga baru
-        const newStok = prompt(`Edit stok untuk ${furnitur.nama} (stok saat ini: ${furnitur.stok}):`, furnitur.stok);
+        const newStok = prompt(`Tambah stok untuk ${furnitur.nama} (stok saat ini: ${furnitur.stok}):`, furnitur.stok);
         const newHarga = prompt(`Edit harga untuk ${furnitur.nama} (harga saat ini: Rp${furnitur.harga}):`, furnitur.harga);
         
         //ganti stok, harga dengan nilai yang diinput
-        if (newStok !== null) furnitur.stok = parseInt(newStok);
+        if (newStok !== null) furnitur.stok += parseInt(newStok);
         if (newHarga !== null) furnitur.harga = parseInt(newHarga);
 
         // Refresh tampilan

@@ -17,10 +17,10 @@ public class JdbcKomponenRepository implements KomponenRepository{
     @Override
     public List<Komponen> findAll(){
         String sql = "SELECT * FROM Komponen";
-        return jdbcTemplate.query(sql, this::mapRowToUser);
+        return jdbcTemplate.query(sql, this::mapRowToKomponen);
     }
 
-    private Komponen mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException{
+    private Komponen mapRowToKomponen(ResultSet resultSet, int rowNum) throws SQLException{
         return new Komponen(
             resultSet.getInt("id"),
             resultSet.getString("nama"),
@@ -31,8 +31,39 @@ public class JdbcKomponenRepository implements KomponenRepository{
         );
     }
 
-    public List<Komponen> findByName(String keyword) {
+    @Override
+    public List<Komponen> findByName(String keyword){
         String sql = "SELECT * FROM komponen WHERE nama ILIKE ?";
-        return jdbcTemplate.query(sql, this::mapRowToUser, "%" + keyword + "%");
+        return jdbcTemplate.query(sql, this::mapRowToKomponen, "%" + keyword + "%");
+    }
+
+    @Override
+    public String findTerlaris(){
+        String sql = "SELECT * FROM KomponenTerlaris";
+        return jdbcTemplate.queryForObject(sql, this::mapRow);
+    }
+
+    private String mapRow(ResultSet resultSet, int rowNum) throws SQLException{
+        String nama = resultSet.getString("nama");
+        Integer jumlah = resultSet.getInt("totalPesanan");
+        return nama + " --- " + jumlah + " pesanan";
+    }
+
+    @Override
+    public void addKomponen (String nama, String ukuran, double harga, String gambar){
+        String sql = "INSERT INTO komponen (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
+        jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
+    }
+
+    @Override
+    public Komponen findByNameAndSize(String nama, String ukuran) {
+        String sql = "SELECT * FROM komponen WHERE nama ILIKE ? AND ukuran ILIKE ?";
+        return jdbcTemplate.queryForObject(sql, this::mapRowToKomponen, "%" + nama + "%", "%" + ukuran + "%");
+    }
+
+    @Override
+    public void updateStock(String name, String size, int newStock) {
+        String sql = "UPDATE komponen SET stok = ? WHERE nama = ? AND ukuran = ?";
+        jdbcTemplate.update(sql, newStock, name, size);
     }
 }
