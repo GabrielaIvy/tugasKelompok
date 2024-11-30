@@ -27,15 +27,22 @@ public class JdbcUserRepository implements UserRepository{
 
     private User mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException{
         return new User(
-            resultSet.getInt("id"),
             resultSet.getString("nama"),
             resultSet.getString("username"),
             resultSet.getString("passwords"),
             resultSet.getString("roles"),
             resultSet.getString("alamat"),
             resultSet.getString("noHP"),
-            resultSet.getString("email")
+            resultSet.getString("email"),
+            resultSet.getInt("idKelurahan")
         );
+    }
+
+    @Override
+    public boolean register(User u){
+        String sql = "INSERT INTO Pengguna (nama, username, passwords, roles, alamat, noHP, email, idKelurahan) VALUES (?,?,?,?,?,?,?,?)";
+        int rowsEffected = jdbcTemplate.update(sql, u.getNama(), u.getUsername(), u.getPasswords(), u.getRoles(), u.getAlamat(), u.getNoHP(), u.getEmail(), u.getIdKelurahan());
+        return rowsEffected > 0;
     }
 
     @Override

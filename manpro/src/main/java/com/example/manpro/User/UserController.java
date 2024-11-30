@@ -51,8 +51,18 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(){
-        return "redirect:/furniturKustom";
+    public String handleRegister(@RequestParam("nama") String nama, @RequestParam("username") String username,
+    @RequestParam("passwords") String passwords, @RequestParam("alamat") String alamat, @RequestParam("noHP") String noHP,
+    @RequestParam("email") String email, @RequestParam("idKelurahan") Integer idKelurahan, Model model){
+        String role = "Pelanggan";
+        User user = new User(nama, username, passwords, role, alamat, noHP, email, idKelurahan);
+        boolean success = this.repo.register(user);
+        if(success){
+            return "redirect:/dashboardPelanggan";
+        }else{
+            model.addAttribute("error", "Registrasi gagal");
+            return "redirect:/furniturKustom";
+        }
     }
 
     @GetMapping("/getKelurahanByKecamatan")

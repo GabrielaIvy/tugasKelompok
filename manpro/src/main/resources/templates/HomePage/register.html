@@ -17,8 +17,20 @@
                     <input class="form_control" type="text" name="nama" required>
                 </label>
                 <label>
+                    <span class="form_label">Username:</span>
+                    <input class="form_control" type="text" name="username" required>
+                </label>
+                <label>
+                    <span class="form_label">Email:</span>
+                    <input class="form_control" type="text" name="email" required>
+                </label>
+                <label>
+                    <span class="form_label">Nomor HP:</span>
+                    <input class="form_control" type="text" name="noHP" required>
+                </label>
+                <label>
                     <span class="form_label">Kecamatan:</span>
-                    <select class="form_control" name="kecamatan" id="kecamatan">
+                    <select class="form_control" name="kecamatan">
                         <option value="" disabled selected>Pilih kecamatan</option>
                         <th:block th:each="kec : ${kecamatan}">
                             <option th:value="${kec.id}" th:text="${kec.nama}"></option>
@@ -27,7 +39,7 @@
                 </label>
                 <label>
                     <span class="form_label">Kelurahan:</span>
-                    <select class="form_control" name="kelurahan" id="kelurahan">
+                    <select class="form_control" name="idKelurahan">
                         <option value="" disabled selected>Pilih kelurahan</option>
                         <th:block th:each="kel : ${kelurahan}">
                             <option th:value="${kel.id}" th:text="${kel.nama}"></option>
@@ -39,12 +51,8 @@
                     <input class="form_control" type="text" name="alamat" required>
                 </label>
                 <label>
-                    <span class="form_label">Username:</span>
-                    <input class="form_control" type="text" name="username" required>
-                </label>
-                <label>
                     <span class="form_label">Password:</span>
-                    <input class="form_control" type="password" name="password1" minlength="8" required>
+                    <input class="form_control" type="password" name="passwords" minlength="8" required>
                 </label>
                 <label>
                     <span class="form_label">Confirm Password:</span>
@@ -54,6 +62,7 @@
                     <button type="button" onclick="window.location.href='/furniturKustom/login'">CANCEL</button>
                     <button type="submit">REGISTER</button>
                 </div>
+                <div th:if="${error}" th:text="${error}" style="color: red; text-align: center;"></div>
             </div>
         </form>
     </fieldset>
