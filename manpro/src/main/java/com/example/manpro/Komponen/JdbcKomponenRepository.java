@@ -46,5 +46,20 @@ public class JdbcKomponenRepository implements KomponenRepository{
         String nama = resultSet.getString("nama");
         Integer jumlah = resultSet.getInt("totalPesanan");
         return nama + " --- " + jumlah + " pesanan";
+
+    public void addKomponen (String nama, String ukuran, double harga, String gambar){
+        String sql = "INSERT INTO komponen (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
+        jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
+    }
+
+    public Komponen findByNameAndSize(String nama, String ukuran) {
+        String sql = "SELECT * FROM komponen WHERE nama ILIKE ? AND ukuran ILIKE ?";
+        return jdbcTemplate.queryForObject(sql, this::mapRowToKomponen, "%" + nama + "%", "%" + ukuran + "%");
+    }
+    
+
+    public void updateStock(String name, String size, int newStock) {
+        String sql = "UPDATE komponen SET stok = ? WHERE nama = ? AND ukuran = ?";
+        jdbcTemplate.update(sql, newStock, name, size);
     }
 }

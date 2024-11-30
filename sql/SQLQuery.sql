@@ -19,6 +19,7 @@ DROP TABLE IF EXISTS Pengguna;
 DROP TABLE IF EXISTS Kelurahan;
 DROP TABLE IF EXISTS Kecamatan;
 
+
 CREATE TABLE Kecamatan (
     id SERIAL PRIMARY KEY,
     nama VARCHAR(50)
@@ -173,6 +174,14 @@ CREATE TABLE KomponenMaterialWarna (
 
 INSERT INTO KomponenMaterialWarna VALUES
 	(1, 1, 3), (2, 6, 4), (3, 7, 5), (7, 2, 2), (10, 5, 5);
+
+CREATE TABLE Transaksi(
+	id SERIAL PRIMARY KEY,
+	idFurnitur int,
+	idKomponen int,
+	stok int,
+	tanggal date
+);
 
 CREATE VIEW LaporanPenjualan AS
 SELECT 
