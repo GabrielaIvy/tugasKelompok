@@ -52,13 +52,13 @@ CREATE TABLE Pengguna (
 );
 
 INSERT INTO Pengguna (nama,username,passwords,roles,alamat,noHP,email,idKelurahan)VALUES
-	('kapi', 'kapikapi', '98765', 'PemilikToko', 'jl suka no 8', '087654451234', 'kapi@gmail.com', 1),
-	('dodo', 'do123', '12345', 'Pelanggan', 'jl damai no 9', '087755221010', 'dodo@gmail.com', 2),
-	('wombat', 'wom123', '56789', 'Pelanggan', 'jl bahagia no 119', '081122334451', 'wombat@gmail.com', 5),
-	('kapi', 'kapi123', '23456', 'Pelanggan', 'jl suka no 8', '087654451234', 'kapi@gmail.com', 1),
-	('dudu', 'du123', '67890', 'Pelanggan', 'jl duka no 1', '087766557788', 'dudu@gmail.com',13),
-	('wombi', 'bi123', '45678', 'Pelanggan', 'jl singa no 90', '08811223344', 'wombi@gmail.com', 10),
-	('didi', 'di987', '99880', 'Pelanggan', 'jl pribadi no 7', '088777788881', 'didi@gmailo.com', 8);
+	('Kapi', 'kapikapi', '98765', 'PemilikToko', 'jl suka no 8', '087654451234', 'kapi@gmail.com', 1),
+	('Dodo', 'do123', '12345', 'Pelanggan', 'jl damai no 9', '087755221010', 'dodo@gmail.com', 2),
+	('Wombat', 'wom123', '56789', 'Pelanggan', 'jl bahagia no 119', '081122334451', 'wombat@gmail.com', 5),
+	('Kapi', 'kapi123', '23456', 'Pelanggan', 'jl suka no 8', '087654451234', 'kapi@gmail.com', 1),
+	('Dudu', 'du123', '67890', 'Pelanggan', 'jl duka no 1', '087766557788', 'dudu@gmail.com',13),
+	('Wombi', 'bi123', '45678', 'Pelanggan', 'jl singa no 90', '08811223344', 'wombi@gmail.com', 10),
+	('Didi', 'di987', '99880', 'Pelanggan', 'jl pribadi no 7', '088777788881', 'didi@gmailo.com', 8);
 	
 CREATE TABLE Warna (
     id SERIAL PRIMARY KEY,
@@ -66,7 +66,7 @@ CREATE TABLE Warna (
 );
 
 INSERT INTO Warna (nama) VALUES
-	('hitam'), ('putih'), ('cokelat tua'), ('cokelat muda'), ('silver'), ('hijau');
+	('Hitam'), ('Putih'), ('Cokelat Tua'), ('Cokelat Muda'), ('Silver'), ('Hijau');
 
 CREATE TABLE Material (
     id SERIAL PRIMARY KEY,
@@ -74,8 +74,8 @@ CREATE TABLE Material (
 );
 
 INSERT INTO Material (nama) VALUES
-	('kayu solid'), ('rotan'), ('plastik'),
-	('kulit'), ('kayu olahan'), ('stainless steel');
+	('Kayu Solid'), ('Rotan'), ('Plastik'),
+	('Kulit'), ('Kayu Olahan'), ('Stainless Steel');
 
 CREATE TABLE Komponen (
     id SERIAL PRIMARY KEY,
@@ -87,21 +87,21 @@ CREATE TABLE Komponen (
 );
 
 INSERT INTO Komponen (nama, ukuran, stok, harga, gambar) VALUES
-	('handle pintu', 'Small (10 cm)', 5, 20000, 'handle pintu.webp'),
-	('handle pintu', 'Medium (15 cm)', 7, 25000, 'handle pintu.webp'),
-	('handle pintu', 'Large (20 cm)', 3, 30000, 'handle pintu.webp'),
-	('engsel', 'Small (10 cm)', 8, 15000, 'engsel.jpg'),
-	('engsel', 'Medium (15 cm)', 8, 25000, 'engsel.jpg'),
-	('engsel', 'Large (20 cm)', 8, 35000, 'engsel.jpg'),
-	('kaki kursi', 'Small (60 cm)', 2, 40000, ''),
-	('kaki kursi', 'Medium (70 cm)', 3, 60000, ''),
-	('kaki kursi', 'Larga (80 cm)', 2, 80000, ''),
-	('sandaran kursi', 'Small (50 cm)', 2, 30000, ''),
-	('sandaran kursi', 'Medium (60 cm)', 2, 40000, ''),
-	('sandaran kursi', 'Large (70 cm)', 2, 50000, ''),
-	('kain pelapis', 'Small (50 cm)', 2, 20000, ''),
-	('kain pelapis', 'Medium (60 cm)', 2, 30000, ''),
-	('kain pelapis', 'Large (70 cm)', 2, 40000, '');
+	('Handle Pintu', 'Small (10 cm)', 5, 20000, 'handle pintu.webp'),
+	('Handle Pintu', 'Medium (15 cm)', 7, 25000, 'handle pintu.webp'),
+	('Handle Pintu', 'Large (20 cm)', 3, 30000, 'handle pintu.webp'),
+	('Engsel', 'Small (10 cm)', 8, 15000, 'engsel.jpg'),
+	('Engsel', 'Medium (15 cm)', 8, 25000, 'engsel.jpg'),
+	('Engsel', 'Large (20 cm)', 8, 35000, 'engsel.jpg'),
+	('Kaki Kursi', 'Small (60 cm)', 2, 40000, 'kaki kursi.jpg'),
+	('Kaki Kursi', 'Medium (70 cm)', 3, 60000, 'kaki kursi.jpg'),
+	('Kaki Kursi', 'Larga (80 cm)', 2, 80000, 'kaki kursi.jpg'),
+	('Sandaran Kursi', 'Small (50 cm)', 2, 30000, 'sandaran kursi.avif'),
+	('Sandaran Kursi', 'Medium (60 cm)', 2, 40000, 'sandaran kursi.avif'),
+	('Sandaran Kursi', 'Large (70 cm)', 2, 50000, 'sandaran kursi.avif'),
+	('Kain Pelapis', 'Small (50 cm)', 2, 20000, 'kain pelapis.webp'),
+	('Kain Pelapis', 'Medium (60 cm)', 2, 30000, 'kain pelapis.webp'),
+	('Kain Pelapis', 'Large (70 cm)', 2, 40000, 'kain pelapis.webp');
 	
 CREATE TABLE Furnitur (
     id SERIAL PRIMARY KEY,
@@ -113,12 +113,12 @@ CREATE TABLE Furnitur (
 );
 
 INSERT INTO Furnitur (nama, ukuran, stok, harga, gambar) VALUES
-	('kursi', 'Small (50cm x 60cm)', 4, 100000, 'kursi.jpg'),
-	('kursi', 'Medium (60cm x 70cm)', 2, 150000, 'kursi.jpg'),
-	('kursi', 'Large (70cm x 80cm)', 3, 180000, 'kursi.jpg'),
-	('meja makan', 'Small (120cm x 80cm)', 6, 700000, 'meja makan.webp'),
-	('meja makan', 'Medium (150cm x 90cm)', 2, 90000, 'meja makan.webp'),
-	('meja makan', 'Large (180cm x 100cm)', 9, 120000, 'meja makan.webp');
+	('Kursi', 'Small (50cm x 60cm)', 4, 100000, 'kursi.jpg'),
+	('Kursi', 'Medium (60cm x 70cm)', 2, 150000, 'kursi.jpg'),
+	('Kursi', 'Large (70cm x 80cm)', 3, 180000, 'kursi.jpg'),
+	('Meja Makan', 'Small (120cm x 80cm)', 6, 700000, 'meja makan.webp'),
+	('Meja Makan', 'Medium (150cm x 90cm)', 2, 90000, 'meja makan.webp'),
+	('Meja Makan', 'Large (180cm x 100cm)', 9, 120000, 'meja makan.webp');
 
 CREATE TABLE Pesanan (
     idPesanan SERIAL PRIMARY KEY,

@@ -33,6 +33,7 @@ public class JdbcFurniturRepository implements FurniturRepository{
         );
     }
 
+    @Override
     public List<Furnitur> findByName(String keyword){
         String sql = "SELECT * FROM furnitur WHERE nama ILIKE ?";
         return jdbcTemplate.query(sql, this::mapRowToFurnitur, "%" + keyword + "%");
@@ -44,26 +45,28 @@ public class JdbcFurniturRepository implements FurniturRepository{
         return jdbcTemplate.queryForObject(sql, this::mapRow);
     }
 
+    @Override
     private String mapRow(ResultSet resultSet, int rowNum) throws SQLException{
         String nama = resultSet.getString("nama");
         Integer jumlah = resultSet.getInt("totalPesanan");
         return nama + " --- " + jumlah + " pesanan";
     }
 
+    @Override
     public void addFurnitur (String nama, String ukuran, double harga, String gambar){
         String sql = "INSERT INTO furnitur (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
     }
 
+    @Override
     public Furnitur findByNameAndSize(String nama, String ukuran) {
         String sql = "SELECT * FROM furnitur WHERE nama ILIKE ? AND ukuran ILIKE ?";
         return jdbcTemplate.queryForObject(sql, this::mapRowToFurnitur, "%" + nama + "%", "%" + ukuran + "%");
     }
-    
 
+    @Override
     public void updateStock(String name, String size, int newStock) {
         String sql = "UPDATE furnitur SET stok = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, newStock, name, size);
     }
-    
 }

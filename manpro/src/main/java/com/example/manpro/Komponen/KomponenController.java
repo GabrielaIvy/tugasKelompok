@@ -49,7 +49,6 @@ public class KomponenController {
 
     @GetMapping("/addKomponen")
     public String addKomponenForm() {
-        return "PemilikPage/addKomponen"; // Pastikan ini sesuai dengan lokasi file template HTML
+        return "PemilikPage/addKomponen";
     }
-
 }
