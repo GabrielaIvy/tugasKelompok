@@ -18,7 +18,7 @@ public class LaporanPenjualanController {
     private LaporanPenjualanRepository laporanRepo;
 
     @GetMapping()
-    public String dataFurnitur(Model model){
+    public String laporanPenjualan(Model model){
         List<LaporanPenjualan> laporanPenjualan = this.laporanRepo.findAll();
         double penjualan = this.laporanRepo.totalPenjualan();
 

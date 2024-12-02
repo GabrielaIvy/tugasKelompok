@@ -1,4 +1,4 @@
-package com.example.manpro.Pemilik;
+package com.example.manpro.Komponen;
 
 import lombok.Data;
 

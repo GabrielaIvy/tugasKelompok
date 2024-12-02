@@ -1,11 +1,12 @@
 DROP VIEW IF EXISTS TotalPesanan;
 DROP VIEW IF EXISTS KomponenTerlaris;
 DROP VIEW IF EXISTS FurniturTerlaris;
-DROP VIEW IF EXISTS LaporanPenjualanFinal;
+DROP VIEW IF EXISTS DetailPesananFinal;
 DROP VIEW IF EXISTS TotalPenjualan;
 DROP VIEW IF EXISTS HitungTotalHarga;
-DROP VIEW IF EXISTS LaporanPenjualan;
+DROP VIEW IF EXISTS DetailPesanan;
 DROP VIEW IF EXISTS KecamatanKelurahan;
+DROP TABLE IF EXISTS Transaksi;
 DROP TABLE IF EXISTS KomponenMaterialWarna;
 DROP TABLE IF EXISTS KomponenFurnitur;
 DROP TABLE IF EXISTS PesanFurnitur;
@@ -183,8 +184,9 @@ CREATE TABLE Transaksi(
 	tanggal date
 );
 
-CREATE VIEW LaporanPenjualan AS
+CREATE VIEW DetailPesanan AS
 SELECT 
+	u.id,
 	p.idPesanan,
     p.tglPesanan,
 	f.id AS idFurnitur,
@@ -196,7 +198,9 @@ SELECT
 	pf.jumlah AS jumlah,
     f.harga AS harga
 FROM 
-    Pesanan p
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
 JOIN 
     PesanFurnitur pf ON p.idPesanan = pf.idPesanan
 JOIN 
@@ -215,6 +219,7 @@ LEFT JOIN
 UNION ALL
 
 SELECT 
+	u.id,
     p.idPesanan,
     p.tglPesanan,
 	-1 AS idFurnitur,
@@ -226,7 +231,9 @@ SELECT
     pk.jumlah AS jumlah,
     k.harga AS harga
 FROM 
-    Pesanan p
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
 JOIN 
     PesanKomponen pk ON p.idPesanan = pk.idPesanan
 JOIN 
@@ -243,7 +250,6 @@ SELECT
     l.id,
     l.nama AS nama,
 	l.idKecamatan AS idKecamatan
-	
 FROM 
     Kecamatan k
 JOIN 
@@ -280,23 +286,24 @@ FROM (
 ) AS Pesanan
 GROUP BY idPesanan;
 
-CREATE VIEW LaporanPenjualanFinal AS
+CREATE VIEW DetailPesananFinal AS
 SELECT
-	lp.idPesanan,
-    lp.tglPesanan,
-	lp.idFurnitur,
-	lp.namaFurnitur,
-	lp.namaKomponen,
-    lp.warna,
-    lp.material,
-    lp.ukuran,
-    lp.jumlah,
-    lp.harga,
+	p.id AS idPelanggan,
+	p.idPesanan,
+    p.tglPesanan,
+	p.idFurnitur,
+	p.namaFurnitur,
+	p.namaKomponen,
+    p.warna,
+    p.material,
+    p.ukuran,
+    p.jumlah,
+    p.harga,
 	ht.totalHarga
 FROM
-	LaporanPenjualan lp
+	DetailPesanan p
 LEFT JOIN
-	HitungTotalHarga ht ON lp.idPesanan = ht.idPesanan;
+	HitungTotalHarga ht ON p.idPesanan = ht.idPesanan;
 
 CREATE VIEW TotalPenjualan AS
 SELECT

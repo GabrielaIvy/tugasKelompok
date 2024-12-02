@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,18 +16,19 @@ public class JdbcUserRepository implements UserRepository{
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public boolean authenticateUser(String username, String passwords){
+    public User authenticateUser(String username, String passwords){
         String sql = "SELECT * FROM pengguna WHERE username=? AND passwords=?";
         List<User> user = jdbcTemplate.query(sql, new Object[]{username, passwords}, this::mapRowToUser);
         if(user == null || user.isEmpty()){
-            return false;
+            return null;
         }else{
-            return true;
+            return user.get(0);
         }
     }
 
     private User mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException{
         return new User(
+            resultSet.getInt("id"),
             resultSet.getString("nama"),
             resultSet.getString("username"),
             resultSet.getString("passwords"),
@@ -43,12 +45,6 @@ public class JdbcUserRepository implements UserRepository{
         String sql = "INSERT INTO Pengguna (nama, username, passwords, roles, alamat, noHP, email, idKelurahan) VALUES (?,?,?,?,?,?,?,?)";
         int rowsEffected = jdbcTemplate.update(sql, u.getNama(), u.getUsername(), u.getPasswords(), u.getRoles(), u.getAlamat(), u.getNoHP(), u.getEmail(), u.getIdKelurahan());
         return rowsEffected > 0;
-    }
-
-    @Override
-    public String getUserRole(String username){
-        String sql = "SELECT roles FROM pengguna WHERE username=?";
-        return jdbcTemplate.queryForObject(sql, String.class, username);
     }
 
     @Override

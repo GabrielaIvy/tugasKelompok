@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Laporan Penjualan</title>
+        <title>Histori Pesanan</title>
         <style>
             table{
                 text-align: left;
@@ -63,17 +63,19 @@
         <header>
             <div class="header">
                 <ul>
-                    <li><a th:href="@{/dashboardPemilik}">Home</a></li>
-                    <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
-                    <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
-                    <li><a th:href="@{/laporanPenjualan}">Laporan Penjualan</a></li>
-                    <li><a th:href="@{/transaksi}">Transaksi</a></li>
+                    <li><a href="#furnitur">Furnitur</a></li>
+                    <li><a href="#komponen">Komponen</a></li>
+                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
                 </ul>
-                <button type="button" onclick="window.location.href='/furniturKustom'">Log Out</button>
+                <div class="action-buttons">
+                    <button><a th:href="@{/profile}">Profile</a></button>
+                    <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+                </div>
             </div>
         </header>
         
-        <h1>Laporan Penjualan</h1>
+        <h1>Histori Pesanan</h1>
 
         <div class="filter"> <!--filter tanggal-->
             <span>from</span>
@@ -96,7 +98,7 @@
                     <th>Harga</th>
                     <th>Total</th>
                 </tr>
-                <tr th:each="pesanan : ${laporanPenjualan}">
+                <tr th:each="pesanan : ${historiPesanan}">
                     <td th:text="${pesanan.idPesanan}"></td>
                     <td th:text="${pesanan.tglPesanan}"></td>
                     <td>
@@ -143,12 +145,6 @@
                     </td>
                 </tr>
             </table>
-        </div>
-
-        <hr>
-        <div class="content" id="total">
-            <h2>Total Penjualan:</h2>
-            <h2  id="totalPenjualan" th:text="'Rp' + ${penjualan}"></h2>
         </div>
     </body>
 </html>

@@ -10,13 +10,13 @@
     <body>
         <header>
             <div class="header">
-                <ul>
+                <<ul>
                     <li><a href="#furnitur">Furnitur</a></li>
                     <li><a href="#komponen">Komponen</a></li>
                     <li><a href="#kontak">Kontak</a></li>
-                    <li><a th:href="@{/hitoryPesanan}">Histori pesanan</a></li>
+                    <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
                 </ul>
-                <div class="action-buttons" th:if="${loggedIn}">
+                <div class="action-buttons">
                     <button><a th:href="@{/profile}">Profile</a></button>
                     <button onclick="window.location.href='/furniturKustom'">Log Out</button>
                 </div>

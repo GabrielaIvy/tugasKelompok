@@ -1,4 +1,4 @@
-package com.example.manpro.Pemilik;
+package com.example.manpro.HistoriPesanan;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,34 +14,33 @@ import org.springframework.stereotype.Repository;
 import com.example.manpro.Furnitur.DetailFurnitur;
 import com.example.manpro.Komponen.DetailKomponen;
 
-
 @Repository
-public class JdbcLaporanPenjualanRepository implements LaporanPenjualanRepository{
-
+public class JdbcHistoriPesananRepository implements HistoriPesananRepository{
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<LaporanPenjualan> findAll(){
-        String sql = "SELECT idPesanan, tglPesanan, idFurnitur, namaFurnitur, namaKomponen, warna, material, ukuran, jumlah, harga, totalHarga FROM DetailPesananFinal";
-        Map<Integer, LaporanPenjualan> laporanMap = new HashMap<>(); //key = idPesanan, value = pesanan
+    public List<HistoriPesanan> findAll(Integer idPelanggan){
+        String sql = "SELECT idPesanan, tglPesanan, idFurnitur, namaFurnitur, namaKomponen, warna, material, ukuran, jumlah, harga, totalHarga FROM DetailPesananFinal WHERE idPelanggan=?";
+        Map<Integer, HistoriPesanan> historiMap = new HashMap<>(); //key = idPesanan, value = pesanan
 
-        jdbcTemplate.query(sql, (resultSet) -> {
+        jdbcTemplate.query(sql, new Object[]{idPelanggan}, (resultSet) -> {
             Integer idPesanan = resultSet.getInt("idPesanan");
             Integer idFurnitur = resultSet.getInt("idFurnitur");
 
             //buat pesanan baru jika idPesanannya belum ada
-            laporanMap.putIfAbsent(idPesanan, new LaporanPenjualan(
+            historiMap.putIfAbsent(idPesanan, new HistoriPesanan(
                 idPesanan,
                 resultSet.getString("tglPesanan"),
                 new ArrayList<DetailFurnitur>(), //list furnitur
                 resultSet.getDouble("totalHarga")
             ));
 
-            LaporanPenjualan laporan = laporanMap.get(idPesanan);
+            HistoriPesanan histori = historiMap.get(idPesanan);
             
             //cek apakah furnitur sudah ada dalam daftar pesanan
-            DetailFurnitur furnitur = laporan.getListFurnitur().stream().filter(f -> f.getIdFurnitur() == idFurnitur).findFirst().orElse(null);
+            DetailFurnitur furnitur = histori.getListFurnitur().stream().filter(f -> f.getIdFurnitur() == idFurnitur).findFirst().orElse(null);
 
             if(furnitur == null || idFurnitur == -1){ //furnitur belum ada
                 furnitur = new DetailFurnitur(
@@ -52,7 +51,7 @@ public class JdbcLaporanPenjualanRepository implements LaporanPenjualanRepositor
                     resultSet.getInt("jumlah"),
                     resultSet.getDouble("harga")
                 );
-                laporan.getListFurnitur().add(furnitur);
+                histori.getListFurnitur().add(furnitur);
             }
 
             //tambah detail komponen
@@ -67,18 +66,6 @@ public class JdbcLaporanPenjualanRepository implements LaporanPenjualanRepositor
             }
         });
 
-        return new ArrayList<>(laporanMap.values());
-    }
-
-    @Override
-    public double totalPenjualan(){
-        String sql = "SELECT * FROM totalPenjualan";
-        return jdbcTemplate.queryForObject(sql, Double.class);
-    }
-
-    @Override
-    public int totalPesanan(){
-        String sql = "SELECT * FROM totalPesanan";
-        return jdbcTemplate.queryForObject(sql, Integer.class);
+        return new ArrayList<>(historiMap.values());
     }
 }
