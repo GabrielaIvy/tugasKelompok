@@ -66,4 +66,27 @@ public class JdbcKomponenRepository implements KomponenRepository{
         String sql = "UPDATE komponen SET stok = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, newStock, name, size);
     }
+
+    @Override
+    public Komponen findById(Integer id){
+        String sql = "SELECT * FROM komponen WHERE id=?";
+        List<Komponen> komponen = jdbcTemplate.query(sql, new Object[]{id}, this::mapRowToKomponen);
+        if(komponen == null || komponen.isEmpty()){
+            return null;
+        }else{
+            return komponen.get(0);
+        }
+    }
+
+    @Override
+    public List<String> findMaterial(Integer id){
+        String sql = "SELECT nama FROM KomponenMaterial WHERE idKomponen=?";
+        return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) -> rs.getString("nama"));
+    }
+
+    @Override
+    public List<String> findWarna(Integer id){
+        String sql = "SELECT nama FROM KomponenWarna WHERE idKomponen=?";
+        return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) -> rs.getString("nama"));
+    }
 }

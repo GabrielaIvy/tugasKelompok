@@ -20,6 +20,7 @@
                 <button type="submit">Login</button>
             </form>
             <div class="action-buttons" th:if="${loggedIn}">
+                <button class="cart">Keranjang</button>
                 <button><a th:href="@{/profile}">Profile</a></button>
                 <button onclick="window.location.href='/furniturKustom'">Log Out</button>
             </div>

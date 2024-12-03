@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Komponen</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesKomponenDetail.css">
+    <!-- <script src="scriptKomponen.js" defer></script> -->
+</head>
+<body>
+    <div class="container">
+        <h1 th:text="'Detail Komponen: ' + ${komponen.nama} + ' - ' + ${komponen.ukuran}">Detail Komponen</h1>
+
+        <div class="image-container">
+            <img th:src="@{'/images/' + ${komponen.gambar}}" th:alt="${komponen.nama}">
+        </div>
+
+        <div class="components">
+            <label for="material">Pilih Material:</label>
+            <select id="material" name="material">
+                <option th:each="m : ${material}" th:value="${m}" th:text="${m}"></option>
+            </select>
+
+            <label for="color">Pilih Warna:</label>
+            <select id="color" name="color">
+                <option th:each="w : ${warna}" th:value="${w}" th:text="${w}"></option>
+            </select>
+        </div>
+
+        <!-- Tombol Kembali dan Beli -->
+        <div class="buttons">
+            <a th:href="@{/dataKomponen}">
+                <button class="back-button">Kembali</button>
+            </a>
+            <button class="buy-button" onclick="showModal('leg')">Beli</button>
+        </div>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Rincian Pesanan</h2>
+            <p id="order-details"></p>
+            <button onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+</body>
+</html>

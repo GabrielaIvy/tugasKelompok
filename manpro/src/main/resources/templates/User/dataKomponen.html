@@ -27,6 +27,7 @@
                 <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
             </ul>
             <div class="action-buttons">
+                <button class="cart">Keranjang</button>
                 <button><a th:href="@{/profile}">Profile</a></button>
                 <button onclick="window.location.href='/furniturKustom'">Log Out</button>
             </div>
@@ -49,6 +50,10 @@
                 <p th:text="'Stok: ' + ${k.stok}"></p>
             </div>
             <button th:if="${pemilik}" class="btn-edit">Edit</button>
+            <a th:if="${!pemilik}" class="btn-edit" th:href="@{/dataKomponen/detailKomponen(id=${k.id})}">
+                <button>+</button>
+            </a>
+            
         </div>
     </div>
     <form action="/dataKomponen/addKomponen" method="GET" th:if="${pemilik}">

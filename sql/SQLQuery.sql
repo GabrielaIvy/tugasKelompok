@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS KomponenWarna;
+DROP VIEW IF EXISTS KomponenMaterial;
 DROP VIEW IF EXISTS TotalPesanan;
 DROP VIEW IF EXISTS KomponenTerlaris;
 DROP VIEW IF EXISTS FurniturTerlaris;
@@ -351,3 +353,14 @@ SELECT
 	COUNT(idPesanan) AS totalPesanan
 FROM 
 	pesanan;
+
+CREATE VIEW KomponenMaterial AS
+SELECT 
+	k.idKomponen, 
+	m.nama
+FROM 
+	Material m
+JOIN 
+	KomponenMaterialWarna k on m.id = k.idmaterial;
+
+SELECT * FROM KomponenMaterial

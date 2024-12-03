@@ -56,4 +56,21 @@ public class KomponenController {
     public String addKomponenForm() {
         return "PemilikPage/addKomponen";
     }
+
+    @GetMapping("/detailKomponen")
+    public String detailKomponen(@RequestParam("id") Integer id, Model model){
+        Komponen komponen = this.repo.findById(id);
+        if(komponen == null){
+            return "User/dataKomponen";
+        }
+
+        List<String> material = this.repo.findMaterial(id);
+        model.addAttribute("material", material);
+
+        List<String> warna = this.repo.findWarna(id);
+        model.addAttribute("warna", warna);
+
+        model.addAttribute("komponen", komponen);
+        return "PembeliPage/detailKomponen";
+    }
 }
