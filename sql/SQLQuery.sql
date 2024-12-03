@@ -4,6 +4,8 @@ DROP VIEW IF EXISTS HitungTotalHarga CASCADE;
 DROP VIEW IF EXISTS LaporanPenjualan CASCADE;
 DROP VIEW IF EXISTS KecamatanKelurahan CASCADE;
 
+DROP TABLE IF EXISTS KeranjangKomponen CASCADE;
+DROP TABLE IF EXISTS KeranjangFurnitur CASCADE;
 DROP TABLE IF EXISTS Transaksi CASCADE;
 DROP TABLE IF EXISTS KomponenMaterialWarna CASCADE;
 DROP TABLE IF EXISTS KomponenFurnitur CASCADE;
@@ -176,11 +178,27 @@ INSERT INTO KomponenMaterialWarna VALUES
 
 CREATE TABLE Transaksi(
 	id SERIAL PRIMARY KEY,
-	idFurnitur int,
-	idKomponen int,
+	idFurnitur int REFERENCES Furnitur (id),
+	idKomponen int REFERENCES Komponen (id),
 	stok int,
 	tanggal date
 );
+
+CREATE TABLE KeranjangKomponen (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idKomponen int REFERENCES Komponen (id),
+	jumlah int
+);
+
+select * from keranjangkomponen
+
+CREATE TABLE KeranjangFurnitur (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idFurnitur int REFERENCES Furnitur (id),
+	jumlah int
+);
+
+select * from keranjangfurnitur
 
 CREATE VIEW LaporanPenjualan AS
 SELECT 

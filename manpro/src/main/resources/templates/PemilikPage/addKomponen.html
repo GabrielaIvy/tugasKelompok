@@ -3,22 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Furnitur</title>
+    <title>Add Komponen</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
             margin: 0;
-            padding: 0;
-        }
-
-        div {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #e0e0e0;
-            padding: 20px;
         }
 
         form {
@@ -59,52 +53,54 @@
             outline: none;
         }
 
-        input[type="submit"] {
-            width: 100%;
-            padding: 15px;
-            background-color: #000000;
+        fieldset a,
+        fieldset button {
+            padding: 10px 20px;
+            font-size: 1em;
             border: none;
-            color: #fff;
-            font-size: 1.2em;
-            font-weight: bold;
             cursor: pointer;
+            font-weight: bold;
             border-radius: 4px;
-            transition: background-color 0.3s ease;
+            text-align: center;
         }
 
-        input[type="submit"]:hover {
-            background-color: rgb(43, 43, 43);
+        fieldset a {
+            background-color: #838383;
+            color: white;
+            text-decoration: none;
         }
 
-        input::placeholder {
-            color: #aaa;
+        fieldset button {
+            background-color: #000000;
+            color: white;
         }
 
-        @media (max-width: 600px) {
-            form {
-                padding: 20px;
-            }
+        fieldset button:hover,
+        fieldset a:hover {
+            opacity: 0.8;
+        }
 
-            input[type="submit"] {
-                font-size: 1em;
-                padding: 12px;
-            }
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div th:fragment="addKomponen">
-        <form method="POST" th:action="@{/dataKomponen/addKomponen}">
-            <fieldset>
-                <legend>Add New Komponen</legend>
-                <input type="text" name="nama" required placeholder="Nama Komponen">
-                <input type="text" name="ukuran" required placeholder="Ukuran">
-                <input type="number" name="harga" required placeholder="Harga">
-                <input type="text" name="gambar" required placeholder="Gambar">
-    
-                <input type="submit" value="ADD" name="addKomponen">
-            </fieldset>
-        </form>
-    </div>
+    <form method="POST" th:action="@{/dataKomponen/addKomponen}">
+        <fieldset>
+            <legend>Add New Komponen</legend>
+            <input type="text" name="nama" required placeholder="Nama Komponen">
+            <input type="text" name="ukuran" required placeholder="Ukuran">
+            <input type="number" name="harga" required placeholder="Harga">
+            <input type="text" name="gambar" required placeholder="Gambar">
+            <div class="action-buttons">
+                <a th:href="@{/dataKomponen}">Cancel</a>
+                <button type="submit" name="addKomponen">Add</button>
+            </div>
+        </fieldset>
+    </form>
 </body>
 </html>
+
