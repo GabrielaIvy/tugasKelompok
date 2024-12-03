@@ -57,7 +57,7 @@ public class KomponenController {
         return "PemilikPage/addKomponen";
     }
 
-    @GetMapping("/detailKomponen")
+    @GetMapping("/pesanKomponen")
     public String detailKomponen(@RequestParam("id") Integer id, Model model){
         Komponen komponen = this.repo.findById(id);
         if(komponen == null){
@@ -71,6 +71,6 @@ public class KomponenController {
         model.addAttribute("warna", warna);
 
         model.addAttribute("komponen", komponen);
-        return "PembeliPage/detailKomponen";
+        return "PembeliPage/pesanKomponen";
     }
 }

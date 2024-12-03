@@ -50,6 +50,9 @@
                 <p th:text="'Stok: ' + ${f.stok}"></p>
             </div>
             <button th:if="${pemilik}" class="btn-edit">Edit</button>
+            <a th:if="${!pemilik}" class="btn-edit" th:href="@{/dataFurnitur/pesanFurnitur(id=${f.id})}">
+                <button>+</button>
+            </a>
         </div>
     </div>
     <form action="/dataFurnitur/addFurnitur" method="GET" th:if="${pemilik}">

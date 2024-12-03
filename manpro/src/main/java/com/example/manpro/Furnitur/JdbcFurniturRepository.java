@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
+
 @Repository
 public class JdbcFurniturRepository implements FurniturRepository{
     
@@ -67,5 +69,42 @@ public class JdbcFurniturRepository implements FurniturRepository{
     public void updateStock(String name, String size, int newStock) {
         String sql = "UPDATE furnitur SET stok = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, newStock, name, size);
+    }
+
+    @Override
+    public Furnitur findById(Integer id){
+        String sql = "SELECT * FROM furnitur WHERE id=?";
+        List<Furnitur> furnitur = jdbcTemplate.query(sql, new Object[]{id}, this::mapRowToFurnitur);
+        if(furnitur == null || furnitur.isEmpty()){
+            return null;
+        }else{
+            return furnitur.get(0);
+        }
+    }
+
+    @Override
+    public List<FurniturKomponen> findKomponen(Integer id){
+        String sqlKomponen = "SELECT id, nama FROM GetKomponen WHERE idFurnitur=?";
+        String sqlMaterial = "SELECT nama FROM KomponenMaterial WHERE idKomponen=?";
+        String sqlWarna = "SELECT nama FROM KomponenWarna WHERE idKomponen=?";
+
+        return jdbcTemplate.query(sqlKomponen, new Object[]{id}, (rs, rowNum) -> {
+            Integer idKomponen = rs.getInt("id");
+            String nama = rs.getString("nama");
+
+            List<String> material = jdbcTemplate.query(
+                sqlMaterial,
+                new Object[]{idKomponen},
+                (rsMaterial, rowNumMaterial) -> rsMaterial.getString("nama")
+            );
+
+            List<String> warna = jdbcTemplate.query(
+                sqlWarna,
+                new Object[]{idKomponen},
+                (rsWarna, rowNumWarna) -> rsWarna.getString("nama")
+            );
+
+            return new FurniturKomponen(idKomponen, nama, material, warna);
+        });
     }
 }

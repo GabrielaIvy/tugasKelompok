@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS GetKomponen;
 DROP VIEW IF EXISTS KomponenWarna;
 DROP VIEW IF EXISTS KomponenMaterial;
 DROP VIEW IF EXISTS TotalPesanan;
@@ -363,4 +364,22 @@ FROM
 JOIN 
 	KomponenMaterialWarna k on m.id = k.idmaterial;
 
-SELECT * FROM KomponenMaterial
+CREATE VIEW KomponenWarna AS
+SELECT 
+	k.idKomponen, 
+	w.nama
+FROM 
+	Warna w
+JOIN 
+	KomponenMaterialWarna k on w.id = k.idwarna;
+
+CREATE VIEW GetKomponen AS
+SELECT 
+	idFurnitur,
+	idKomponen,
+	nama
+FROM 
+	komponenfurnitur kf
+JOIN
+	komponen k ON kf.idKomponen = k.id;
+

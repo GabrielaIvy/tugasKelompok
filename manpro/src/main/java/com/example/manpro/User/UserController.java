@@ -31,7 +31,7 @@ public class UserController {
         if(user != null){
             String role = user.getRoles();
             if(role.equals("PemilikToko")){
-                model.addAttribute("idUser", "0");
+                model.addAttribute("idUser", 0);
                 return "redirect:/dashboardPemilik";
             }else{
                 model.addAttribute("idUser", user.getId());
