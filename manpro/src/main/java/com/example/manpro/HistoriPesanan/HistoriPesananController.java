@@ -21,8 +21,8 @@ public class HistoriPesananController {
     private HistoriPesananRepository repo;
 
     @GetMapping()
-    public String historiPesanan(@SessionAttribute("idPelanggan") Integer idPelanggan, Model model){
-        List<HistoriPesanan> historiPesanan = this.repo.findAll(idPelanggan);
+    public String historiPesanan(@SessionAttribute("idUser") Integer idUser, Model model){
+        List<HistoriPesanan> historiPesanan = this.repo.findAll(idUser);
 
         model.addAttribute("historiPesanan", historiPesanan);
         return "PembeliPage/historiPesanan";

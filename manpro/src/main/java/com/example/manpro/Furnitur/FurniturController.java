@@ -3,6 +3,8 @@ package com.example.manpro.Furnitur;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.apache.catalina.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,11 @@ public class FurniturController {
     private FurniturRepository repo;
 
     @GetMapping()
-    public String dataFurnitur(Model model, @RequestParam(value = "filter", required = false) String filter){
+    public String dataFurnitur(@SessionAttribute("idUser") Integer idUser, Model model, 
+    @RequestParam(value = "filter", required = false) String filter){
+        if(idUser == 0) model.addAttribute("pemilik", true);
+        else model.addAttribute("pemilik", false);
+
         List<Furnitur> furnitur;
 
         if (filter != null && !filter.isEmpty()) {
@@ -29,7 +35,7 @@ public class FurniturController {
 
         model.addAttribute("filter", filter);
         model.addAttribute("furnitur", furnitur);
-        return "PemilikPage/dataFurnitur";
+        return "User/dataFurnitur";
     }
 
     @PostMapping("/addFurnitur")

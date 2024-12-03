@@ -10,6 +10,7 @@
     <header>
         <div class="header">
             <ul>
+                <li th:if="${loggedIn}"><a th:href="@{/dashboardPelanggan}">Home</a></li>
                 <li><a href="#furnitur">Furnitur</a></li>
                 <li><a href="#komponen">Komponen</a></li>
                 <li><a href="#kontak">Kontak</a></li>
@@ -34,7 +35,10 @@
 
     <!-- Furnitur Section -->
     <section id="furnitur">
-        <h2>Daftar Furnitur</h2>
+        <h2>
+            Daftar Furnitur 
+            <button th:if="${loggedIn}" class="more"><a th:href="@{/dataFurnitur}">Lihat Selengkapnya</a></button> 
+        </h2>
         <div class="container">
             <div class="konten" th:each="f : ${furnitur}">
                 <img th:src="@{'/images/' + ${f.gambar}}" th:alt="${f.nama + ' - ' + f.ukuran}">
@@ -45,7 +49,10 @@
 
     <!-- Komponen Section -->
     <section id="komponen">
-        <h2>Daftar Komponen</h2>
+        <h2>
+            Daftar Komponen 
+            <button th:if="${loggedIn}" class="more"><a th:href="@{/dataFurnitur}">Lihat Selengkapnya</a></button> 
+        </h2>
         <div class="container">
             <div class="konten" th:each="k : ${komponen}">
                 <img th:src="@{'/images/' + ${k.gambar}}" th:alt="${k.nama + ' - ' + k.ukuran}">

@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <div class="header">
+        <div class="header" th:if="${pemilik}">
             <ul>
                 <li><a th:href="@{/dashboardPemilik}">Home</a></li>
                 <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
@@ -18,6 +18,18 @@
                 <li><a th:href="@{/transaksi}">Transaksi</a></li>
             </ul>
             <button type="button" onclick="window.location.href='/furniturKustom'">Log Out</button>
+        </div>
+        <div class="header" th:if="${!pemilik}">
+            <ul>
+                <li><a th:href="@{/dashboardPelanggan}">Home</a></li>
+                <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
+            </ul>
+            <div class="action-buttons">
+                <button><a th:href="@{/profile}">Profile</a></button>
+                <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+            </div>
         </div>
     </header>
 
@@ -36,10 +48,10 @@
                 <p th:text="'Harga: Rp' + ${f.harga}"></p>
                 <p th:text="'Stok: ' + ${f.stok}"></p>
             </div>
-            <button class="btn-edit">Edit</button>
+            <button th:if="${pemilik}" class="btn-edit">Edit</button>
         </div>
     </div>
-    <form action="/dataFurnitur/addFurnitur" method="GET">
+    <form action="/dataFurnitur/addFurnitur" method="GET" th:if="${pemilik}">
         <a id="add-icon" href="/dataFurnitur/addFurnitur">+</a>
     </form>
 </body>
