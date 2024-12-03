@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Laporan Transaksi</title>
+        <link rel="stylesheet" type="text/css" href="/css/stylesTransaksi.css">
+        <script src="/js/scriptFilterTgl.js" defer></script> 
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <ul>
+                    <li><a th:href="@{/dashboardPemilik}">Home</a></li>
+                    <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                    <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                    <li><a th:href="@{/laporanPenjualan}">Laporan Penjualan</a></li>
+                    <li><a th:href="@{/transaksi}">Transaksi</a></li>
+                </ul>
+                <button type="button" onclick="window.location.href='/home'">Log Out</button>
+            </div>
+        </header>
+
+        <div class="button-group">
+            <form action="/transaksi" method="get">
+                <a th:href="@{/transaksi}"><button type="button">Furnitur</button></a>
+                <button>Komponen</button>
+            </form>
+            <div class="laporan-btn">
+                <a th:href="@{/laporanTransaksi}"><button type="button">Laporan</button></a>
+            </div>
+        </div>
+
+        <h1>Laporan Transaksi</h1>
+
+        <div class="filter"> <!--filter tanggal-->
+            <span>from</span>
+            <input type="date" id="fromDate" name="fromDate">
+            <span>to</span>
+            <input type="date" id="toDate" name="toDate">
+            <button id="filterTgl">Filter</button>
+        </div>
+
+        <div class="content">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Id Transaksi</th>
+                        <th>Tanggal Transaksi</th>
+                        <th>Nama Furnitur</th>
+                        <th>Nama Komponen</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="transaksi : ${laporanTransaksi}">
+                        <td th:text="${transaksi.idTransaksi}"></td> <!-- Tampilkan ID transaksi -->
+                        <td th:text="${transaksi.tglTransaksi}"></td> <!-- Tampilkan Tanggal transaksi -->
+                        <td th:text="${transaksi.nama_furnitur}"></td> <!-- Nama Furnitur -->
+                        <td th:text="${transaksi.nama_komponen}"></td> <!-- Nama Komponen -->
+                        <td th:text="${transaksi.stok}"></td> <!-- Tampilkan stok -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+
+    </body>
+</html>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const filterBtn = document.getElementById('filterTgl');
+    
+    filterBtn.addEventListener('click', function() {
+        const fromDate = new Date(document.getElementById('fromDate').value);
+        const toDate = new Date(document.getElementById('toDate').value);
+
+        // Ambil semua baris dalam tabel (kecuali header)
+        const rows = document.querySelectorAll('table tbody tr');
+
+        rows.forEach(row => {
+            const tglTransaksiText = row.querySelector('td:nth-child(2)').textContent.trim();
+            const tglTransaksi = new Date(tglTransaksiText);
+
+            // Jika filter tanggal diisi
+            if (fromDate && toDate) {
+                if (tglTransaksi >= fromDate && tglTransaksi <= toDate) {
+                    row.style.display = ""; // Tampilkan baris
+                } else {
+                    row.style.display = "none"; // Sembunyikan baris
+                }
+            } else {
+                row.style.display = ""; // Tampilkan semua baris jika tidak ada filter
+            }
+        });
+    });
+});
+
+</script>

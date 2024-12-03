@@ -160,8 +160,9 @@ h1 {
 }
 
 .button-group {
-    text-align: left;
     margin: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .button-group button {
@@ -178,6 +179,10 @@ h1 {
 
 .button-group button:hover {
     background-color: rgb(43, 43, 43);
+}
+
+.laporan-btn{
+    text-align: right;
 }
 
 #search-bar {
@@ -211,4 +216,36 @@ h1 {
 
 #search-bar input[type="submit"]:hover {
     background-color: rgb(43, 43, 43); /* Warna saat hover */
+}
+
+table {
+    margin: 20px auto;
+    padding: 10px;
+    width: 95%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-collapse: collapse; /* Menghapus ruang antar sel */
+    margin-top: 20px;
+
+}
+
+th, td {
+    padding: 10px; /* Tambahkan padding untuk ruang yang lebih besar */
+    text-align: center; /* Rata kiri untuk teks */
+    border: 1px solid #ddd; /* Garis tepi yang tipis */
+}
+
+th {
+    background-color: #000;
+    color: white;
+    font-weight: bold; /* Teks tebal untuk header */
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Warna latar belakang baris genap */
+}
+
+.filter {
+    text-align: right;
+    padding-right: 15px;
 }

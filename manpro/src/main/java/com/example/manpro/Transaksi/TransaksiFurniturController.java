@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.manpro.Furnitur.Furnitur;
 import com.example.manpro.Furnitur.FurniturRepository;
-import com.example.manpro.Komponen.Komponen;
-import com.example.manpro.Komponen.KomponenRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -42,11 +40,16 @@ public class TransaksiFurniturController {
     public String addStockFur(
         @RequestParam("namaBarang") String namaBarang,
         @RequestParam("jumlah") int jumlah,
-        @RequestParam("ukuran") String ukuran
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("tanggal") String tanggal
     ) {
         Furnitur furnitur = furniturRepo.findByNameAndSize(namaBarang, ukuran);
+        int idFurnitur = furnitur.getId();
+        int prevStok = furnitur.getStok();
+        java.sql.Date sqlTanggal = java.sql.Date.valueOf(tanggal);
+        
         if (furnitur != null) {
-            furniturRepo.updateStock(namaBarang, ukuran, furnitur.getStok() + jumlah);
+            furniturRepo.updateStock(namaBarang, ukuran, prevStok + jumlah, sqlTanggal, idFurnitur, prevStok);
         }
         return "redirect:/transaksi";
     }

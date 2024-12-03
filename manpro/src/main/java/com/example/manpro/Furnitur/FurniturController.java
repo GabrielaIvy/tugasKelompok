@@ -49,6 +49,38 @@ public class FurniturController {
 
     @GetMapping("/addFurnitur")
     public String addFurniturForm() {
-        return "PemilikPage/addFurnitur"; // Pastikan ini sesuai dengan lokasi file template HTML
+        return "PemilikPage/addFurnitur"; 
     }
+
+    @PostMapping("/updateHarga")
+    public String updateHarga(
+        @RequestParam("nama") String nama,
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("harga") double harga) {
+
+
+        if (nama.isEmpty() || ukuran.isEmpty() || harga < 0) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+        
+        repo.updateHargaByNameAndSize(nama, ukuran, harga); // Perbarui harga di database
+        return "redirect:/dataFurnitur"; 
+    }
+
+    @GetMapping("/updateHarga")
+    public String updateHargaForm(
+        @RequestParam("nama") String nama, 
+        @RequestParam("ukuran") String ukuran, 
+        Model model) {
+        Furnitur furnitur = repo.findByNameAndSize(nama, ukuran);
+        if (furnitur == null) {
+            throw new IllegalArgumentException("Furnitur dengan nama dan ukuran tersebut tidak ditemukan");
+        }
+        model.addAttribute("furnitur", furnitur); // Pastikan furnitur di-set ke model
+        return "PemilikPage/updateHarga";
+    }
+
+
+
+
 }

@@ -36,9 +36,12 @@
                 <p th:text="'Harga: Rp' + ${k.harga}"></p>
                 <p th:text="'Stok: ' + ${k.stok}"></p>
             </div>
-            <button class="btn-edit">Edit</button>
+            <button class="btn-edit">
+                <a th:href="@{/dataKomponen/updateHargaKomponen(nama=${k.nama}, ukuran=${k.ukuran})}">Edit</a>
+            </button>  
         </div>
     </div>
+   
     <form action="/dataKomponen/addKomponen" method="GET">
         <a id="add-icon" href="/dataKomponen/addKomponen">+</a>
     </form>

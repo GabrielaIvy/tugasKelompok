@@ -1,5 +1,6 @@
 package com.example.manpro.Komponen;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -31,24 +32,36 @@ public class JdbcKomponenRepository implements KomponenRepository{
         );
     }
 
+    @Override
     public List<Komponen> findByName(String keyword){
         String sql = "SELECT * FROM komponen WHERE nama ILIKE ?";
         return jdbcTemplate.query(sql, this::mapRowToKomponen, "%" + keyword + "%");
     }
 
+    @Override
     public void addKomponen (String nama, String ukuran, double harga, String gambar){
         String sql = "INSERT INTO komponen (nama, ukuran, harga, gambar) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, nama, ukuran, harga, gambar);
     }
 
+    @Override
     public Komponen findByNameAndSize(String nama, String ukuran) {
         String sql = "SELECT * FROM komponen WHERE nama ILIKE ? AND ukuran ILIKE ?";
         return jdbcTemplate.queryForObject(sql, this::mapRowToKomponen, "%" + nama + "%", "%" + ukuran + "%");
     }
     
-
-    public void updateStock(String name, String size, int newStock) {
+    @Override
+    public void updateStock(String name, String size, int newStock, Date tanggal, int idKomponen, int prevStok) {
         String sql = "UPDATE komponen SET stok = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, newStock, name, size);
+
+        String insert = "INSERT INTO transaksi (idKomponen, stok, tanggal) VALUES (?,?,?)";
+        jdbcTemplate.update(insert, idKomponen, newStock-prevStok, tanggal);
+    }
+
+    @Override
+    public void updateHargaByNameAndSize(String nama, String ukuran, double harga) {
+        String sql = "UPDATE komponen SET harga = ? WHERE nama = ? AND ukuran = ?";
+        jdbcTemplate.update(sql, harga, nama, ukuran);
     }
 }

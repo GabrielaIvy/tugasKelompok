@@ -1,13 +1,109 @@
-<div th:fragment="addFurnitur">
-    <form method="POST" th:action="@{/dataFurnitur/addFurnitur}">
-        <fieldset>
-            <legend>Add New Furnitur</legend>
-            <input type="text" name="nama" required placeholder="Nama Furnitur">
-            <input type="text" name="ukuran" required placeholder="Ukuran">
-            <input type="number" name="harga" required placeholder="Harga">
-            <input type="text" name="gambar" required placeholder="Gambar">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Furnitur</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
 
-            <input type="submit" value="ADD" name="addFurnitur">
-        </fieldset>
-    </form>
-</div>
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #e0e0e0;
+            padding: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+        }
+
+        legend {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: #000000;
+            border: none;
+            color: #fff;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: rgb(43, 43, 43);
+        }
+
+        input::placeholder {
+            color: #aaa;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+            }
+
+            input[type="submit"] {
+                font-size: 1em;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div th:fragment="addFurnitur">
+        <form method="POST" th:action="@{/dataFurnitur/addFurnitur}">
+            <fieldset>
+                <legend>Add New Furnitur</legend>
+                <input type="text" name="nama" required placeholder="Nama Furnitur">
+                <input type="text" name="ukuran" required placeholder="Ukuran">
+                <input type="number" name="harga" required placeholder="Harga">
+                <input type="text" name="gambar" required placeholder="Gambar">
+                <input type="submit" value="ADD" name="addFurnitur">
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

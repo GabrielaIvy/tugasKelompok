@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Furnitur</title>
+    <title>Edit Furnitur</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -43,7 +43,12 @@
             text-align: center;
         }
 
-        input[type="text"],
+        .info {
+            font-size: 1em;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
         input[type="number"] {
             width: 100%;
             padding: 12px;
@@ -53,7 +58,6 @@
             font-size: 1em;
         }
 
-        input[type="text"]:focus,
         input[type="number"]:focus {
             border-color: #3498db;
             outline: none;
@@ -76,8 +80,11 @@
             background-color: rgb(43, 43, 43);
         }
 
-        input::placeholder {
-            color: #aaa;
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 8px;
         }
 
         @media (max-width: 600px) {
@@ -93,18 +100,16 @@
     </style>
 </head>
 <body>
-    <div th:fragment="addKomponen">
-        <form method="POST" th:action="@{/dataKomponen/addKomponen}">
-            <fieldset>
-                <legend>Add New Komponen</legend>
-                <input type="text" name="nama" required placeholder="Nama Komponen">
-                <input type="text" name="ukuran" required placeholder="Ukuran">
-                <input type="number" name="harga" required placeholder="Harga">
-                <input type="text" name="gambar" required placeholder="Gambar">
-    
-                <input type="submit" value="ADD" name="addKomponen">
-            </fieldset>
-        </form>
+    <div>
+        <h1>Edit Harga Furnitur</h1>
+        <form th:action="@{/dataFurnitur/updateHarga}" method="POST">
+            <input type="hidden" name="ukuran" th:value="${furnitur.ukuran}">
+            <input type="hidden" name="nama" th:value="${furnitur.nama}">
+            <label for="harga">Harga Baru:</label>
+            <input type="number" name="harga" required placeholder="Harga" th:value="${furnitur.harga}">
+            <button type="submit">Update</button>
+        </form>        
+        
     </div>
 </body>
 </html>
