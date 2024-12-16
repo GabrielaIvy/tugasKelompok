@@ -12,4 +12,5 @@ public interface KomponenRepository {
     Komponen findById(Integer id);
     List<String> findMaterial(Integer id);
     List<String> findWarna(Integer id);
+    int cekStok(Integer id);
 }

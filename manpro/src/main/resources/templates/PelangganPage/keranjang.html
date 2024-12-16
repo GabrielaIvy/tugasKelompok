@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Keranjang</title>
+        <link rel="stylesheet" type="text/css" href="/css/stylesHome.css">
+        <link rel="stylesheet" type="text/css" href="/css/stylesKeranjang.css">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <ul>
+                    <li><a th:href="@{/pelanggan}">Home</a></li>
+                    <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                    <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                    <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
+                </ul>
+                <div class="action-buttons">
+                    <button><a th:href="@{/pelanggan/keranjang}">Keranjang</a></button>
+                    <button><a th:href="@{/pelanggan/profile}">Profile</a></button>
+                    <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="content">
+            <h1>Shopping Cart</h1>
+            <!-- <div class="info-pesanan" th:each="p : ${pesanan}"> -->
+            <div class="info-pesanan">
+                <input type="checkbox">
+                <img src="/images/kursi.jpg">
+                <!-- <img th:src="@{'/images/' + ${furnitur.gambar}}" th:alt="${furnitur.nama}"> -->
+                <div class="detail">
+                    <!--nama barang-->
+                    <h3>Sofa</h3>
+                    <!--detail barang-->
+                    <span>
+                        Kerangka: Kayu - Coklat<br>
+                        Kain Pelapis: Kapas - Abu-abu<br>
+                        Jumlah: 1
+                    </span>
+                </div>
+                <!--harga Barang-->
+                <div class="harga">
+                    <h2>Rp 750.000</h2>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button><a href="homePembeli.html">Cancel</a></button>
+                <button><a href="homePembeli.html">Confirm</a></button>
+            </div>
+        </div>  
+    </body>
+</html>

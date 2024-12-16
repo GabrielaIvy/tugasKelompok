@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Furnitur</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesDetail.css">
+    <script src="/js/scriptKonfirmasiPesanan.js" defer></script> 
+</head>
+<body>
+    <form method="POST" action="/pelanggan/beliFurnitur">
+        <div th:if="${error}" style="color: red;">
+            <p th:text="${error}"></p>
+        </div>
+
+        <div class="container">
+            <h1 th:text="'Detail Furnitur: ' + ${furnitur.nama} + ' - ' + ${furnitur.ukuran}">Detail Furnitur</h1>
+
+            <div class="image-container">
+                <img th:src="@{'/images/' + ${furnitur.gambar}}" th:alt="${furnitur.nama}">
+            </div>
+
+            <div class="components">
+                <h2>Komponen:</h2>
+
+                <div class="component-item" th:each="k : ${komponen}">
+                    <h3 th:text="${k.nama}">Nama Komponen</h3>
+                    
+                    <label for="material">Pilih Material:</label>
+                    <select id="material" name="material">
+                        <option th:each="m : ${k.material}" th:value="${m}" th:text="${m}"></option>
+                    </select>
+
+                    <label for="color">Pilih Warna:</label>
+                    <select id="color" name="color">
+                        <option th:each="w : ${k.warna}" th:value="${w}" th:text="${w}"></option>
+                    </select>
+                </div>
+                <div>
+                    <h3>Jumlah furnitur:</h3>
+                    <input name="jumlah" type="number" th:value="1" required>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a th:href="@{/dataFurnitur}">
+                    <button type="button" class="back-button">Kembali</button>
+                </a>
+                <button class="cart-button">Tambah ke keranjang</button>
+                <button class="buy-button" type="button" onclick="konfirmasiPesanan()">Beli</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Rincian Pesanan</h2>
+            <p id="order-details"></p>
+            <button onclick="closeModal()">Tutup</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -4,21 +4,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>profile</title>
-        <link rel="stylesheet" type="text/css" href="stylesHome.css">
-        <link rel="stylesheet" type="text/css" href="stylesProfile.css">
+        <link rel="stylesheet" type="text/css" href="/css/stylesHome.css">
+        <link rel="stylesheet" type="text/css" href="/css/stylesProfile.css">
     </head>
     <body>
         <header>
             <div class="header">
                 <ul>
-                    <li><a th:href="@{/dashboardPelanggan}">Home</a></li>
+                    <li><a th:href="@{/pelanggan}">Home</a></li>
                     <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
                     <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
                     <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
                 </ul>
                 <div class="action-buttons">
-                    <button class="cart">Keranjang</button>
-                    <button><a th:href="@{/profile}">Profile</a></button>
+                    <button><a th:href="@{/pelanggan/keranjang}">Keranjang</a></button>
+                    <button><a th:href="@{/pelanggan/profile}">Profile</a></button>
                     <button onclick="window.location.href='/furniturKustom'">Log Out</button>
                 </div>
             </div>
@@ -28,15 +28,16 @@
                 <h1>Profile</h1>
 
                 <div class="userProfile">
-                    <img src="../assets/defaultProfilePict.jpg">
+                    <img src="/images/defaultProfilePict.jpg">
                     <div>
-                        <h2>wom_kapi</h2>
-                        <p>Wombat Kapidodo<br>womkapi@kapikapi.com</p>
+                        <h2 th:text="${user.username}">username</h2>
+                        <p th:text="${user.nama}">name<p>
+                        <p th:text="${user.email}">email</p>
                     </div>
                     <div class="address">
-                        <p>Alamat:<br>Jl. Kapi Raya no. 5</p>
-                        <p>Kecamatan:<br>Coblong</p>
-                        <p>Kelurahan:<br>Dago</p>
+                        <p th:text="'Alamat: ' + ${user.alamat}">Alamat</p>
+                        <p th:text="'Kecamatan: ' + ${kecamatan}">Kecamatan</p>
+                        <p th:text="'Kelurahan: ' + ${kelurahan}">Kelurahan</p>
                     </div>
                 </div>
             </div>

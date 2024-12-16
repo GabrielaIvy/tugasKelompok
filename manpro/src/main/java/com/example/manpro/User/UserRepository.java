@@ -8,4 +8,6 @@ public interface UserRepository{
     List<Kecamatan> findAllKecamatan();
     List<Kelurahan> findAllKelurahan();
     List<Kelurahan> findByKecamatan(Integer idKecamatan);
+    User findById(Integer id);
+    String[] domilisiUser(Integer id);
 }

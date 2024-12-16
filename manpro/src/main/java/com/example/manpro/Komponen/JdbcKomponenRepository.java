@@ -89,4 +89,10 @@ public class JdbcKomponenRepository implements KomponenRepository{
         String sql = "SELECT nama FROM KomponenWarna WHERE idKomponen=?";
         return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) -> rs.getString("nama"));
     }
+
+    @Override
+    public int cekStok(Integer id){
+        String sql = "SELECT stok FROM Komponen WHERE id=?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
 }

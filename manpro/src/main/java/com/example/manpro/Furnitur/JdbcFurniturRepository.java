@@ -107,4 +107,10 @@ public class JdbcFurniturRepository implements FurniturRepository{
             return new FurniturKomponen(idKomponen, nama, material, warna);
         });
     }
+
+    @Override
+    public int cekStok(Integer id){
+        String sql = "SELECT stok FROM Furnitur WHERE id=?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
 }

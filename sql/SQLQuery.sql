@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS DomisiliUser;
 DROP VIEW IF EXISTS GetKomponen;
 DROP VIEW IF EXISTS KomponenWarna;
 DROP VIEW IF EXISTS KomponenMaterial;
@@ -376,10 +377,83 @@ JOIN
 CREATE VIEW GetKomponen AS
 SELECT 
 	idFurnitur,
-	idKomponen,
+	k.id,
 	nama
 FROM 
 	komponenfurnitur kf
 JOIN
 	komponen k ON kf.idKomponen = k.id;
+
+CREATE VIEW DomisiliUser AS
+SELECT 
+	u.id,
+	kel.nama AS kelurahan,
+	kec.nama AS kecamatan
+FROM 
+	pengguna u
+JOIN
+	kelurahan kel ON u.idKelurahan = kel.id
+JOIN
+	kecamatan kec ON kel.idKecamatan = kec.id;
+
+CREATE TABLE KeranjangKomponen (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idKomponen int REFERENCES Komponen (id),
+	jumlah int
+);
+
+CREATE TABLE KeranjangFurnitur (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idFurnitur int REFERENCES Furnitur (id),
+	jumlah int
+);
+
+INSERT INTO Transaksi (idFurnitur, idKomponen, stok, tanggal)
+SELECT
+    f.id AS idFurnitur,
+    c.id AS idKomponen,
+    c.stok AS stok,
+    ps.tglPesanan AS tanggal
+FROM
+    Pesanan ps
+LEFT JOIN
+    PesanFurnitur pf ON ps.idPesanan = pf.idPesanan
+LEFT JOIN
+    Furnitur f ON pf.idFurnitur = f.id
+LEFT JOIN
+    KomponenFurnitur cf ON f.id = cf.idFurnitur
+LEFT JOIN
+    Komponen c ON cf.idKomponen = c.id;
+	
+INSERT INTO KeranjangKomponen (idU, idKomponen, jumlah)
+SELECT
+    p.id,
+    k.id,
+    pk.jumlah
+FROM
+    Pengguna p
+JOIN
+    Pesanan ps ON ps.idPelanggan = p.id
+JOIN
+    PesanKomponen pk ON pk.idPesanan = ps.idPesanan
+JOIN
+    Komponen k ON k.id = pk.idKomponen
+WHERE
+    p.roles = 'Pelanggan';
+
+INSERT INTO KeranjangFurnitur (idU, idFurnitur, jumlah)
+SELECT
+    p.id,
+    f.id,
+    pf.jumlah
+FROM
+    Pengguna p
+JOIN
+    Pesanan ps ON ps.idPelanggan = p.id
+JOIN
+    PesanFurnitur pf ON pf.idPesanan = ps.idPesanan
+JOIN
+    Furnitur f ON f.id = pf.idFurnitur
+WHERE
+    p.roles = 'Pelanggan';
 

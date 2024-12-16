@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +20,7 @@ public class KomponenController {
     private KomponenRepository repo;
 
     @GetMapping()
-    public String dataFurnitur(@SessionAttribute("idUser") Integer idUser, Model model, 
+    public String dataKomponen(@SessionAttribute("idUser") Integer idUser, Model model, 
     @RequestParam(value = "filter", required = false) String filter){
         if(idUser == 0) model.addAttribute("pemilik", true);
         else model.addAttribute("pemilik", false);
@@ -58,11 +59,13 @@ public class KomponenController {
     }
 
     @GetMapping("/pesanKomponen")
-    public String detailKomponen(@RequestParam("id") Integer id, Model model){
+    public String detailKomponen(@RequestParam("id") Integer id, Model model, HttpSession session){
         Komponen komponen = this.repo.findById(id);
         if(komponen == null){
             return "User/dataKomponen";
         }
+
+        session.setAttribute("komponen", komponen);
 
         List<String> material = this.repo.findMaterial(id);
         model.addAttribute("material", material);
@@ -71,6 +74,6 @@ public class KomponenController {
         model.addAttribute("warna", warna);
 
         model.addAttribute("komponen", komponen);
-        return "PembeliPage/pesanKomponen";
+        return "PelangganPage/pesanKomponen";
     }
 }

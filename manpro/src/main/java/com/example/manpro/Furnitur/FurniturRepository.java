@@ -11,4 +11,5 @@ public interface FurniturRepository {
     Furnitur findByNameAndSize(String nama, String ukuran);
     Furnitur findById(Integer id);
     List<FurniturKomponen> findKomponen(Integer id);
+    int cekStok(Integer id);
 }

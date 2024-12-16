@@ -32,10 +32,10 @@ public class UserController {
             String role = user.getRoles();
             if(role.equals("PemilikToko")){
                 model.addAttribute("idUser", 0);
-                return "redirect:/dashboardPemilik";
+                return "redirect:/pemilik";
             }else{
                 model.addAttribute("idUser", user.getId());
-                return "redirect:/dashboardPelanggan";
+                return "redirect:/pelanggan";
             }
         }else{
             model.addAttribute("error", "Invalid username or password");
@@ -64,7 +64,7 @@ public class UserController {
         if(success){
             user = this.repo.authenticateUser(username, passwords);
             model.addAttribute("idPelanggan", user.getId());
-            return "redirect:/dashboardPelanggan";
+            return "redirect:/pelanggan";
         }else{
             model.addAttribute("error", "Registrasi gagal");
             return "redirect:/furniturKustom";

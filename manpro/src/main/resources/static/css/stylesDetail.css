@@ -64,7 +64,7 @@ select, input {
     font-weight: bold;
 }
 
-.back-button {
+.back-button, .cart-button {
     background-color: #ddd;
     color: #000;
 }

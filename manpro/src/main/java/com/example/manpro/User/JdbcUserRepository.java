@@ -18,7 +18,7 @@ public class JdbcUserRepository implements UserRepository{
     @Override
     public User authenticateUser(String username, String passwords){
         String sql = "SELECT * FROM pengguna WHERE username=? AND passwords=?";
-        List<User> user = jdbcTemplate.query(sql, new Object[]{username, passwords}, this::mapRowToUser);
+        List<User> user = jdbcTemplate.query(sql, this::mapRowToUser, username, passwords);
         if(user == null || user.isEmpty()){
             return null;
         }else{
@@ -69,7 +69,7 @@ public class JdbcUserRepository implements UserRepository{
     @Override
     public List<Kelurahan> findByKecamatan(Integer idKecamatan){
         String sql = "SELECT * FROM kecamatankelurahan WHERE idKecamatan=?";
-        return jdbcTemplate.query(sql, new Object[]{idKecamatan}, this::mapRowToKelurahan);
+        return jdbcTemplate.query(sql, this::mapRowToKelurahan, idKecamatan);
     }
 
     private Kelurahan mapRowToKelurahan(ResultSet resultSet, int rowNum) throws SQLException{
@@ -78,5 +78,29 @@ public class JdbcUserRepository implements UserRepository{
             resultSet.getString("nama"),
             resultSet.getInt("idKecamatan")
         );
+    }
+
+    @Override
+    public User findById(Integer id){
+        String sql = "SELECT * FROM pengguna WHERE id=?";
+        try{
+            User user = jdbcTemplate.queryForObject(sql, this::mapRowToUser, id);
+            return user;
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
+    @Override
+    public String[] domilisiUser(Integer id){
+        String sql = "SELECT kelurahan, kecamatan FROM domisiliuser WHERE id=?";
+        return jdbcTemplate.queryForObject(sql, this::mapRowToDomisili, id); 
+    }
+
+    private String[] mapRowToDomisili(ResultSet resultSet, int rowNum) throws SQLException{
+        String res[] = new String[2];
+        res[0] = resultSet.getString("kelurahan");
+        res[1] = resultSet.getString("kecamatan");
+        return res;
     }
 }

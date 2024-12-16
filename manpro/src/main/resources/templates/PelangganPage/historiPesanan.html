@@ -63,14 +63,14 @@
         <header>
             <div class="header">
                 <ul>
-                    <li><a th:href="@{/dashboardPelanggan}">Home</a></li>
+                    <li><a th:href="@{/pelanggan}">Home</a></li>
                     <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
                     <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
                     <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
                 </ul>
                 <div class="action-buttons">
-                    <button class="cart">Keranjang</button>
-                    <button><a th:href="@{/profile}">Profile</a></button>
+                    <button><a th:href="@{/pelanggan/keranjang}">Keranjang</a></button>
+                    <button><a th:href="@{/pelanggan/profile}">Profile</a></button>
                     <button onclick="window.location.href='/furniturKustom'">Log Out</button>
                 </div>
             </div>

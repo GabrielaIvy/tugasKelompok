@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +20,6 @@ public class FurniturController {
     
     @Autowired
     private FurniturRepository repo;
-
-    @Autowired
-    private KomponenRepository komponenRepo;
 
     @GetMapping()
     public String dataFurnitur(@SessionAttribute("idUser") Integer idUser, Model model, 
@@ -64,22 +61,17 @@ public class FurniturController {
     }
 
     @GetMapping("/pesanFurnitur")
-    public String detailKomponen(@RequestParam("id") Integer id, Model model){
+    public String detailKomponen(@RequestParam("id") Integer id, Model model, HttpSession session){
         Furnitur furnitur = this.repo.findById(id);
         if(furnitur == null){
             return "User/dataFurnitur";
         }
 
+        session.setAttribute("furnitur", furnitur);
+
         List<FurniturKomponen> komponen = this.repo.findKomponen(id);
         model.addAttribute("komponen", komponen);
-
-        // List<String> material = this.komponenRepo.findMaterial(id);
-        // model.addAttribute("material", material);
-
-        // List<String> warna = this.komponenRepo.findWarna(id);
-        // model.addAttribute("warna", warna);
-
         model.addAttribute("furnitur", furnitur);
-        return "PembeliPage/pesanFurnitur";
+        return "PelangganPage/pesanFurnitur";
     }
 }

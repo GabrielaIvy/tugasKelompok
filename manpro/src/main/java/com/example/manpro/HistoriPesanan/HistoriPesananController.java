@@ -25,6 +25,6 @@ public class HistoriPesananController {
         List<HistoriPesanan> historiPesanan = this.repo.findAll(idUser);
 
         model.addAttribute("historiPesanan", historiPesanan);
-        return "PembeliPage/historiPesanan";
+        return "PelangganPage/historiPesanan";
     }
 }
