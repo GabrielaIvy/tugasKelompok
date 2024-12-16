@@ -42,10 +42,39 @@ INSERT INTO KomponenMaterialWarna VALUES
 (16, 7, 5), (17, 5, 4), (18, 7, 3);
 --4 5 6(matz:5 6 7/col: 7 5)/ 8 9 (1 7, 3 4 5)/ 11 12 (4, 1 2 4)/ 13 14 15 (4, 1 4)/ 16 17 18(1 5 7, 3 4 5)
 
---keranjangfurnitur
+--keranjangkomponen
+INSERT INTO KeranjangKomponen (idU, idKomponen, jumlah)
+SELECT
+    p.id,
+    k.id,
+    pk.jumlah
+FROM
+    Pengguna p
+JOIN
+    Pesanan ps ON ps.idPelanggan = p.id
+JOIN
+    PesanKomponen pk ON pk.idPesanan = ps.idPesanan
+JOIN
+    Komponen k ON k.id = pk.idKomponen
+WHERE
+    p.roles = 'Pelanggan';
 
-
---kerangjangkomponen
+--KeranjangFurnitur
+INSERT INTO KeranjangFurnitur (idU, idFurnitur, jumlah)
+SELECT
+    p.id,
+    f.id,
+    pf.jumlah
+FROM
+    Pengguna p
+JOIN
+    Pesanan ps ON ps.idPelanggan = p.id
+JOIN
+    PesanFurnitur pf ON pf.idPesanan = ps.idPesanan
+JOIN
+    Furnitur f ON f.id = pf.idFurnitur
+WHERE
+    p.roles = 'Pelanggan';
 
 
 --transaksi
