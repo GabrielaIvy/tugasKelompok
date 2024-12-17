@@ -1,4 +1,118 @@
-<div th:fragment="addKomponen">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Komponen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        fieldset {
+            border: none;
+            padding: 0;
+        }
+
+        legend {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        fieldset a,
+        fieldset button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        fieldset a {
+            background-color: #838383;
+            color: white;
+            text-decoration: none;
+        }
+
+        fieldset button {
+            background-color: #000000;
+            color: white;
+        }
+
+        fieldset button:hover,
+        fieldset a:hover {
+            opacity: 0.8;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        #kombinasi-container .kombinasi {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* Grup material dan warna dalam satu baris */
+        .material-warna-group {
+            display: flex;
+            flex-direction: column; /* Label di atas select */
+            gap: 5px;
+        }
+
+        /* Tombol tambah dan hapus */
+        .btn-add, .btn-remove {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
     <form method="POST" th:action="@{/dataKomponen/addKomponen}">
         <fieldset>
             <legend>Add New Komponen</legend>
@@ -6,8 +120,57 @@
             <input type="text" name="ukuran" required placeholder="Ukuran">
             <input type="number" name="harga" required placeholder="Harga">
             <input type="text" name="gambar" required placeholder="Gambar">
+            
+            <div id="kombinasi-container">
+                <div class="kombinasi">
+                    <label for="material">Material:</label>
+                    <select name="materials[]" required>
+                        <option value="" disabled selected>Pilih Material</option>
+                        <option th:each="material : ${materials}" th:value="${material}" th:text="${material}"></option>
+                    </select>
+        
+                    <label for="warna">Warna:</label>
+                    <select name="colors[]" required>
+                        <option value="" disabled selected>Pilih Warna</option>
+                        <option th:each="color : ${colors}" th:value="${color}" th:text="${color}"></option>
+                    </select>
+        
+                    <button type="button" class="btn-add">+</button>
+                    <button type="button" class="btn-remove">-</button>
+                </div>
+            </div>
 
-            <input type="submit" value="ADD" name="addKomponen">
+            <div class="action-buttons">
+                <a th:href="@{/dataKomponen}">Cancel</a>
+                <button type="submit" name="addKomponen">Add</button>
+            </div>
         </fieldset>
     </form>
-</div>
+</body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('kombinasi-container');
+
+        // untuk tombol "+"
+        container.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-add')) {
+                const newKombinasi = e.target.parentNode.cloneNode(true);
+                newKombinasi.querySelector('select[name="materials[]"]').value = '';
+                newKombinasi.querySelector('select[name="colors[]"]').value = '';
+                container.appendChild(newKombinasi);
+            }
+
+            // untuk tombol "-"
+            if (e.target.classList.contains('btn-remove')) {
+                if (container.childElementCount > 1) {
+                    e.target.parentNode.remove();
+                } else {
+                    alert('Minimal satu kombinasi harus ada!');
+                }
+            }
+        });
+    });
+
+</script>
+</html>

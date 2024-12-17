@@ -30,17 +30,20 @@
     </div>
     <div id="item-list">
         <div class="item" th:each="f : ${furnitur}">
-            <img th:src="@{'/images/' + ${f.gambar}}" th:alt="${f.nama + ' - ' + f.ukuran}">
+            <img th:src="|/images/${f.gambar}|" th:alt="|${f.nama} - ${f.ukuran}|">
             <div class="info">
-                <h3 th:text="${f.nama} + ' - ' + ${f.ukuran}"></h3>
+                <h3 th:text="|${f.nama} - ${f.ukuran}|"></h3>
                 <p th:text="'Harga: Rp' + ${f.harga}"></p>
                 <p th:text="'Stok: ' + ${f.stok}"></p>
             </div>
-            <button class="btn-edit">Edit</button>
-        </div>
+            <button class="btn-edit">
+                <a th:href="@{/dataFurnitur/updateHarga(nama=${f.nama}, ukuran=${f.ukuran})}">Edit</a>
+            </button>            
+        </div>        
     </div>
+
     <form action="/dataFurnitur/addFurnitur" method="GET">
-        <a id="add-icon" href="/dataFurnitur/addFurnitur">+</a>
+        <a id="add-icon" th:href="@{/dataFurnitur/addFurnitur}">+</a>
     </form>
 </body>
 </html>

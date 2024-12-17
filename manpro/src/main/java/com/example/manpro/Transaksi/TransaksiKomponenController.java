@@ -4,8 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.manpro.Furnitur.Furnitur;
-import com.example.manpro.Furnitur.FurniturRepository;
 import com.example.manpro.Komponen.Komponen;
 import com.example.manpro.Komponen.KomponenRepository;
 
@@ -42,11 +40,15 @@ public class TransaksiKomponenController {
     public String addStockKomp(
         @RequestParam("namaBarang") String namaBarang,
         @RequestParam("jumlah") int jumlah,
-        @RequestParam("ukuran") String ukuran
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("tanggal") String tanggal
     ) {
         Komponen komponen = komponenRepo.findByNameAndSize(namaBarang, ukuran);
+        int idKomponen = komponen.getId();
+        int prevStok = komponen.getStok();
+        java.sql.Date sqlTanggal = java.sql.Date.valueOf(tanggal);
         if (komponen != null) {
-            komponenRepo.updateStock(namaBarang, ukuran, komponen.getStok() + jumlah);
+            komponenRepo.updateStock(namaBarang, ukuran, prevStok + jumlah, sqlTanggal, idKomponen, prevStok);
         }
         return "redirect:/transaksiKomponen";
     }
