@@ -72,6 +72,34 @@ public class JdbcKomponenRepository implements KomponenRepository{
     }
 
     @Override
+    public Komponen findById(Integer id){
+        String sql = "SELECT * FROM komponen WHERE id=?";
+        List<Komponen> komponen = jdbcTemplate.query(sql, new Object[]{id}, this::mapRowToKomponen);
+        if(komponen == null || komponen.isEmpty()){
+            return null;
+        }else{
+            return komponen.get(0);
+        }
+    }
+
+    @Override
+    public List<String> findMaterial(Integer id){
+        String sql = "SELECT nama FROM KomponenMaterial WHERE idKomponen=?";
+        return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) -> rs.getString("nama"));
+    }
+
+    @Override
+    public List<String> findWarna(Integer id){
+        String sql = "SELECT nama FROM KomponenWarna WHERE idKomponen=?";
+        return jdbcTemplate.query(sql, new Object[]{id}, (rs, rowNum) -> rs.getString("nama"));
+    }
+
+    @Override
+    public int cekStok(Integer id){
+        String sql = "SELECT stok FROM Komponen WHERE id=?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
+
     public void updateHargaByNameAndSize(String nama, String ukuran, double harga) {
         String sql = "UPDATE komponen SET harga = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, harga, nama, ukuran);
@@ -106,46 +134,4 @@ public class JdbcKomponenRepository implements KomponenRepository{
         String sql = "INSERT INTO komponenMaterialWarna (idKomponen, idMaterial, idWarna) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, idKomponen, idMaterial, idWarna);
     }
-
-
-    // Cek apakah komponen sudah ada
-    // @Override
-    // public boolean isKomponenExists(String nama, String ukuran) {
-    //     String sql = "SELECT COUNT(*) FROM komponen WHERE nama = ? AND ukuran = ?";
-    //     Integer count = jdbcTemplate.queryForObject(sql, Integer.class, nama, ukuran);
-    //     return count != null && count > 0;
-    // }
-
-    // @Override
-    // // Ambil id komponen berdasarkan nama dan ukuran
-    // public int getKomponenId(String nama, String ukuran) {
-    //     String sql = "SELECT id FROM komponen WHERE nama = ? AND ukuran = ?";
-    //     return jdbcTemplate.queryForObject(sql, Integer.class, nama, ukuran);
-    // }
-
-    // @Override
-    // public int addKomponenAndReturnId(String nama, String ukuran) {
-    //     String sql = "INSERT INTO komponen (nama, ukuran, stok, harga, gambar) VALUES (?, ?, 0, 0.0, NULL) RETURNING id";
-    //     return jdbcTemplate.queryForObject(sql, Integer.class, nama, ukuran);
-    // }
-    
-
-    // // Tambah ke komponenMaterialWarna
-    // @Override
-    // public void addKomponenMaterialWarna(int idKomponen, int idMaterial, int idWarna) {
-    //     String checkSql = "SELECT COUNT(*) FROM komponenMaterialWarna WHERE id_komponen = ? AND id_material = ? AND id_warna = ?";
-    //     Integer count = jdbcTemplate.queryForObject(checkSql, Integer.class, idKomponen, idMaterial, idWarna);
-
-    //     if (count == null || count == 0) {
-    //         String insertSql = "INSERT INTO komponenMaterialWarna (id_komponen, id_material, id_warna) VALUES (?, ?, ?)";
-    //         jdbcTemplate.update(insertSql, idKomponen, idMaterial, idWarna);
-    //     } else {
-    //         throw new IllegalArgumentException("Kombinasi komponen, material, dan warna sudah ada.");
-    //     }
-    // }
-
-    
-    
-    
-
 }

@@ -10,15 +10,18 @@
     <header>
         <div class="header">
             <ul>
+                <li th:if="${loggedIn}"><a th:href="@{/pelanggan}">Home</a></li>
                 <li><a href="#furnitur">Furnitur</a></li>
                 <li><a href="#komponen">Komponen</a></li>
                 <li><a href="#kontak">Kontak</a></li>
+                <li th:if="${loggedIn}"><a th:href="@{/historiPesanan}">History pesanan</a></li>
             </ul>
             <form action="/furniturKustom/login" method="GET" th:if="${!loggedIn}">
                 <button type="submit">Login</button>
             </form>
             <div class="action-buttons" th:if="${loggedIn}">
-                <button><a>Profile</a></button>
+                <button><a th:href="@{/pelanggan/keranjang}">Keranjang</a></button>
+                <button><a th:href="@{/pelanggan/profile}">Profile</a></button>
                 <button onclick="window.location.href='/furniturKustom'">Log Out</button>
             </div>
         </div>
@@ -33,7 +36,10 @@
 
     <!-- Furnitur Section -->
     <section id="furnitur">
-        <h2>Daftar Furnitur</h2>
+        <h2>
+            Daftar Furnitur 
+            <button th:if="${loggedIn}" class="more"><a th:href="@{/dataFurnitur}">Lihat Selengkapnya</a></button> 
+        </h2>
         <div class="container">
             <div class="konten" th:each="f : ${furnitur}">
                 <img th:src="@{'/images/' + ${f.gambar}}" th:alt="${f.nama + ' - ' + f.ukuran}">
@@ -44,7 +50,10 @@
 
     <!-- Komponen Section -->
     <section id="komponen">
-        <h2>Daftar Komponen</h2>
+        <h2>
+            Daftar Komponen 
+            <button th:if="${loggedIn}" class="more"><a th:href="@{/dataKomponen}">Lihat Selengkapnya</a></button> 
+        </h2>
         <div class="container">
             <div class="konten" th:each="k : ${komponen}">
                 <img th:src="@{'/images/' + ${k.gambar}}" th:alt="${k.nama + ' - ' + k.ukuran}">

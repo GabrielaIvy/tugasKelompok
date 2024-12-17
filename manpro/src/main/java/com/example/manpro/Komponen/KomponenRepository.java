@@ -8,6 +8,10 @@ public interface KomponenRepository {
     String findTerlaris();
     void addKomponen (String nama, String ukuran, double harga, String gambar);
     Komponen findByNameAndSize(String nama, String ukuran);
+    Komponen findById(Integer id);
+    List<String> findMaterial(Integer id);
+    List<String> findWarna(Integer id);
+    int cekStok(Integer id);
     void updateStock(String namaBarang, String ukuran, int newStok, Date tanggal, int idKomponen, int prevStok);
     void updateHargaByNameAndSize(String nama, String ukuran, double harga);
     List<String> findAllMaterials();
@@ -15,9 +19,5 @@ public interface KomponenRepository {
     Integer findMaterialIdByName(String namaMaterial);
     Integer findColorIdByName(String namaWarna);
     void insertKomponenMaterialWarna(int idKomponen, int idMaterial, int idWarna);
-    //void addKomponenMaterialWarna(int idKomponen, int idMaterial, int idWarna);
-    //int addKomponenAndReturnId(String nama, String ukuran);
-    //int getKomponenId(String nama, String ukuran) ;
-    //boolean isKomponenExists(String nama, String ukuran);
     List<Komponen> findAll();
 }

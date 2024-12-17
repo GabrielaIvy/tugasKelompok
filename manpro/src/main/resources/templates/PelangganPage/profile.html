@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>profile</title>
+        <link rel="stylesheet" type="text/css" href="/css/stylesHome.css">
+        <link rel="stylesheet" type="text/css" href="/css/stylesProfile.css">
+    </head>
+    <body>
+        <header>
+            <div class="header">
+                <ul>
+                    <li><a th:href="@{/pelanggan}">Home</a></li>
+                    <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                    <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                    <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
+                </ul>
+                <div class="action-buttons">
+                    <button><a th:href="@{/pelanggan/keranjang}">Keranjang</a></button>
+                    <button><a th:href="@{/pelanggan/profile}">Profile</a></button>
+                    <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+                </div>
+            </div>
+        </header>
+        <div class="image-container">
+            <div class="overlay">
+                <h1>Profile</h1>
+
+                <div class="userProfile">
+                    <img src="/images/defaultProfilePict.jpg">
+                    <div>
+                        <h2 th:text="${user.username}">username</h2>
+                        <p th:text="${user.nama}">name<p>
+                        <p th:text="${user.email}">email</p>
+                    </div>
+                    <div class="address">
+                        <p th:text="'Alamat: ' + ${user.alamat}">Alamat</p>
+                        <p th:text="'Kecamatan: ' + ${kecamatan}">Kecamatan</p>
+                        <p th:text="'Kelurahan: ' + ${kelurahan}">Kelurahan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

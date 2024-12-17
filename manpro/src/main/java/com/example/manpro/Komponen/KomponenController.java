@@ -3,8 +3,8 @@ package com.example.manpro.Komponen;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
+import org.springframework.web.bind.annotation.SessionAttribute;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,11 @@ public class KomponenController {
     private KomponenRepository repo;
 
     @GetMapping()
-    public String dataFurnitur(Model model, @RequestParam(value = "filter", required = false) String filter){
+    public String dataKomponen(@SessionAttribute("idUser") Integer idUser, Model model, 
+    @RequestParam(value = "filter", required = false) String filter){
+        if(idUser == 0) model.addAttribute("pemilik", true);
+        else model.addAttribute("pemilik", false);
+        
         List<Komponen> komponen;
 
         if (filter != null && !filter.isEmpty()) {
@@ -31,7 +35,7 @@ public class KomponenController {
 
         model.addAttribute("filter", filter);
         model.addAttribute("komponen", komponen);
-        return "PemilikPage/dataKomponen";
+        return "User/dataKomponen";
     }
 
     @PostMapping("/addKomponen")
@@ -59,6 +63,7 @@ public class KomponenController {
         return "redirect:/dataKomponen";
     }
 
+    @GetMapping("/addKomponen")
     public String addKomponenForm(Model model) {
         List<String> materials = repo.findAllMaterials();
         List<String> colors = repo.findAllColors();
@@ -66,6 +71,25 @@ public class KomponenController {
         model.addAttribute("materials", materials);
         model.addAttribute("colors", colors);
         return "PemilikPage/addKomponen"; 
+    }
+
+    @GetMapping("/pesanKomponen")
+    public String detailKomponen(@RequestParam("id") Integer id, Model model, HttpSession session){
+        Komponen komponen = this.repo.findById(id);
+        if(komponen == null){
+            return "User/dataKomponen";
+        }
+
+        session.setAttribute("komponen", komponen);
+
+        List<String> material = this.repo.findMaterial(id);
+        model.addAttribute("material", material);
+
+        List<String> warna = this.repo.findWarna(id);
+        model.addAttribute("warna", warna);
+
+        model.addAttribute("komponen", komponen);
+        return "PelangganPage/pesanKomponen";
     }
 
     @PostMapping("/updateHargaKomponen")
@@ -96,7 +120,4 @@ public class KomponenController {
         model.addAttribute("komponen", komponen); 
         return "PemilikPage/updateHargaKomponen";
     }
-
-    
-
 }

@@ -9,15 +9,28 @@
 </head>
 <body>
     <header>
-        <div class="header">
+        <div class="header" th:if="${pemilik}">
             <ul>
-                <li><a th:href="@{/dashboardPemilik}">Home</a></li>
+                <li><a th:href="@{/pemilik}">Home</a></li>
                 <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
                 <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
                 <li><a th:href="@{/laporanPenjualan}">Laporan Penjualan</a></li>
                 <li><a th:href="@{/transaksi}">Transaksi</a></li>
             </ul>
             <button type="button" onclick="window.location.href='/furniturKustom'">Log Out</button>
+        </div>
+        <div class="header" th:if="${!pemilik}">
+            <ul>
+                <li><a th:href="@{/pelanggan}">Home</a></li>
+                <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
+            </ul>
+            <div class="action-buttons">
+                <button><a th:href="@{/pelanggan/keranjang}">Keranjang</a></button>
+                <button><a th:href="@{/pelanggan/profile}">Profile</a></button>
+                <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+            </div>
         </div>
     </header>
 
@@ -36,13 +49,17 @@
                 <p th:text="'Harga: Rp' + ${f.harga}"></p>
                 <p th:text="'Stok: ' + ${f.stok}"></p>
             </div>
-            <button class="btn-edit">
+
+            <button class="btn-edit" th:if="${pemilik}">
                 <a th:href="@{/dataFurnitur/updateHarga(nama=${f.nama}, ukuran=${f.ukuran})}">Edit</a>
-            </button>            
+            </button>    
+            <a th:if="${!pemilik}" class="btn-edit" th:href="@{/dataFurnitur/pesanFurnitur(id=${f.id})}">
+                <button>+</button>
+            </a>    
         </div>        
     </div>
 
-    <form action="/dataFurnitur/addFurnitur" method="GET">
+    <form action="/dataFurnitur/addFurnitur" method="GET" th:if="${pemilik}">
         <a id="add-icon" th:href="@{/dataFurnitur/addFurnitur}">+</a>
     </form>
 </body>

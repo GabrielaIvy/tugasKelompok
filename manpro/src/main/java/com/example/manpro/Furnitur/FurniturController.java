@@ -1,18 +1,19 @@
 package com.example.manpro.Furnitur;
 
+import com.example.manpro.Komponen.KomponenRepository;
+import com.example.manpro.Komponen.Komponen;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.manpro.Komponen.Komponen;
-import com.example.manpro.Komponen.KomponenRepository;
-
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/dataFurnitur")
@@ -25,7 +26,11 @@ public class FurniturController {
     private KomponenRepository komponenRepo;
 
     @GetMapping()
-    public String dataFurnitur(Model model, @RequestParam(value = "filter", required = false) String filter){
+    public String dataFurnitur(@SessionAttribute("idUser") Integer idUser, Model model, 
+    @RequestParam(value = "filter", required = false) String filter){
+        if(idUser == 0) model.addAttribute("pemilik", true);
+        else model.addAttribute("pemilik", false);
+
         List<Furnitur> furnitur;
 
         if (filter != null && !filter.isEmpty()) {
@@ -36,7 +41,7 @@ public class FurniturController {
 
         model.addAttribute("filter", filter);
         model.addAttribute("furnitur", furnitur);
-        return "PemilikPage/dataFurnitur";
+        return "User/dataFurnitur";
     }
 
     @PostMapping("/addFurnitur")
@@ -82,6 +87,21 @@ public class FurniturController {
         return "PemilikPage/addFurnitur"; 
     }
 
+    @GetMapping("/pesanFurnitur")
+    public String detailKomponen(@RequestParam("id") Integer id, Model model, HttpSession session){
+        Furnitur furnitur = this.repo.findById(id);
+        if(furnitur == null){
+            return "User/dataFurnitur";
+        }
+
+        session.setAttribute("furnitur", furnitur);
+
+        List<FurniturKomponen> komponen = this.repo.findKomponen(id);
+        model.addAttribute("komponen", komponen);
+        model.addAttribute("furnitur", furnitur);
+        return "PelangganPage/pesanFurnitur";
+    }
+
     @PostMapping("/updateHarga")
     public String updateHarga(
         @RequestParam("nama") String nama,
@@ -109,8 +129,4 @@ public class FurniturController {
         model.addAttribute("furnitur", furnitur); // Pastikan furnitur di-set ke model
         return "PemilikPage/updateHarga";
     }
-
-
-
-
 }

@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/furniturKustom")
+@SessionAttributes("idUser")
 public class UserController {
     
     @Autowired
@@ -25,13 +27,15 @@ public class UserController {
 
     @PostMapping("/login")
     public String handleLogin(@RequestParam String username, @RequestParam String passwords, Model model){
-        boolean valid = this.repo.authenticateUser(username, passwords);
-        if(valid){
-            String role = this.repo.getUserRole(username);
+        User user = this.repo.authenticateUser(username, passwords);
+        if(user != null){
+            String role = user.getRoles();
             if(role.equals("PemilikToko")){
-                return "redirect:/dashboardPemilik";
+                model.addAttribute("idUser", 0);
+                return "redirect:/pemilik";
             }else{
-                return "redirect:/dashboardPelanggan";
+                model.addAttribute("idUser", user.getId());
+                return "redirect:/pelanggan";
             }
         }else{
             model.addAttribute("error", "Invalid username or password");
@@ -51,8 +55,20 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(){
-        return "redirect:/furniturKustom";
+    public String handleRegister(@RequestParam("nama") String nama, @RequestParam("username") String username,
+    @RequestParam("passwords") String passwords, @RequestParam("alamat") String alamat, @RequestParam("noHP") String noHP,
+    @RequestParam("email") String email, @RequestParam("idKelurahan") Integer idKelurahan, Model model){
+        String role = "Pelanggan";
+        User user = new User(null, nama, username, passwords, role, alamat, noHP, email, idKelurahan);
+        boolean success = this.repo.register(user);
+        if(success){
+            user = this.repo.authenticateUser(username, passwords);
+            model.addAttribute("idPelanggan", user.getId());
+            return "redirect:/pelanggan";
+        }else{
+            model.addAttribute("error", "Registrasi gagal");
+            return "redirect:/furniturKustom";
+        }
     }
 
     @GetMapping("/getKelurahanByKecamatan")

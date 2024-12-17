@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,13 +16,13 @@ public class JdbcUserRepository implements UserRepository{
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public boolean authenticateUser(String username, String passwords){
+    public User authenticateUser(String username, String passwords){
         String sql = "SELECT * FROM pengguna WHERE username=? AND passwords=?";
-        List<User> user = jdbcTemplate.query(sql, new Object[]{username, passwords}, this::mapRowToUser);
+        List<User> user = jdbcTemplate.query(sql, this::mapRowToUser, username, passwords);
         if(user == null || user.isEmpty()){
-            return false;
+            return null;
         }else{
-            return true;
+            return user.get(0);
         }
     }
 
@@ -34,14 +35,16 @@ public class JdbcUserRepository implements UserRepository{
             resultSet.getString("roles"),
             resultSet.getString("alamat"),
             resultSet.getString("noHP"),
-            resultSet.getString("email")
+            resultSet.getString("email"),
+            resultSet.getInt("idKelurahan")
         );
     }
 
     @Override
-    public String getUserRole(String username){
-        String sql = "SELECT roles FROM pengguna WHERE username=?";
-        return jdbcTemplate.queryForObject(sql, String.class, username);
+    public boolean register(User u){
+        String sql = "INSERT INTO Pengguna (nama, username, passwords, roles, alamat, noHP, email, idKelurahan) VALUES (?,?,?,?,?,?,?,?)";
+        int rowsEffected = jdbcTemplate.update(sql, u.getNama(), u.getUsername(), u.getPasswords(), u.getRoles(), u.getAlamat(), u.getNoHP(), u.getEmail(), u.getIdKelurahan());
+        return rowsEffected > 0;
     }
 
     @Override
@@ -66,7 +69,7 @@ public class JdbcUserRepository implements UserRepository{
     @Override
     public List<Kelurahan> findByKecamatan(Integer idKecamatan){
         String sql = "SELECT * FROM kecamatankelurahan WHERE idKecamatan=?";
-        return jdbcTemplate.query(sql, new Object[]{idKecamatan}, this::mapRowToKelurahan);
+        return jdbcTemplate.query(sql, this::mapRowToKelurahan, idKecamatan);
     }
 
     private Kelurahan mapRowToKelurahan(ResultSet resultSet, int rowNum) throws SQLException{
@@ -75,5 +78,29 @@ public class JdbcUserRepository implements UserRepository{
             resultSet.getString("nama"),
             resultSet.getInt("idKecamatan")
         );
+    }
+
+    @Override
+    public User findById(Integer id){
+        String sql = "SELECT * FROM pengguna WHERE id=?";
+        try{
+            User user = jdbcTemplate.queryForObject(sql, this::mapRowToUser, id);
+            return user;
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
+    }
+
+    @Override
+    public String[] domilisiUser(Integer id){
+        String sql = "SELECT kelurahan, kecamatan FROM domisiliuser WHERE id=?";
+        return jdbcTemplate.queryForObject(sql, this::mapRowToDomisili, id); 
+    }
+
+    private String[] mapRowToDomisili(ResultSet resultSet, int rowNum) throws SQLException{
+        String res[] = new String[2];
+        res[0] = resultSet.getString("kelurahan");
+        res[1] = resultSet.getString("kecamatan");
+        return res;
     }
 }

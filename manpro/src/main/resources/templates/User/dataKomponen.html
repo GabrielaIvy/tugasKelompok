@@ -9,15 +9,28 @@
 </head>
 <body>
     <header>
-        <div class="header">
+        <div class="header" th:if="${pemilik}">
             <ul>
-                <li><a th:href="@{/dashboardPemilik}">Home</a></li>
+                <li><a th:href="@{/pemilik}">Home</a></li>
                 <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
                 <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
                 <li><a th:href="@{/laporanPenjualan}">Laporan Penjualan</a></li>
                 <li><a th:href="@{/transaksi}">Transaksi</a></li>
             </ul>
             <button type="button" onclick="window.location.href='/furniturKustom'">Log Out</button>
+        </div>
+        <div class="header" th:if="${!pemilik}">
+            <ul>
+                <li><a th:href="@{/pelanggan}">Home</a></li>
+                <li><a th:href="@{/dataFurnitur}">Data Furnitur</a></li>
+                <li><a th:href="@{/dataKomponen}">Data Komponen</a></li>
+                <li><a th:href="@{/historiPesanan}">History pesanan</a></li>
+            </ul>
+            <div class="action-buttons">
+                <button><a th:href="@{/pelanggan/keranjang}">Keranjang</a></button>
+                <button><a th:href="@{/pelanggan/profile}">Profile</a></button>
+                <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+            </div>
         </div>
     </header>
 
@@ -36,13 +49,15 @@
                 <p th:text="'Harga: Rp' + ${k.harga}"></p>
                 <p th:text="'Stok: ' + ${k.stok}"></p>
             </div>
-            <button class="btn-edit">
+            <button th:if="${pemilik}" class="btn-edit">
                 <a th:href="@{/dataKomponen/updateHargaKomponen(nama=${k.nama}, ukuran=${k.ukuran})}">Edit</a>
             </button>  
+            <a th:if="${!pemilik}" class="btn-edit" th:href="@{/dataKomponen/pesanKomponen(id=${k.id})}">
+                <button>+</button>
+            </a>
         </div>
     </div>
-   
-    <form action="/dataKomponen/addKomponen" method="GET">
+    <form action="/dataKomponen/addKomponen" method="GET" th:if="${pemilik}">
         <a id="add-icon" href="/dataKomponen/addKomponen">+</a>
     </form>
 </body>

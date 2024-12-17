@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-@RequestMapping("/dashboardPemilik")
+@RequestMapping("/pemilik")
 public class PemilikController {
     
     @Autowired

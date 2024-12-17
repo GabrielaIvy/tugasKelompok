@@ -1,3 +1,8 @@
+DROP VIEW IF EXISTS ItemKeranjang CASCADE;
+DROP VIEW IF EXISTS DomisiliUser CASCADE;
+DROP VIEW IF EXISTS GetKomponen CASCADE;
+DROP VIEW IF EXISTS KomponenWarna CASCADE;
+DROP VIEW IF EXISTS KomponenMaterial CASCADE;
 DROP VIEW IF EXISTS TotalPesanan CASCADE;
 DROP VIEW IF EXISTS KomponenTerlaris CASCADE;
 DROP VIEW IF EXISTS FurniturTerlaris CASCADE;
@@ -187,23 +192,13 @@ CREATE TABLE Transaksi(
 	tanggal date
 );
 
-CREATE TABLE KeranjangKomponen (
-    idU int REFERENCES pengguna (id) PRIMARY KEY,
-	idKomponen int REFERENCES Komponen (id),
-	jumlah int
-);
 
-CREATE TABLE KeranjangFurnitur (
-    idU int REFERENCES pengguna (id) PRIMARY KEY,
-	idFurnitur int REFERENCES Furnitur (id),
-	jumlah int
-);
-
-CREATE VIEW LaporanPenjualan AS
+CREATE VIEW DetailPesanan AS
 SELECT 
+	u.id,
 	p.idPesanan,
     p.tglPesanan,
-	f.id AS idFurnitur,		
+	f.id AS idFurnitur,
     f.nama AS namaFurnitur,
     c.nama AS namaKomponen,
     w.nama AS warna,
@@ -212,7 +207,9 @@ SELECT
 	pf.jumlah AS jumlah,
     f.harga AS harga
 FROM 
-    Pesanan p
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
 JOIN 
     PesanFurnitur pf ON p.idPesanan = pf.idPesanan
 JOIN 
@@ -231,6 +228,7 @@ LEFT JOIN
 UNION ALL
 
 SELECT 
+	u.id,
     p.idPesanan,
     p.tglPesanan,
 	-1 AS idFurnitur,
@@ -242,7 +240,82 @@ SELECT
     pk.jumlah AS jumlah,
     k.harga AS harga
 FROM 
-    Pesanan p
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
+JOIN 
+    PesanKomponen pk ON p.idPesanan = pk.idPesanan
+JOIN 
+    Komponen k ON pk.idKomponen = k.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON k.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id;
+
+CREATE TABLE KeranjangKomponen (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idKomponen int REFERENCES Komponen (id),
+	jumlah int
+);
+
+CREATE TABLE KeranjangFurnitur (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idFurnitur int REFERENCES Furnitur (id),
+	jumlah int
+);
+
+CREATE VIEW LaporanPenjualan AS
+SELECT 
+	u.id,
+	p.idPesanan,
+    p.tglPesanan,
+	f.id AS idFurnitur,		
+    f.nama AS namaFurnitur,
+    c.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    f.ukuran AS ukuran,
+	pf.jumlah AS jumlah,
+    f.harga AS harga
+FROM 
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
+JOIN 
+    PesanFurnitur pf ON p.idPesanan = pf.idPesanan
+JOIN 
+    Furnitur f ON pf.idFurnitur = f.id
+JOIN 
+    KomponenFurnitur cf ON f.id = cf.idFurnitur
+JOIN 
+    Komponen c ON cf.idKomponen = c.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON c.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id
+
+UNION ALL
+
+SELECT 
+	u.id,
+    p.idPesanan,
+    p.tglPesanan,
+	-1 AS idFurnitur,
+	'-' AS namaFurnitur,
+	k.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    k.ukuran AS ukuran,
+    pk.jumlah AS jumlah,
+    k.harga AS harga
+FROM 
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
 JOIN 
     PesanKomponen pk ON p.idPesanan = pk.idPesanan
 JOIN 
@@ -259,7 +332,6 @@ SELECT
     l.id,
     l.nama AS nama,
 	l.idKecamatan AS idKecamatan
-	
 FROM 
     Kecamatan k
 JOIN 
@@ -296,23 +368,24 @@ FROM (
 ) AS Pesanan
 GROUP BY idPesanan;
 
-CREATE VIEW LaporanPenjualanFinal AS
+CREATE VIEW DetailPesananFinal AS
 SELECT
-	lp.idPesanan,
-    lp.tglPesanan,
-	lp.idFurnitur,
-	lp.namaFurnitur,
-	lp.namaKomponen,
-    lp.warna,
-    lp.material,
-    lp.ukuran,
-    lp.jumlah,
-    lp.harga,
+	p.id AS idPelanggan,
+	p.idPesanan,
+    p.tglPesanan,
+	p.idFurnitur,
+	p.namaFurnitur,
+	p.namaKomponen,
+    p.warna,
+    p.material,
+    p.ukuran,
+    p.jumlah,
+    p.harga,
 	ht.totalHarga
 FROM
-	LaporanPenjualan lp
+	DetailPesanan p
 LEFT JOIN
-	HitungTotalHarga ht ON lp.idPesanan = ht.idPesanan;
+	HitungTotalHarga ht ON p.idPesanan = ht.idPesanan;
 
 CREATE VIEW TotalPenjualan AS
 SELECT
@@ -360,4 +433,156 @@ SELECT
 	COUNT(idPesanan) AS totalPesanan
 FROM 
 	pesanan;
+
+CREATE VIEW KomponenMaterial AS
+SELECT 
+	k.idKomponen, 
+	m.nama
+FROM 
+	Material m
+JOIN 
+	KomponenMaterialWarna k on m.id = k.idmaterial;
+
+CREATE VIEW KomponenWarna AS
+SELECT 
+	k.idKomponen, 
+	w.nama
+FROM 
+	Warna w
+JOIN 
+	KomponenMaterialWarna k on w.id = k.idwarna;
+
+CREATE VIEW GetKomponen AS
+SELECT 
+	idFurnitur,
+	k.id,
+	nama
+FROM 
+	komponenfurnitur kf
+JOIN
+	komponen k ON kf.idKomponen = k.id;
+
+CREATE VIEW DomisiliUser AS
+SELECT 
+	u.id,
+	kel.nama AS kelurahan,
+	kec.nama AS kecamatan
+FROM 
+	pengguna u
+JOIN
+	kelurahan kel ON u.idKelurahan = kel.id
+JOIN
+	kecamatan kec ON kel.idKecamatan = kec.id;
+
+CREATE TABLE KeranjangKomponen (
+    idU int REFERENCES pengguna (id),
+	idKomponen int REFERENCES Komponen (id),
+	jumlah int
+);
+
+CREATE TABLE KeranjangFurnitur (
+    idU int REFERENCES pengguna (id),
+	idFurnitur int REFERENCES Furnitur (id),
+	jumlah int
+);
+
+INSERT INTO Transaksi (idFurnitur, idKomponen, stok, tanggal)
+SELECT
+    f.id AS idFurnitur,
+    c.id AS idKomponen,
+    c.stok AS stok,
+    ps.tglPesanan AS tanggal
+FROM
+    Pesanan ps
+LEFT JOIN
+    PesanFurnitur pf ON ps.idPesanan = pf.idPesanan
+LEFT JOIN
+    Furnitur f ON pf.idFurnitur = f.id
+LEFT JOIN
+    KomponenFurnitur cf ON f.id = cf.idFurnitur
+LEFT JOIN
+    Komponen c ON cf.idKomponen = c.id;
+	
+INSERT INTO KeranjangKomponen (idU, idKomponen, jumlah)
+SELECT
+    p.id,
+    k.id,
+    pk.jumlah
+FROM
+    Pengguna p
+JOIN
+    Pesanan ps ON ps.idPelanggan = p.id
+JOIN
+    PesanKomponen pk ON pk.idPesanan = ps.idPesanan
+JOIN
+    Komponen k ON k.id = pk.idKomponen
+WHERE
+    p.roles = 'Pelanggan';
+
+INSERT INTO KeranjangFurnitur (idU, idFurnitur, jumlah)
+SELECT
+    p.id,
+    f.id,
+    pf.jumlah
+FROM
+    Pengguna p
+JOIN
+    Pesanan ps ON ps.idPelanggan = p.id
+JOIN
+    PesanFurnitur pf ON pf.idPesanan = ps.idPesanan
+JOIN
+    Furnitur f ON f.id = pf.idFurnitur
+WHERE
+    p.roles = 'Pelanggan';
+
+CREATE VIEW itemKeranjang AS
+SELECT 
+	idU,
+	f.id AS idItem,
+    f.nama AS namaFurnitur,
+    c.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    f.ukuran AS ukuran,
+	kf.jumlah AS jumlah,
+    f.harga AS harga
+FROM
+	keranjangFurnitur kf
+JOIN 
+    Furnitur f ON kf.idFurnitur = f.id
+JOIN 
+    KomponenFurnitur cf ON f.id = cf.idFurnitur
+JOIN 
+    Komponen c ON cf.idKomponen = c.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON c.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id
+
+UNION ALL
+
+SELECT 
+	idU,
+	k.id AS idItem,
+	'-' AS namaFurnitur,
+	k.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    k.ukuran AS ukuran,
+    kk.jumlah AS jumlah,
+    k.harga AS harga
+FROM 
+    keranjangKomponen kk
+JOIN 
+    Komponen k ON kk.idKomponen = k.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON k.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id;
+
+SELECT * FROM itemkeranjang;
 

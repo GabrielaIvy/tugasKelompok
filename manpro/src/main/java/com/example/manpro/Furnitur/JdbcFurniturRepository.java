@@ -4,8 +4,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -46,7 +44,6 @@ public class JdbcFurniturRepository implements FurniturRepository{
         return jdbcTemplate.queryForObject(sql, this::mapRow);
     }
 
-    @Override
     private String mapRow(ResultSet resultSet, int rowNum) throws SQLException{
         String nama = resultSet.getString("nama");
         Integer jumlah = resultSet.getInt("totalPesanan");
@@ -75,6 +72,48 @@ public class JdbcFurniturRepository implements FurniturRepository{
     }
 
     @Override
+    public Furnitur findById(Integer id){
+        String sql = "SELECT * FROM furnitur WHERE id=?";
+        List<Furnitur> furnitur = jdbcTemplate.query(sql, new Object[]{id}, this::mapRowToFurnitur);
+        if(furnitur == null || furnitur.isEmpty()){
+            return null;
+        }else{
+            return furnitur.get(0);
+        }
+    }
+
+    @Override
+    public List<FurniturKomponen> findKomponen(Integer id){
+        String sqlKomponen = "SELECT id, nama FROM GetKomponen WHERE idFurnitur=?";
+        String sqlMaterial = "SELECT nama FROM KomponenMaterial WHERE idKomponen=?";
+        String sqlWarna = "SELECT nama FROM KomponenWarna WHERE idKomponen=?";
+
+        return jdbcTemplate.query(sqlKomponen, new Object[]{id}, (rs, rowNum) -> {
+            Integer idKomponen = rs.getInt("id");
+            String nama = rs.getString("nama");
+
+            List<String> material = jdbcTemplate.query(
+                sqlMaterial,
+                new Object[]{idKomponen},
+                (rsMaterial, rowNumMaterial) -> rsMaterial.getString("nama")
+            );
+
+            List<String> warna = jdbcTemplate.query(
+                sqlWarna,
+                new Object[]{idKomponen},
+                (rsWarna, rowNumWarna) -> rsWarna.getString("nama")
+            );
+
+            return new FurniturKomponen(idKomponen, nama, material, warna);
+        });
+    }
+
+    @Override
+    public int cekStok(Integer id){
+        String sql = "SELECT stok FROM Furnitur WHERE id=?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
+
     public void updateHargaByNameAndSize(String nama, String ukuran, double harga) {
         String sql = "UPDATE furnitur SET harga = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, harga, nama, ukuran);
@@ -85,5 +124,4 @@ public class JdbcFurniturRepository implements FurniturRepository{
         String sql = "INSERT INTO komponenFurnitur (idFurnitur, idKomponen) VALUES (?,?)";
         jdbcTemplate.update(sql, idFurnitur, idKomponen);
     }
-
 }
