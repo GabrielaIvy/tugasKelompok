@@ -42,20 +42,34 @@ public class KomponenController {
     public String addKomponen(
         @RequestParam("nama") String nama,
         @RequestParam("ukuran") String ukuran,
-        @RequestParam("harga") double harga, 
-        @RequestParam("gambar") String gambar
-    ){
-        if (nama.isEmpty() || ukuran.isEmpty()|| harga < 0) {
+        @RequestParam("harga") double harga,
+        @RequestParam("gambar") String gambar,
+        @RequestParam("materials[]") List<String> materials,
+        @RequestParam("colors[]") List<String> colors
+    ) {
+        if (nama.isEmpty() || ukuran.isEmpty() || harga < 0 || materials.isEmpty() || colors.isEmpty()) {
             throw new IllegalArgumentException("Input tidak valid");
         }
 
         repo.addKomponen(nama, ukuran, harga, gambar);
+        Komponen komponen = repo.findByNameAndSize(nama, ukuran);
+
+        for (int i = 0; i < materials.size(); i++) {
+            Integer idMaterial = repo.findMaterialIdByName(materials.get(i));
+            Integer idWarna = repo.findColorIdByName(colors.get(i));
+            repo.insertKomponenMaterialWarna(komponen.getId(), idMaterial, idWarna);
+        }
+
         return "redirect:/dataKomponen";
     }
 
-    @GetMapping("/addKomponen")
-    public String addKomponenForm() {
-        return "PemilikPage/addKomponen";
+    public String addKomponenForm(Model model) {
+        List<String> materials = repo.findAllMaterials();
+        List<String> colors = repo.findAllColors();
+
+        model.addAttribute("materials", materials);
+        model.addAttribute("colors", colors);
+        return "PemilikPage/addKomponen"; 
     }
 
     @GetMapping("/pesanKomponen")
@@ -75,5 +89,34 @@ public class KomponenController {
 
         model.addAttribute("komponen", komponen);
         return "PelangganPage/pesanKomponen";
+    }
+
+    @PostMapping("/updateHargaKomponen")
+    public String updateHarga(
+        @RequestParam("nama") String nama,
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("harga") double harga) {
+
+
+        if (nama.isEmpty() || ukuran.isEmpty() || harga < 0) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+
+        repo.updateHargaByNameAndSize(nama, ukuran, harga); 
+        return "redirect:/dataKomponen"; 
+    }
+
+
+    @GetMapping("/updateHargaKomponen")
+    public String updateHargaForm(
+        @RequestParam("nama") String nama, 
+        @RequestParam("ukuran") String ukuran, 
+        Model model) {
+        Komponen komponen = repo.findByNameAndSize(nama, ukuran);
+        if (komponen == null) {
+            throw new IllegalArgumentException("Furnitur dengan nama dan ukuran tersebut tidak ditemukan");
+        }
+        model.addAttribute("komponen", komponen); 
+        return "PemilikPage/updateHargaKomponen";
     }
 }

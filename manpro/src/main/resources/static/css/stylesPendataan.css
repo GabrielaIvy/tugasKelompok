@@ -8,11 +8,37 @@ h1{
     text-align: center;
 }
 
-#search-bar{
+#search-bar {
     display: flex;
+    gap: 10px; /* Jarak antara input dan tombol */
     justify-content: center;
-    padding-left: 25px;
-    padding-right: 25px;
+    align-items: center;
+    padding: 10px 0; /* Tambahkan padding kecil atas-bawah jika perlu */
+}
+
+#search-bar input[type="text"] {
+    width: 400px; /* Lebar input yang lebih besar */
+    height: 45px; /* Tinggi input */
+    padding: 10px; /* Jarak dalam */
+    font-size: 16px; /* Ukuran teks */
+    border: 1px solid #ddd; /* Border */
+    border-radius: 5px; /* Radius border */
+}
+
+#search-bar input[type="submit"] {
+    height: 45px; /* Tinggi tombol */
+    padding: 0 20px; /* Jarak dalam kiri-kanan */
+    font-size: 16px; /* Ukuran teks */
+    background-color: black; /* Warna background */
+    color: white; /* Warna teks */
+    border: none; /* Hilangkan border */
+    border-radius: 5px; /* Radius border */
+    cursor: pointer; /* Pointer pada hover */
+    transition: background-color 0.3s ease; /* Efek transisi */
+}
+
+#search-bar input[type="submit"]:hover {
+    background-color: rgb(43, 43, 43); /* Warna saat hover */
 }
 
 #item-list{
@@ -74,3 +100,38 @@ h1{
     transform: scale(0.95); 
 }
 
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -1,16 +1,13 @@
 package com.example.manpro.Furnitur;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.HashMap;
 
 @Repository
 public class JdbcFurniturRepository implements FurniturRepository{
@@ -62,13 +59,16 @@ public class JdbcFurniturRepository implements FurniturRepository{
     @Override
     public Furnitur findByNameAndSize(String nama, String ukuran) {
         String sql = "SELECT * FROM furnitur WHERE nama ILIKE ? AND ukuran ILIKE ?";
-        return jdbcTemplate.queryForObject(sql, this::mapRowToFurnitur, "%" + nama + "%", "%" + ukuran + "%");
+        return jdbcTemplate.queryForObject(sql, this::mapRowToFurnitur, "%" + nama + "%", "%" + ukuran + "%");    
     }
 
     @Override
-    public void updateStock(String name, String size, int newStock) {
+    public void updateStock(String name, String size, int newStock, Date tanggal, int idFurnitur, int prevStok) {
         String sql = "UPDATE furnitur SET stok = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, newStock, name, size);
+
+        String insert = "INSERT INTO transaksi (idFurnitur, stok, tanggal) VALUES (?,?,?)";
+        jdbcTemplate.update(insert, idFurnitur, newStock-prevStok, tanggal);
     }
 
     @Override
@@ -112,5 +112,16 @@ public class JdbcFurniturRepository implements FurniturRepository{
     public int cekStok(Integer id){
         String sql = "SELECT stok FROM Furnitur WHERE id=?";
         return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
+
+    public void updateHargaByNameAndSize(String nama, String ukuran, double harga) {
+        String sql = "UPDATE furnitur SET harga = ? WHERE nama = ? AND ukuran = ?";
+        jdbcTemplate.update(sql, harga, nama, ukuran);
+    }
+
+    @Override
+    public void insertKomponenFurnitur(int idFurnitur, int idKomponen){
+        String sql = "INSERT INTO komponenFurnitur (idFurnitur, idKomponen) VALUES (?,?)";
+        jdbcTemplate.update(sql, idFurnitur, idKomponen);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.manpro.Furnitur;
 
 import com.example.manpro.Komponen.KomponenRepository;
+import com.example.manpro.Komponen.Komponen;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ public class FurniturController {
     
     @Autowired
     private FurniturRepository repo;
+
+    @Autowired
+    private KomponenRepository komponenRepo;
 
     @GetMapping()
     public String dataFurnitur(@SessionAttribute("idUser") Integer idUser, Model model, 
@@ -44,20 +48,43 @@ public class FurniturController {
     public String addFurnitur(
         @RequestParam("nama") String nama,
         @RequestParam("ukuran") String ukuran,
-        @RequestParam("harga") double harga, 
-        @RequestParam("gambar") String gambar
-    ){
-        if (nama.isEmpty() || ukuran.isEmpty()|| harga < 0) {
+        @RequestParam("harga") double harga,
+        @RequestParam("gambar") String gambar,
+        @RequestParam("komponenList[]") List<Integer> komponenList // Ambil ID komponen dari form
+    ) {
+        if (nama.isEmpty() || ukuran.isEmpty() || harga < 0 || komponenList.isEmpty()) {
             throw new IllegalArgumentException("Input tidak valid");
         }
 
+        // Tambahkan furnitur baru ke database
         repo.addFurnitur(nama, ukuran, harga, gambar);
-        return "redirect:/dataFurnitur";
+
+        // Dapatkan furnitur yang baru saja ditambahkan untuk mengambil id-nya
+        Furnitur furnitur = repo.findByNameAndSize(nama, ukuran);
+
+        if (furnitur == null) {
+            throw new IllegalStateException("Furnitur tidak berhasil disimpan");
+        }
+
+        int idFurnitur = furnitur.getId();
+
+        // Tambahkan komponen untuk furnitur tersebut (abaikan jumlah)
+        for (int i = 0; i < komponenList.size(); i++) {
+            int idKomponen = komponenList.get(i);
+
+            // Simpan data ke tabel komponenFurnitur (satu kali per komponen)
+            repo.insertKomponenFurnitur(idFurnitur, idKomponen);
+        }
+
+        return "redirect:/dataFurnitur"; // Kembali ke halaman furnitur
     }
 
+
     @GetMapping("/addFurnitur")
-    public String addFurniturForm() {
-        return "PemilikPage/addFurnitur";
+    public String addFurniturForm(Model model) {
+        List<Komponen> komponenList = komponenRepo.findAll(); 
+        model.addAttribute("komponenList", komponenList);
+        return "PemilikPage/addFurnitur"; 
     }
 
     @GetMapping("/pesanFurnitur")
@@ -73,5 +100,33 @@ public class FurniturController {
         model.addAttribute("komponen", komponen);
         model.addAttribute("furnitur", furnitur);
         return "PelangganPage/pesanFurnitur";
+    }
+
+    @PostMapping("/updateHarga")
+    public String updateHarga(
+        @RequestParam("nama") String nama,
+        @RequestParam("ukuran") String ukuran,
+        @RequestParam("harga") double harga) {
+
+
+        if (nama.isEmpty() || ukuran.isEmpty() || harga < 0) {
+            throw new IllegalArgumentException("Input tidak valid");
+        }
+        
+        repo.updateHargaByNameAndSize(nama, ukuran, harga); // Perbarui harga di database
+        return "redirect:/dataFurnitur"; 
+    }
+
+    @GetMapping("/updateHarga")
+    public String updateHargaForm(
+        @RequestParam("nama") String nama, 
+        @RequestParam("ukuran") String ukuran, 
+        Model model) {
+        Furnitur furnitur = repo.findByNameAndSize(nama, ukuran);
+        if (furnitur == null) {
+            throw new IllegalArgumentException("Furnitur dengan nama dan ukuran tersebut tidak ditemukan");
+        }
+        model.addAttribute("furnitur", furnitur); // Pastikan furnitur di-set ke model
+        return "PemilikPage/updateHarga";
     }
 }

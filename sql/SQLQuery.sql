@@ -1,31 +1,32 @@
-DROP VIEW IF EXISTS ItemKeranjang;
-DROP VIEW IF EXISTS DomisiliUser;
-DROP VIEW IF EXISTS GetKomponen;
-DROP VIEW IF EXISTS KomponenWarna;
-DROP VIEW IF EXISTS KomponenMaterial;
-DROP VIEW IF EXISTS TotalPesanan;
-DROP VIEW IF EXISTS KomponenTerlaris;
-DROP VIEW IF EXISTS FurniturTerlaris;
-DROP VIEW IF EXISTS DetailPesananFinal;
-DROP VIEW IF EXISTS TotalPenjualan;
-DROP VIEW IF EXISTS HitungTotalHarga;
-DROP VIEW IF EXISTS DetailPesanan;
-DROP VIEW IF EXISTS KecamatanKelurahan;
-DROP TABLE IF EXISTS keranjangKomponen CASCADE;
-DROP TABLE IF EXISTS keranjangFurnitur CASCADE;
-DROP TABLE IF EXISTS Transaksi;
-DROP TABLE IF EXISTS KomponenMaterialWarna;
-DROP TABLE IF EXISTS KomponenFurnitur;
-DROP TABLE IF EXISTS PesanFurnitur;
-DROP TABLE IF EXISTS PesanKomponen;
-DROP TABLE IF EXISTS Pesanan;
-DROP TABLE IF EXISTS Furnitur;
-DROP TABLE IF EXISTS Komponen;
-DROP TABLE IF EXISTS Material;
-DROP TABLE IF EXISTS Warna;
-DROP TABLE IF EXISTS Pengguna;
-DROP TABLE IF EXISTS Kelurahan;
-DROP TABLE IF EXISTS Kecamatan;
+DROP VIEW IF EXISTS ItemKeranjang CASCADE;
+DROP VIEW IF EXISTS DomisiliUser CASCADE;
+DROP VIEW IF EXISTS GetKomponen CASCADE;
+DROP VIEW IF EXISTS KomponenWarna CASCADE;
+DROP VIEW IF EXISTS KomponenMaterial CASCADE;
+DROP VIEW IF EXISTS TotalPesanan CASCADE;
+DROP VIEW IF EXISTS KomponenTerlaris CASCADE;
+DROP VIEW IF EXISTS FurniturTerlaris CASCADE;
+DROP VIEW IF EXISTS LaporanPenjualanFinal CASCADE;
+DROP VIEW IF EXISTS TotalPendapatan CASCADE;
+DROP VIEW IF EXISTS TotalPenjualan CASCADE;
+DROP VIEW IF EXISTS HitungTotalHarga CASCADE;
+DROP VIEW IF EXISTS LaporanPenjualan CASCADE;
+DROP VIEW IF EXISTS KecamatanKelurahan CASCADE;
+DROP TABLE IF EXISTS KeranjangKomponen CASCADE;
+DROP TABLE IF EXISTS KeranjangFurnitur CASCADE;
+DROP TABLE IF EXISTS Transaksi CASCADE;
+DROP TABLE IF EXISTS KomponenMaterialWarna CASCADE;
+DROP TABLE IF EXISTS KomponenFurnitur CASCADE;
+DROP TABLE IF EXISTS PesanFurnitur CASCADE;
+DROP TABLE IF EXISTS PesanKomponen CASCADE;
+DROP TABLE IF EXISTS Pesanan CASCADE;
+DROP TABLE IF EXISTS Furnitur CASCADE;
+DROP TABLE IF EXISTS Komponen CASCADE;
+DROP TABLE IF EXISTS Material CASCADE;
+DROP TABLE IF EXISTS Warna CASCADE;
+DROP TABLE IF EXISTS Pengguna CASCADE;
+DROP TABLE IF EXISTS Kelurahan CASCADE;
+DROP TABLE IF EXISTS Kecamatan CASCADE;
 
 
 CREATE TABLE Kecamatan (
@@ -185,11 +186,12 @@ INSERT INTO KomponenMaterialWarna VALUES
 
 CREATE TABLE Transaksi(
 	id SERIAL PRIMARY KEY,
-	idFurnitur int,
-	idKomponen int,
+	idFurnitur int REFERENCES Furnitur (id),
+	idKomponen int REFERENCES Komponen (id),
 	stok int,
 	tanggal date
 );
+
 
 CREATE VIEW DetailPesanan AS
 SELECT 
@@ -197,6 +199,79 @@ SELECT
 	p.idPesanan,
     p.tglPesanan,
 	f.id AS idFurnitur,
+    f.nama AS namaFurnitur,
+    c.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    f.ukuran AS ukuran,
+	pf.jumlah AS jumlah,
+    f.harga AS harga
+FROM 
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
+JOIN 
+    PesanFurnitur pf ON p.idPesanan = pf.idPesanan
+JOIN 
+    Furnitur f ON pf.idFurnitur = f.id
+JOIN 
+    KomponenFurnitur cf ON f.id = cf.idFurnitur
+JOIN 
+    Komponen c ON cf.idKomponen = c.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON c.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id
+
+UNION ALL
+
+SELECT 
+	u.id,
+    p.idPesanan,
+    p.tglPesanan,
+	-1 AS idFurnitur,
+	'-' AS namaFurnitur,
+	k.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    k.ukuran AS ukuran,
+    pk.jumlah AS jumlah,
+    k.harga AS harga
+FROM 
+	Pengguna u
+JOIN
+    Pesanan p ON u.id = p.idPelanggan
+JOIN 
+    PesanKomponen pk ON p.idPesanan = pk.idPesanan
+JOIN 
+    Komponen k ON pk.idKomponen = k.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON k.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id;
+
+CREATE TABLE KeranjangKomponen (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idKomponen int REFERENCES Komponen (id),
+	jumlah int
+);
+
+CREATE TABLE KeranjangFurnitur (
+    idU int REFERENCES pengguna (id) PRIMARY KEY,
+	idFurnitur int REFERENCES Furnitur (id),
+	jumlah int
+);
+
+CREATE VIEW LaporanPenjualan AS
+SELECT 
+	u.id,
+	p.idPesanan,
+    p.tglPesanan,
+	f.id AS idFurnitur,		
     f.nama AS namaFurnitur,
     c.nama AS namaKomponen,
     w.nama AS warna,
@@ -510,3 +585,4 @@ LEFT JOIN
     Material m ON cmw.idMaterial = m.id;
 
 SELECT * FROM itemkeranjang;
+

@@ -25,8 +25,12 @@
             <button>Furnitur</button>
             <a th:href="@{/transaksiKomponen}"><button type="button">Komponen</button></a>
         </form>
+        <div class="laporan-btn">
+            <a th:href="@{/laporanTransaksi}"><button type="button">Laporan</button></a>
+        </div>
     </div>
-
+    
+    
     <h1>List Furnitur</h1>
     <div id="search-bar">
         <form method="GET" th:action="@{/transaksi}">
@@ -35,7 +39,6 @@
         </form>
     </div>
     <div class="item-list">
-        <!-- Example of dynamic list rendering with Thymeleaf -->
         <div class="item" th:each="furnitur : ${furniturList}">
             <img th:src="@{/images/{gambar}(gambar=${furnitur.gambar})}" alt="Furnitur">
             <div class="info">

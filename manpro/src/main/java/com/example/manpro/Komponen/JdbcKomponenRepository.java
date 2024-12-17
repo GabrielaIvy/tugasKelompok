@@ -1,5 +1,6 @@
 package com.example.manpro.Komponen;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -62,9 +63,12 @@ public class JdbcKomponenRepository implements KomponenRepository{
     }
 
     @Override
-    public void updateStock(String name, String size, int newStock) {
+    public void updateStock(String name, String size, int newStock, Date tanggal, int idKomponen, int prevStok) {
         String sql = "UPDATE komponen SET stok = ? WHERE nama = ? AND ukuran = ?";
         jdbcTemplate.update(sql, newStock, name, size);
+
+        String insert = "INSERT INTO transaksi (idKomponen, stok, tanggal) VALUES (?,?,?)";
+        jdbcTemplate.update(insert, idKomponen, newStock-prevStok, tanggal);
     }
 
     @Override
@@ -94,5 +98,40 @@ public class JdbcKomponenRepository implements KomponenRepository{
     public int cekStok(Integer id){
         String sql = "SELECT stok FROM Komponen WHERE id=?";
         return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
+
+    public void updateHargaByNameAndSize(String nama, String ukuran, double harga) {
+        String sql = "UPDATE komponen SET harga = ? WHERE nama = ? AND ukuran = ?";
+        jdbcTemplate.update(sql, harga, nama, ukuran);
+    }
+
+    @Override
+    public List<String> findAllMaterials() {
+        String sql = "SELECT nama FROM Material";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getString("nama"));
+    }
+
+    @Override
+    public List<String> findAllColors() {
+        String sql = "SELECT nama FROM Warna";
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getString("nama"));
+    }
+
+    @Override
+    public Integer findMaterialIdByName(String namaMaterial) {
+        String sql = "SELECT id FROM Material WHERE nama = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, namaMaterial);
+    }
+
+    @Override
+    public Integer findColorIdByName(String namaWarna) {
+        String sql = "SELECT id FROM Warna WHERE nama = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, namaWarna);
+    }
+
+    @Override
+    public void insertKomponenMaterialWarna(int idKomponen, int idMaterial, int idWarna) {
+        String sql = "INSERT INTO komponenMaterialWarna (idKomponen, idMaterial, idWarna) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, idKomponen, idMaterial, idWarna);
     }
 }
