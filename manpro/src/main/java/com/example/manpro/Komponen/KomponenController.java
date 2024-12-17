@@ -63,6 +63,7 @@ public class KomponenController {
         return "redirect:/dataKomponen";
     }
 
+    @GetMapping("/addKomponen")
     public String addKomponenForm(Model model) {
         List<String> materials = repo.findAllMaterials();
         List<String> colors = repo.findAllColors();

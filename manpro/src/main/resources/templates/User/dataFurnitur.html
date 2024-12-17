@@ -50,13 +50,16 @@
                 <p th:text="'Stok: ' + ${f.stok}"></p>
             </div>
 
-            <button class="btn-edit">
+            <button class="btn-edit" th:if="${pemilik}">
                 <a th:href="@{/dataFurnitur/updateHarga(nama=${f.nama}, ukuran=${f.ukuran})}">Edit</a>
-            </button>            
+            </button>    
+            <a th:if="${!pemilik}" class="btn-edit" th:href="@{/dataFurnitur/pesanFurnitur(id=${f.id})}">
+                <button>+</button>
+            </a>    
         </div>        
     </div>
 
-    <form action="/dataFurnitur/addFurnitur" method="GET">
+    <form action="/dataFurnitur/addFurnitur" method="GET" th:if="${pemilik}">
         <a id="add-icon" th:href="@{/dataFurnitur/addFurnitur}">+</a>
     </form>
 </body>
