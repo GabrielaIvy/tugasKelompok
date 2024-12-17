@@ -14,10 +14,13 @@
                 <li><a href="#komponen">Komponen</a></li>
                 <li><a href="#kontak">Kontak</a></li>
             </ul>
-            <form action="/home/login" method="GET">
+            <form action="/furniturKustom/login" method="GET" th:if="${!loggedIn}">
                 <button type="submit">Login</button>
             </form>
-            <!-- <button><a href="login.html">Log In</a></button> -->
+            <div class="action-buttons" th:if="${loggedIn}">
+                <button><a>Profile</a></button>
+                <button onclick="window.location.href='/furniturKustom'">Log Out</button>
+            </div>
         </div>
     </header>
 

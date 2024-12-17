@@ -3,11 +3,12 @@ body{
     text-align: center;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 .userProfile{
-    text-align: left;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    text-align: center;
     align-items: center;
     background-color: white;
     padding: 10px;
@@ -15,29 +16,43 @@ body{
     width: 50%;
     flex-wrap: wrap;
     font-size: medium;
+    width: 20%;
 }
 .userProfile div{
-    padding-left: 20px;
     font-size: small;
+    margin: 0;
 }
 .userProfile h2{
     font-size: 2em;
-    margin: 0px;
 }
 img {
-    height: 100px;
+    height: 150px;
     border-radius: 50%;
-    padding: 5px
+    padding: 10px
 }
 .address{
-    padding-left: 10px;
-    padding-right: 10px;
     padding-bottom: 10px;
-    text-align: left;
+    text-align: center;
     width: 50%;
-    background-color: rgba(51, 51, 51, 0.6);
     font-size: small;
 }
 header{
     width: 100%;
 }
+.overlay{
+    display: flex;
+    flex-direction: column;
+}
+#edit-btn{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgb(0, 0, 0);
+    border-radius: 30px;
+    padding: 15px 15px;
+    color: white;
+    align-items: center;
+    align-content: center;
+    }

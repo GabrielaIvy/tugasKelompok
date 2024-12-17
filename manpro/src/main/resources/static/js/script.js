@@ -8,7 +8,7 @@ kecamatan.addEventListener('change', function(){
     kelurahanDropDown.innerHTML = '<option value="" disabled selected>Pilih kelurahan</option>';
 
     //ambil kelurahan berdasarkan idKecamatan
-    fetch('/home/getKelurahanByKecamatan?idKecamatan=' + idKecamatan)
+    fetch('/furniturKustom/getKelurahanByKecamatan?idKecamatan=' + idKecamatan)
         .then(response => response.json())
         .then(data =>{
             data.forEach(function(kelurahan){ //buat option untuk seluruh data
