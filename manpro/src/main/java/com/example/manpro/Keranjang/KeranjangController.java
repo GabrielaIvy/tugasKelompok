@@ -1,6 +1,7 @@
 package com.example.manpro.Keranjang;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import com.example.manpro.Furnitur.Furnitur;
 import com.example.manpro.Furnitur.FurniturKomponen;
 import com.example.manpro.Furnitur.FurniturRepository;
 import com.example.manpro.Komponen.Komponen;
+import com.example.manpro.Komponen.KomponenRepository;
+import com.example.manpro.Pelanggan.PesananRepostiory;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,6 +32,12 @@ public class KeranjangController {
 
     @Autowired
     private FurniturRepository furniturRepo;
+
+    @Autowired
+    private KomponenRepository komponenRepo;
+
+    @Autowired
+    private PesananRepostiory pesananRepo;
     
     @GetMapping("/keranjang")
     public String keranjang(@SessionAttribute("idUser") Integer idUser, Model model){
@@ -68,7 +77,52 @@ public class KeranjangController {
     }
 
     @PostMapping("/checkoutKeranjang")
-    public String checkoutKeranjang(){
-        return "redirect:/historiPesanan";
+    public String checkoutKeranjang(@SessionAttribute("idUser") Integer idUser, Model model,
+        @RequestParam Map<String, String> itemParam, @RequestParam Map<String, String> jumlahParam){
+            Integer idPesanan = this.pesananRepo.tambahPesanan(idUser);
+            for(String key : itemParam.keySet()){
+                if(key.startsWith("item")){
+
+                    String idKey = key.replace("item", "");
+                    Integer id = Integer.valueOf(idKey);
+                    
+                    String jumlahKey = "jumlah" + id;
+                    String jumlahStr = jumlahParam.get(jumlahKey);
+                    int jumlah = 0;
+                    if(jumlahStr != null) jumlah = Integer.parseInt(jumlahStr);
+                    
+                    int stok;
+                    boolean sukses = false;
+                    if(id < 0){ //pesan komponen
+                        id = id*(-1);
+                        stok = this.komponenRepo.cekStok(id);
+                        if(jumlah <= stok && jumlah > 0){
+                            sukses = this.pesananRepo.tambahPesanKomponen(idPesanan, id, jumlah);
+                        }
+                        if(!sukses){
+                            List<DetailFurnitur> items = this.repo.findItemsById(idUser);
+                            model.addAttribute("keranjang", items);
+                            model.addAttribute("error", "Pesanan gagal");
+                            return "PelangganPage/keranjang";
+                        }else{ //hapus dari keranjang
+                            this.repo.removeKomponen(idUser, id, jumlah);
+                        }
+                    }else{ //pesan furnitur
+                        stok = this.furniturRepo.cekStok(id);
+                        if(jumlah <= stok && jumlah > 0){
+                            sukses = this.pesananRepo.tambahPesanFurnitur(idPesanan,id, jumlah);
+                        }
+                        if(!sukses){
+                            List<DetailFurnitur> items = this.repo.findItemsById(idUser);
+                            model.addAttribute("keranjang", items);
+                            model.addAttribute("error", "Pesanan gagal");
+                            return "PelangganPage/keranjang";
+                        }else{ //hapus dari keranjang
+                            this.repo.removeFurnitur(idUser, id, jumlah);
+                        }
+                    }
+                }
+            }
+            return "redirect:/historiPesanan";
     }
 }

@@ -25,10 +25,15 @@
         </header>
 
         <form method="POST" action="/pelanggan/checkoutKeranjang">
+            <div th:if="${error}" style="color: red; text-align: center;">
+                <p th:text="${error}"></p>
+            </div>
+
             <div class="content">
                 <h1>Shopping Cart</h1>
                 <div class="info-pesanan" th:each="f : ${keranjang}">
-                    <input type="checkbox" name="idItem" th:value="${f.idFurnitur}">
+                    <input type="checkbox" th:attr="name=${'item'+f.idFurnitur}" th:value="${f.idFurnitur}">
+                    <input type="hidden" th:attr="name=${'jumlah'+f.idFurnitur}" th:value="${f.jumlah}">
                     <div class="detail">
                         <h3 th:text="${f.namaFurnitur == '-' ? f.detailKomponen[0].namaKomponen + ' - ' + f.ukuran : f.namaFurnitur + ' - ' + f.ukuran}">Nama Item</h3>
                         <div th:each="k : ${f.detailKomponen}">
@@ -45,8 +50,8 @@
                 </div>
                 
                 <div class="buttons">
-                    <button type="button"><a th:href="@{/pelanggan}">Cancel</a></button>
-                    <button type="submit">Confirm</button>
+                    <button type="button"><a th:href="@{/pelanggan}">Kembali</a></button>
+                    <button type="submit">Beli</button>
                 </div>
             </div>  
         </form>

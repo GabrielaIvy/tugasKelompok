@@ -24,42 +24,6 @@ public class JdbcKeranjangRepository implements KeranjangRepository{
     @Autowired
     private NamedParameterJdbcTemplate nParameterJdbcTemplate;
 
-    // @Override
-    // public Keranjang findAll(Integer idU){
-    //     String sql = "SELECT * FROM itemKeranjang WHERE idU=?";
-    //     Map<Integer, DetailFurnitur> furniturMap = new HashMap<>(); 
-
-    //     jdbcTemplate.query(sql, new Object[]{idU}, resultSet -> {
-    //         Integer idFurnitur = resultSet.getInt("idFurnitur");
-    //         DetailFurnitur furnitur = furniturMap.get(idFurnitur);
-
-    //         if (furnitur == null) {
-    //             furnitur = new DetailFurnitur(
-    //                 idFurnitur,
-    //                 resultSet.getString("namaFurnitur"),
-    //                 new ArrayList<DetailKomponen>(), //detail komponen
-    //                 resultSet.getString("ukuran"),
-    //                 resultSet.getInt("jumlah"),
-    //                 resultSet.getDouble("harga")
-    //             );
-    //             furniturMap.put(idFurnitur, furnitur);
-    //         }
-
-    //         String namaKomponen = resultSet.getString("namaKomponen");
-    //         if(namaKomponen != null && !namaKomponen.isEmpty()){
-    //             DetailKomponen detail = new DetailKomponen(
-    //                 namaKomponen,
-    //                 resultSet.getString("warna"),
-    //                 resultSet.getString("material")
-    //             );
-    //             furnitur.getDetailKomponen().add(detail);
-    //         }
-
-    //     });
-
-    //     return new Keranjang(idU, new ArrayList<>(furniturMap.values()));
-    // }
-
     @Override
     public List<DetailFurnitur> findItemsById(Integer idU){
         String sql = "SELECT * FROM itemKeranjang WHERE idU = :idU";
@@ -80,8 +44,6 @@ public class JdbcKeranjangRepository implements KeranjangRepository{
                 furnitur.setHarga(rs.getDouble("harga"));
                 furnitur.setDetailKomponen(new ArrayList<>());
                 furniturMap.put(idItem, furnitur);
-            }else{
-                furnitur.setJumlah(furnitur.getJumlah() + rs.getInt("jumlah"));
             }
     
             //detail komponen
@@ -91,11 +53,12 @@ public class JdbcKeranjangRepository implements KeranjangRepository{
             komponen.setWarna(rs.getString("warna"));
 
             //cek apakah detail komponen yang sama persis sudah ada
-            boolean komponenExists = furnitur.getDetailKomponen().stream().anyMatch(k ->
-                k.getNamaKomponen().equals(komponen.getNamaKomponen()) &&
-                k.getMaterial().equals(komponen.getMaterial()) &&
-                k.getWarna().equals(komponen.getWarna())
+            boolean komponenExists = furnitur.getDetailKomponen().stream().anyMatch(k -> 
+                (k.getNamaKomponen() != null && k.getNamaKomponen().equals(komponen.getNamaKomponen())) &&
+                (k.getMaterial() != null && k.getMaterial().equals(komponen.getMaterial())) &&
+                (k.getWarna() != null && k.getWarna().equals(komponen.getWarna()))
             );
+
 
             // Jika detail komponen belum ada, tambah ke detailKomponen
             if (!komponenExists) {
@@ -129,5 +92,19 @@ public class JdbcKeranjangRepository implements KeranjangRepository{
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public boolean removeFurnitur(Integer idU, Integer idFurnitur, int jumlah){
+        String sql = "DELETE FROM keranjangFurnitur WHERE idU = ? AND idFurnitur = ? AND jumlah = ?";
+        int rowsAffected = jdbcTemplate.update(sql, idU, idFurnitur, jumlah);
+        return (rowsAffected>0);
+    }
+
+    @Override
+    public boolean removeKomponen(Integer idU, Integer idKomponen, int jumlah){
+        String sql = "DELETE FROM keranjangKomponen WHERE idU = ? AND idKomponen = ? AND jumlah = ?";
+        int rowsAffected = jdbcTemplate.update(sql, idU, idKomponen, jumlah);
+        return (rowsAffected>0);
     }
 }
