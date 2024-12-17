@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS ItemKeranjang;
 DROP VIEW IF EXISTS DomisiliUser;
 DROP VIEW IF EXISTS GetKomponen;
 DROP VIEW IF EXISTS KomponenWarna;
@@ -10,6 +11,8 @@ DROP VIEW IF EXISTS TotalPenjualan;
 DROP VIEW IF EXISTS HitungTotalHarga;
 DROP VIEW IF EXISTS DetailPesanan;
 DROP VIEW IF EXISTS KecamatanKelurahan;
+DROP TABLE IF EXISTS keranjangKomponen CASCADE;
+DROP TABLE IF EXISTS keranjangFurnitur CASCADE;
 DROP TABLE IF EXISTS Transaksi;
 DROP TABLE IF EXISTS KomponenMaterialWarna;
 DROP TABLE IF EXISTS KomponenFurnitur;
@@ -397,13 +400,13 @@ JOIN
 	kecamatan kec ON kel.idKecamatan = kec.id;
 
 CREATE TABLE KeranjangKomponen (
-    idU int REFERENCES pengguna (id) PRIMARY KEY,
+    idU int REFERENCES pengguna (id),
 	idKomponen int REFERENCES Komponen (id),
 	jumlah int
 );
 
 CREATE TABLE KeranjangFurnitur (
-    idU int REFERENCES pengguna (id) PRIMARY KEY,
+    idU int REFERENCES pengguna (id),
 	idFurnitur int REFERENCES Furnitur (id),
 	jumlah int
 );
@@ -457,3 +460,53 @@ JOIN
 WHERE
     p.roles = 'Pelanggan';
 
+CREATE VIEW itemKeranjang AS
+SELECT 
+	idU,
+	f.id AS idItem,
+    f.nama AS namaFurnitur,
+    c.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    f.ukuran AS ukuran,
+	kf.jumlah AS jumlah,
+    f.harga AS harga
+FROM
+	keranjangFurnitur kf
+JOIN 
+    Furnitur f ON kf.idFurnitur = f.id
+JOIN 
+    KomponenFurnitur cf ON f.id = cf.idFurnitur
+JOIN 
+    Komponen c ON cf.idKomponen = c.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON c.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id
+
+UNION ALL
+
+SELECT 
+	idU,
+	k.id AS idItem,
+	'-' AS namaFurnitur,
+	k.nama AS namaKomponen,
+    w.nama AS warna,
+    m.nama AS material,
+    k.ukuran AS ukuran,
+    kk.jumlah AS jumlah,
+    k.harga AS harga
+FROM 
+    keranjangKomponen kk
+JOIN 
+    Komponen k ON kk.idKomponen = k.id
+LEFT JOIN 
+    KomponenMaterialWarna cmw ON k.id = cmw.idKomponen
+LEFT JOIN 
+    Warna w ON cmw.idWarna = w.id
+LEFT JOIN 
+    Material m ON cmw.idMaterial = m.id;
+
+SELECT * FROM itemkeranjang;

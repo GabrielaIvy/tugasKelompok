@@ -4,3 +4,8 @@ function konfirmasiPesanan(){
         document.querySelector('form').submit();
     }
 }
+
+function setAction(actionUrl) {
+    const form = document.getElementById('formPesanan');
+    form.action = actionUrl;
+}

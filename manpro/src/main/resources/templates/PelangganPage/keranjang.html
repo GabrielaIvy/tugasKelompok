@@ -24,33 +24,31 @@
             </div>
         </header>
 
-        <div class="content">
-            <h1>Shopping Cart</h1>
-            <!-- <div class="info-pesanan" th:each="p : ${pesanan}"> -->
-            <div class="info-pesanan">
-                <input type="checkbox">
-                <img src="/images/kursi.jpg">
-                <!-- <img th:src="@{'/images/' + ${furnitur.gambar}}" th:alt="${furnitur.nama}"> -->
-                <div class="detail">
-                    <!--nama barang-->
-                    <h3>Sofa</h3>
-                    <!--detail barang-->
-                    <span>
-                        Kerangka: Kayu - Coklat<br>
-                        Kain Pelapis: Kapas - Abu-abu<br>
-                        Jumlah: 1
-                    </span>
+        <form method="POST" action="/pelanggan/checkoutKeranjang">
+            <div class="content">
+                <h1>Shopping Cart</h1>
+                <div class="info-pesanan" th:each="f : ${keranjang}">
+                    <input type="checkbox" name="idItem" th:value="${f.idFurnitur}">
+                    <div class="detail">
+                        <h3 th:text="${f.namaFurnitur == '-' ? f.detailKomponen[0].namaKomponen + ' - ' + f.ukuran : f.namaFurnitur + ' - ' + f.ukuran}">Nama Item</h3>
+                        <div th:each="k : ${f.detailKomponen}">
+                            <li th:if="${f.namaFurnitur != '-'}" th:text="${k.namaKomponen +': '+ k.material + ' - ' + k.warna}"></li>
+                            <li th:if="${f.namaFurnitur == '-'}" th:text="${k.material + ' - ' + k.warna}"></li>
+                        </div>
+                        <br>
+                        <div th:text="'jumlah: '+ ${f.jumlah}"></div>
+                    </div>
+                    <div class="harga">
+                        <h3 th:text="'Harga Satuan: Rp ' + ${f.harga}"></h3>
+                        <h3 th:text="'Harga Total: Rp ' + ${f.harga * f.jumlah}"></h3>
+                    </div>
                 </div>
-                <!--harga Barang-->
-                <div class="harga">
-                    <h2>Rp 750.000</h2>
+                
+                <div class="buttons">
+                    <button type="button"><a th:href="@{/pelanggan}">Cancel</a></button>
+                    <button type="submit">Confirm</button>
                 </div>
-            </div>
-
-            <div class="buttons">
-                <button><a href="homePembeli.html">Cancel</a></button>
-                <button><a href="homePembeli.html">Confirm</a></button>
-            </div>
-        </div>  
+            </div>  
+        </form>
     </body>
 </html>

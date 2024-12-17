@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pesan Furnitur</title>
     <link rel="stylesheet" type="text/css" href="/css/stylesDetail.css">
-    <script src="/js/scriptKonfirmasiPesanan.js" defer></script> 
+    <script src="/js/scriptPesanan.js" defer></script> 
 </head>
 <body>
-    <form method="POST" action="/pelanggan/beliFurnitur">
+    <form method="POST" action="/pelanggan/beliFurnitur" id="formPesanan">
         <div th:if="${error}" style="color: red;">
             <p th:text="${error}"></p>
         </div>
@@ -46,7 +46,7 @@
                 <a th:href="@{/dataFurnitur}">
                     <button type="button" class="back-button">Kembali</button>
                 </a>
-                <button class="cart-button">Tambah ke keranjang</button>
+                <button class="cart-button" type="submit" onclick="setAction('/pelanggan/keranjangFurnitur')">Tambah ke keranjang</button>
                 <button class="buy-button" type="button" onclick="konfirmasiPesanan()">Beli</button>
             </div>
         </div>

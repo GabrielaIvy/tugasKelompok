@@ -59,11 +59,6 @@ public class PelangganController {
         return "PelangganPage/profile";
     }
 
-    @GetMapping("/keranjang")
-    public String keranjang(){
-        return "PelangganPage/keranjang";
-    }
-
     @PostMapping("/beliKomponen")
     public String beliKomponen(@SessionAttribute("idUser") Integer idUser, HttpSession session,
         @RequestParam("jumlah") int jumlah, Model model){
@@ -109,6 +104,6 @@ public class PelangganController {
             }
 
             model.addAttribute("error", "Pesanan gagal");
-            return "redirect:/dataKomponen/pesanFurnitur?id=" + furnitur.getId();
+            return "redirect:/dataFurnitur/pesanFurnitur?id=" + furnitur.getId();
     }
 }
