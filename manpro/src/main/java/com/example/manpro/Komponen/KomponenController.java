@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.manpro.Furnitur.Furnitur;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -39,20 +38,37 @@ public class KomponenController {
     public String addKomponen(
         @RequestParam("nama") String nama,
         @RequestParam("ukuran") String ukuran,
-        @RequestParam("harga") double harga, 
-        @RequestParam("gambar") String gambar
-    ){
-        if (nama.isEmpty() || ukuran.isEmpty()|| harga < 0) {
+        @RequestParam("harga") double harga,
+        @RequestParam("gambar") String gambar,
+        @RequestParam("materials[]") List<String> materials,
+        @RequestParam("colors[]") List<String> colors
+    ) {
+        if (nama.isEmpty() || ukuran.isEmpty() || harga < 0 || materials.isEmpty() || colors.isEmpty()) {
             throw new IllegalArgumentException("Input tidak valid");
         }
 
         repo.addKomponen(nama, ukuran, harga, gambar);
+        Komponen komponen = repo.findByNameAndSize(nama, ukuran);
+
+        for (int i = 0; i < materials.size(); i++) {
+            Integer idMaterial = repo.findMaterialIdByName(materials.get(i));
+            Integer idWarna = repo.findColorIdByName(colors.get(i));
+            repo.insertKomponenMaterialWarna(komponen.getId(), idMaterial, idWarna);
+        }
+
         return "redirect:/dataKomponen";
     }
 
+
+
     @GetMapping("/addKomponen")
-    public String addKomponenForm() {
-        return "PemilikPage/addKomponen"; // Pastikan ini sesuai dengan lokasi file template HTML
+    public String addKomponenForm(Model model) {
+        List<String> materials = repo.findAllMaterials();
+        List<String> colors = repo.findAllColors();
+
+        model.addAttribute("materials", materials);
+        model.addAttribute("colors", colors);
+        return "PemilikPage/addKomponen"; 
     }
 
     @PostMapping("/updateHargaKomponen")
@@ -66,7 +82,7 @@ public class KomponenController {
             throw new IllegalArgumentException("Input tidak valid");
         }
 
-        repo.updateHargaByNameAndSize(nama, ukuran, harga); // Perbarui harga di database
+        repo.updateHargaByNameAndSize(nama, ukuran, harga); 
         return "redirect:/dataKomponen"; 
     }
 
@@ -80,8 +96,13 @@ public class KomponenController {
         if (komponen == null) {
             throw new IllegalArgumentException("Furnitur dengan nama dan ukuran tersebut tidak ditemukan");
         }
-        model.addAttribute("komponen", komponen); // Pastikan furnitur di-set ke model
+        model.addAttribute("komponen", komponen); 
         return "PemilikPage/updateHargaKomponen";
     }
+
+    
+
+    
+
 
 }

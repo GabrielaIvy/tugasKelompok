@@ -10,5 +10,6 @@ public interface FurniturRepository {
     void updateStock(String namaBarang, String ukuran, int jumlah, Date tanggal, int idFurnitur, int prevStok);
     Furnitur findByNameAndSize(String nama, String ukuran);
     void updateHargaByNameAndSize(String nama, String ukuran, double harga);
+    void insertKomponenFurnitur(int idFurnitur, int idKomponen);
 
 }

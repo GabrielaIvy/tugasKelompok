@@ -190,21 +190,17 @@ CREATE TABLE KeranjangKomponen (
 	jumlah int
 );
 
-select * from keranjangkomponen
-
 CREATE TABLE KeranjangFurnitur (
     idU int REFERENCES pengguna (id) PRIMARY KEY,
 	idFurnitur int REFERENCES Furnitur (id),
 	jumlah int
 );
 
-select * from keranjangfurnitur
-
 CREATE VIEW LaporanPenjualan AS
 SELECT 
 	p.idPesanan,
     p.tglPesanan,
-	f.id AS idFurnitur,
+	f.id AS idFurnitur,		
     f.nama AS namaFurnitur,
     c.nama AS namaKomponen,
     w.nama AS warna,
@@ -319,3 +315,6 @@ CREATE VIEW TotalPendapatan AS
 SELECT
 	SUM(totalHarga)
 FROM HitungTotalHarga;
+
+
+select * from komponen

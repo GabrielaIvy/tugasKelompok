@@ -65,5 +65,11 @@ public class JdbcFurniturRepository implements FurniturRepository{
         jdbcTemplate.update(sql, harga, nama, ukuran);
     }
 
+    @Override
+    public void insertKomponenFurnitur(int idFurnitur, int idKomponen){
+        String sql = "INSERT INTO komponenFurnitur (idFurnitur, idKomponen) VALUES (?,?)";
+        jdbcTemplate.update(sql, idFurnitur, idKomponen);
+    }
+
     
 }

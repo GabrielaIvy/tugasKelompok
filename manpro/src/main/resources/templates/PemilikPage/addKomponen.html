@@ -38,7 +38,8 @@
         }
 
         input[type="text"],
-        input[type="number"] {
+        input[type="number"],
+        select {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
@@ -48,7 +49,8 @@
         }
 
         input[type="text"]:focus,
-        input[type="number"]:focus {
+        input[type="number"]:focus,
+        select:focus {
             border-color: #3498db;
             outline: none;
         }
@@ -85,6 +87,29 @@
             justify-content: space-between;
             margin-top: 20px;
         }
+
+        #kombinasi-container .kombinasi {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* Grup material dan warna dalam satu baris */
+        .material-warna-group {
+            display: flex;
+            flex-direction: column; /* Label di atas select */
+            gap: 5px;
+        }
+
+        /* Tombol tambah dan hapus */
+        .btn-add, .btn-remove {
+            background-color: black;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -95,6 +120,26 @@
             <input type="text" name="ukuran" required placeholder="Ukuran">
             <input type="number" name="harga" required placeholder="Harga">
             <input type="text" name="gambar" required placeholder="Gambar">
+            
+            <div id="kombinasi-container">
+                <div class="kombinasi">
+                    <label for="material">Material:</label>
+                    <select name="materials[]" required>
+                        <option value="" disabled selected>Pilih Material</option>
+                        <option th:each="material : ${materials}" th:value="${material}" th:text="${material}"></option>
+                    </select>
+        
+                    <label for="warna">Warna:</label>
+                    <select name="colors[]" required>
+                        <option value="" disabled selected>Pilih Warna</option>
+                        <option th:each="color : ${colors}" th:value="${color}" th:text="${color}"></option>
+                    </select>
+        
+                    <button type="button" class="btn-add">+</button>
+                    <button type="button" class="btn-remove">-</button>
+                </div>
+            </div>
+
             <div class="action-buttons">
                 <a th:href="@{/dataKomponen}">Cancel</a>
                 <button type="submit" name="addKomponen">Add</button>
@@ -102,5 +147,30 @@
         </fieldset>
     </form>
 </body>
-</html>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('kombinasi-container');
+
+        // untuk tombol "+"
+        container.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-add')) {
+                const newKombinasi = e.target.parentNode.cloneNode(true);
+                newKombinasi.querySelector('select[name="materials[]"]').value = '';
+                newKombinasi.querySelector('select[name="colors[]"]').value = '';
+                container.appendChild(newKombinasi);
+            }
+
+            // untuk tombol "-"
+            if (e.target.classList.contains('btn-remove')) {
+                if (container.childElementCount > 1) {
+                    e.target.parentNode.remove();
+                } else {
+                    alert('Minimal satu kombinasi harus ada!');
+                }
+            }
+        });
+    });
+
+</script>
+</html>
